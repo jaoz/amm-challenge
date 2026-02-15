@@ -15,7 +15,7 @@ contract Strategy is AMMStrategyBase {
     uint256 private constant MIN_BPS = 0;
     uint256 private constant MAX_BPS = 1000;
     uint256 private constant TARGET_MAX_BPS = 220;
-    uint256 private constant MAX_JUMP_BPS = 4;
+    uint256 private constant MAX_JUMP_BPS = 20;
     uint256 private constant MAX_ASYM_BPS = 30;
     uint256 private constant MAX_SKEW_BPS = 30;
 
