@@ -10,7 +10,7 @@ contract Strategy is AMMStrategyBase {
     uint256 private constant OPEN_BPS = PRIOR_BPS;
     uint256 private constant MIN_BPS = 12;
     uint256 private constant MAX_BPS = 108;
-    uint256 private constant MAX_JUMP_BPS = 6;
+    uint256 private constant MAX_JUMP_BPS = 8;
     uint256 private constant MAX_ASYM_BPS = 22;
     uint256 private constant MAX_SKEW_BPS = 15;
 
@@ -171,6 +171,7 @@ contract Strategy is AMMStrategyBase {
         uint256 pBefore = pStep;
         uint256 spotPre = _safePrice(yPre, xPre, pStep);
         uint256 spotPost = _safePrice(trade.reserveY, trade.reserveX, pStep);
+        uint256 stalePre = _relDiff(spotPost, pBefore);
 
         uint256 gammaBid = _gammaFromFee(bidPrev);
         uint256 gammaAsk = _gammaFromFee(askPrev);
@@ -250,16 +251,35 @@ contract Strategy is AMMStrategyBase {
             );
         }
 
-        uint256 staleMag = _relDiff(spotPost, pStep);
-        int256 fairSkew = _fairSkewBps(spotPost, pStep, staleMag);
+        uint256 staleMag = stalePre;
+        int256 fairSkew = _fairSkewBps(spotPost, pBefore, staleMag);
         int256 invSkew = _inventorySkew(
             pStep,
             trade.reserveX,
             trade.reserveY
         );
 
+        uint256 sBuyHatNow = _predictShare(sBuyBase, kappaBuy, rBuyHat, askPrevBps);
+        uint256 sSellHatNow = _predictShare(sSellBase, kappaSell, rSellHat, bidPrevBps);
         uint256 midTarget = _midTargetBps(lambdaHat, arbHat, volHat);
-        int256 skewTarget = _clampSigned((fairSkew * 4 + invSkew * 6) / 10, -int256(MAX_SKEW_BPS), int256(MAX_SKEW_BPS));
+        int256 shareAvg = (int256(sBuyHatNow) + int256(sSellHatNow)) / 2 - int256(50e16);
+        int256 midShareAdj = _clampSigned(shareAvg / int256(6e16), -5, 3);
+        uint256 staleBps = wadToBps(stalePre);
+        int256 arbAdj = int256(wadToBps(arbHat)) / 9;
+        int256 staleAdj = int256(staleBps) / 5;
+        int256 burstAdj = (deltaT <= 1 && stepTrades >= 2) ? int256(-2) : int256(0);
+        int256 reactiveMid = arbAdj + staleAdj + burstAdj - 6;
+        if (highConfidenceArb) reactiveMid += 2;
+        if (!highConfidenceArb && staleBps <= 8 && stepTrades == 1 && deltaT <= 1) reactiveMid -= 1;
+
+        midTarget = _clampSignedToUint(int256(midTarget) + midShareAdj + reactiveMid, MIN_BPS, MAX_BPS);
+
+        int256 sideShareSkew = _clampSigned((int256(sSellHatNow) - int256(sBuyHatNow)) / int256(7e16), -6, 6);
+        int256 skewTarget = _clampSigned(
+            (fairSkew * 4 + invSkew * 6) / 10 + sideShareSkew,
+            -int256(MAX_SKEW_BPS),
+            int256(MAX_SKEW_BPS)
+        );
         uint256 bestBid = _clampSignedToUint(int256(midTarget) + skewTarget, MIN_BPS, MAX_BPS);
         uint256 bestAsk = _clampSignedToUint(int256(midTarget) - skewTarget, MIN_BPS, MAX_BPS);
 
@@ -492,14 +512,14 @@ contract Strategy is AMMStrategyBase {
         bool directionOk = isBuy ? (spotPost <= spotPre) : (spotPost >= spotPre);
         if (directionOk) score += 1;
 
-        uint256 tol = bpsToWad(80 + (deltaT > 12 ? 24 : (deltaT * 2)));
+        uint256 tol = bpsToWad(70 + (deltaT > 12 ? 20 : (deltaT * 2)));
         if (_relDiff(pAnchor, pStep) <= tol) score += 1;
 
         uint256 rel = reserveY == 0 ? 0 : wdiv(amountY, reserveY);
-        if (rel >= bpsToWad(2)) score += 1;
+        if (rel >= bpsToWad(1)) score += 1;
 
         if (stepTrades > 2 && score > 0) score -= 1;
-        return score >= 3;
+        return score >= 2;
     }
 
     function _enforceAsymmetry(uint256 bidBps, uint256 askBps, uint256 maxAsym)
@@ -577,13 +597,14 @@ contract Strategy is AMMStrategyBase {
         if (wWad >= WAD) return b;
 
         uint256 gm = _geomMeanOrFallback(a, b, a);
-        if (wWad >= 80e16) {
-            return _geomMeanOrFallback(gm, b, gm);
+        uint256 half = WAD / 2;
+        if (wWad <= half) {
+            uint256 t = wWad * 2;
+            return ((WAD - t) * a + t * gm) / WAD;
         }
-        if (wWad >= 55e16) {
-            return gm;
-        }
-        return _geomMeanOrFallback(a, gm, a);
+
+        uint256 t2 = (wWad - half) * 2;
+        return ((WAD - t2) * gm + t2 * b) / WAD;
     }
 
     function _ewma(uint256 oldV, uint256 obs, uint256 alpha) internal pure returns (uint256) {
