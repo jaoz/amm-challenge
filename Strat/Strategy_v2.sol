@@ -33,7 +33,6 @@ contract Strategy is AMMStrategyBase {
     uint256 private constant KAPPA_MAX = 30e14;
     uint256 private constant KAPPA_PERTURB_MIN_BPS = 1;
     uint256 private constant KAPPA_PERTURB_MAX_BPS = 3;
-    uint256 private constant LOG_BLEND_STEPS = 6;
 
     // slot map
     // 0  bid fee (wad)
@@ -213,7 +212,7 @@ contract Strategy is AMMStrategyBase {
 
         uint256 midNow = _geomMeanOrFallback(pLow, pHigh, pStep);
         if (highConfidenceArb && !anchoredThisStep) {
-            pStep = _logBlendApprox(midNow, pAnchor, ANCHOR_WEIGHT_ARB);
+            pStep = _anchorBlendFast(midNow, pAnchor, ANCHOR_WEIGHT_ARB);
             anchoredThisStep = true;
         } else if (anchoredThisStep) {
             pStep = _ewma(pStep, midNow, A_STEP_SMOOTH);
@@ -253,7 +252,7 @@ contract Strategy is AMMStrategyBase {
 
         uint256 staleMag = _relDiff(spotPost, pStep);
         int256 fairSkew = _fairSkewBps(spotPost, pStep, staleMag);
-        (int256 invSkew, uint256 invAbs, int256 invSigned) = _inventorySkew(
+        int256 invSkew = _inventorySkew(
             pStep,
             trade.reserveX,
             trade.reserveY
@@ -261,52 +260,8 @@ contract Strategy is AMMStrategyBase {
 
         uint256 midTarget = _midTargetBps(lambdaHat, arbHat, volHat);
         int256 skewTarget = _clampSigned((fairSkew * 4 + invSkew * 6) / 10, -int256(MAX_SKEW_BPS), int256(MAX_SKEW_BPS));
-
-        int256 bestScore = type(int256).min;
-        uint256 bestBid = bidPrevBps;
-        uint256 bestAsk = askPrevBps;
-        int256[3] memory midOffsets = [int256(-4), int256(0), int256(4)];
-        int256[3] memory skewOffsets = [int256(-3), int256(0), int256(3)];
-
-        for (uint256 i = 0; i < 3; i++) {
-            for (uint256 j = 0; j < 3; j++) {
-                uint256 candMid = _clampSignedToUint(int256(midTarget) + midOffsets[i], MIN_BPS, MAX_BPS);
-                int256 candSkew = _clampSigned(skewTarget + skewOffsets[j], -int256(MAX_SKEW_BPS), int256(MAX_SKEW_BPS));
-
-                uint256 candBid = _clampSignedToUint(int256(candMid) + candSkew, MIN_BPS, MAX_BPS);
-                uint256 candAsk = _clampSignedToUint(int256(candMid) - candSkew, MIN_BPS, MAX_BPS);
-
-                candBid = _limitJumpBps(candBid, bidPrevBps, MAX_JUMP_BPS);
-                candAsk = _limitJumpBps(candAsk, askPrevBps, MAX_JUMP_BPS);
-                (candBid, candAsk) = _enforceAsymmetry(candBid, candAsk, MAX_ASYM_BPS);
-
-                int256 score = _scoreCandidate(
-                    candBid,
-                    candAsk,
-                    bidPrev,
-                    askPrev,
-                    lambdaHat,
-                    arbHat,
-                    volHat,
-                    sBuyBase,
-                    sSellBase,
-                    kappaBuy,
-                    kappaSell,
-                    rBuyHat,
-                    rSellHat,
-                    staleMag,
-                    invAbs,
-                    invSigned,
-                    trade.reserveY
-                );
-
-                if (score > bestScore) {
-                    bestScore = score;
-                    bestBid = candBid;
-                    bestAsk = candAsk;
-                }
-            }
-        }
+        uint256 bestBid = _clampSignedToUint(int256(midTarget) + skewTarget, MIN_BPS, MAX_BPS);
+        uint256 bestAsk = _clampSignedToUint(int256(midTarget) - skewTarget, MIN_BPS, MAX_BPS);
 
         bestBid = _limitJumpBps(bestBid, bidPrevBps, MAX_JUMP_BPS);
         bestAsk = _limitJumpBps(bestAsk, askPrevBps, MAX_JUMP_BPS);
@@ -340,91 +295,6 @@ contract Strategy is AMMStrategyBase {
 
     function getName() external pure override returns (string memory) {
         return "MeanEdge_AdaptiveBelief_v2";
-    }
-
-    function _scoreCandidate(
-        uint256 bidBps,
-        uint256 askBps,
-        uint256 bidPrev,
-        uint256 askPrev,
-        uint256 lambdaHat,
-        uint256 arbHat,
-        uint256 volHat,
-        uint256 sBuyBase,
-        uint256 sSellBase,
-        uint256 kappaBuy,
-        uint256 kappaSell,
-        uint256 rBuyHat,
-        uint256 rSellHat,
-        uint256 staleMag,
-        uint256 invAbs,
-        int256 invSigned,
-        uint256 reserveY
-    ) internal pure returns (int256) {
-        uint256 bidFee = bpsToWad(bidBps);
-        uint256 askFee = bpsToWad(askBps);
-        uint256 avgFee = (bidFee + askFee) / 2;
-        uint256 prevAvg = (bidPrev + askPrev) / 2;
-
-        uint256 sBuyHat = _predictShare(sBuyBase, kappaBuy, rBuyHat, askBps);
-        uint256 sSellHat = _predictShare(sSellBase, kappaSell, rSellHat, bidBps);
-
-        uint256 retailY = wmul(lambdaHat, RETAIL_MEAN_Y);
-        uint256 sideRetailY = retailY / 2;
-        uint256 capturedBuyY = wmul(sideRetailY, sBuyHat);
-        uint256 capturedSellY = wmul(sideRetailY, sSellHat);
-
-        uint256 retailEdge = wmul(capturedBuyY, askFee) + wmul(capturedSellY, bidFee);
-
-        uint256 tox = staleMag + (volHat / 2) + bpsToWad(5);
-        uint256 arbBase = wmul(wmul(reserveY, arbHat), tox);
-        uint256 feeShield = WAD + avgFee * 7;
-        uint256 arbCost = wdiv(arbBase, feeShield);
-
-        int256 edgeNorm = 0;
-        if (reserveY > 0) {
-            edgeNorm = (int256(retailEdge) - int256(arbCost)) * int256(WAD) / int256(reserveY);
-        }
-
-        uint256 spreadToNorm = absDiff(avgFee, bpsToWad(COMPETITOR_BPS));
-        uint256 feeJump = absDiff(avgFee, prevAvg);
-        int256 valueProxy = _valueProxy(
-            arbHat,
-            staleMag,
-            invAbs,
-            invSigned,
-            lambdaHat,
-            spreadToNorm,
-            feeJump
-        );
-
-        return edgeNorm + valueProxy;
-    }
-
-    function _valueProxy(
-        uint256 arbHat,
-        uint256 staleMag,
-        uint256 invAbs,
-        int256 invSigned,
-        uint256 lambdaHat,
-        uint256 spreadToNorm,
-        uint256 feeJump
-    ) internal pure returns (int256) {
-        int256 v = 0;
-        v += int256(lambdaHat) * 20;
-        v -= int256(arbHat) * 28;
-        v -= int256(staleMag) * 34;
-        v -= int256(invAbs) * 18;
-        v -= int256(spreadToNorm) * 2;
-        v -= int256(feeJump) * 14;
-
-        if (invSigned > 0) {
-            v -= invSigned * 4;
-        } else if (invSigned < 0) {
-            v += (-invSigned) * 3;
-        }
-
-        return v / 30000;
     }
 
     function _updateSideState(
@@ -518,21 +388,16 @@ contract Strategy is AMMStrategyBase {
         return _clampSignedToUint(mid, MIN_BPS, MAX_BPS);
     }
 
-    function _inventorySkew(uint256 pStep, uint256 reserveX, uint256 reserveY)
-        internal
-        pure
-        returns (int256 skew, uint256 invAbs, int256 invSigned)
-    {
+    function _inventorySkew(uint256 pStep, uint256 reserveX, uint256 reserveY) internal pure returns (int256 skew) {
         uint256 valueX = wmul(pStep, reserveX);
         uint256 total = valueX + reserveY + 1;
+        uint256 invAbs;
 
         if (valueX >= reserveY) {
             invAbs = wdiv(valueX - reserveY, total);
-            invSigned = int256(invAbs);
             skew = int256(_invTilt(invAbs));
         } else {
             invAbs = wdiv(reserveY - valueX, total);
-            invSigned = -int256(invAbs);
             skew = -int256(_invTilt(invAbs));
         }
     }
@@ -701,7 +566,7 @@ contract Strategy is AMMStrategyBase {
         return wdiv(route, WAD + route);
     }
 
-    function _logBlendApprox(uint256 a, uint256 b, uint256 wWad)
+    function _anchorBlendFast(uint256 a, uint256 b, uint256 wWad)
         internal
         pure
         returns (uint256)
@@ -711,22 +576,14 @@ contract Strategy is AMMStrategyBase {
         if (wWad == 0) return a;
         if (wWad >= WAD) return b;
 
-        uint256 low = a;
-        uint256 high = b;
-        uint256 frac = wWad;
-
-        for (uint256 i = 0; i < LOG_BLEND_STEPS; i++) {
-            uint256 mid = _geomMeanOrFallback(low, high, low);
-            frac = frac * 2;
-            if (frac >= WAD) {
-                low = mid;
-                frac -= WAD;
-            } else {
-                high = mid;
-            }
+        uint256 gm = _geomMeanOrFallback(a, b, a);
+        if (wWad >= 80e16) {
+            return _geomMeanOrFallback(gm, b, gm);
         }
-
-        return _geomMeanOrFallback(low, high, low);
+        if (wWad >= 55e16) {
+            return gm;
+        }
+        return _geomMeanOrFallback(a, gm, a);
     }
 
     function _ewma(uint256 oldV, uint256 obs, uint256 alpha) internal pure returns (uint256) {
