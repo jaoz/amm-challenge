@@ -9,8 +9,8 @@ contract Strategy is AMMStrategyBase {
     uint256 private constant PRIOR_BPS = 37;
     uint256 private constant OPEN_BPS = PRIOR_BPS;
     uint256 private constant MIN_BPS = 12;
-    uint256 private constant MAX_BPS = 108;
-    uint256 private constant MAX_JUMP_BPS = 8;
+    uint256 private constant MAX_BPS = 52;
+    uint256 private constant MAX_JUMP_BPS = 3;
     uint256 private constant MAX_ASYM_BPS = 22;
     uint256 private constant MAX_SKEW_BPS = 15;
 
@@ -47,13 +47,7 @@ contract Strategy is AMMStrategyBase {
     // 9  prev reserve x
     // 10 prev reserve y
     // 11 s_buy_base
-    // 12 s_sell_base
-    // 13 kappa_buy
-    // 14 kappa_sell
-    // 15 r_buy_hat
-    // 16 r_sell_hat
-    // 17 prev bid quote (bps)
-    // 18 prev ask quote (bps)
+    // 12-18 unused (kept free for future tuning)
 
     function afterInitialize(uint256 initialX, uint256 initialY)
         external
@@ -92,10 +86,6 @@ contract Strategy is AMMStrategyBase {
         uint256 askPrevBps = wadToBps(askPrev);
         if (bidPrevBps == 0) bidPrevBps = OPEN_BPS;
         if (askPrevBps == 0) askPrevBps = OPEN_BPS;
-        uint256 prevBidQuoteBps = slots[17];
-        if (prevBidQuoteBps == 0) prevBidQuoteBps = bidPrevBps;
-        uint256 prevAskQuoteBps = slots[18];
-        if (prevAskQuoteBps == 0) prevAskQuoteBps = askPrevBps;
 
         (uint256 lastTs, uint256 stepTrades, bool anchoredThisStep) = _unpackStepState(slots[2]);
 
@@ -125,16 +115,8 @@ contract Strategy is AMMStrategyBase {
 
         uint256 sBuyBase = slots[11];
         if (sBuyBase == 0) sBuyBase = 50e16;
-        uint256 sSellBase = slots[12];
-        if (sSellBase == 0) sSellBase = 50e16;
-        uint256 kappaBuy = slots[13];
-        if (kappaBuy == 0) kappaBuy = KAPPA_INIT;
-        uint256 kappaSell = slots[14];
-        if (kappaSell == 0) kappaSell = KAPPA_INIT;
-        uint256 rBuyHat = slots[15];
-        if (rBuyHat == 0) rBuyHat = WAD;
-        uint256 rSellHat = slots[16];
-        if (rSellHat == 0) rSellHat = WAD;
+        sBuyBase = clamp(sBuyBase, 5e16, 95e16);
+        uint256 sSellBase = WAD - sBuyBase;
 
         uint256 deltaT = 0;
         bool newStep = trade.timestamp != lastTs;
@@ -230,26 +212,13 @@ contract Strategy is AMMStrategyBase {
 
         uint256 shareObs = _shareObservation(trade.amountY, deltaT, stepTrades);
         if (trade.isBuy) {
-            uint256 feeDeltaBps = absDiff(bidPrevBps, prevBidQuoteBps);
-            (sSellBase, kappaSell, rSellHat) = _updateSideState(
-                sSellBase,
-                kappaSell,
-                rSellHat,
-                bidPrevBps,
-                shareObs,
-                feeDeltaBps
-            );
+            uint256 buyObs = shareObs >= WAD ? 5e16 : (WAD - shareObs);
+            sBuyBase = _ewma(sBuyBase, clamp(buyObs, 5e16, 95e16), A_SHARE_BASE);
         } else {
-            uint256 feeDeltaBps = absDiff(askPrevBps, prevAskQuoteBps);
-            (sBuyBase, kappaBuy, rBuyHat) = _updateSideState(
-                sBuyBase,
-                kappaBuy,
-                rBuyHat,
-                askPrevBps,
-                shareObs,
-                feeDeltaBps
-            );
+            sBuyBase = _ewma(sBuyBase, clamp(shareObs, 5e16, 95e16), A_SHARE_BASE);
         }
+        sBuyBase = clamp(sBuyBase, 5e16, 95e16);
+        sSellBase = WAD - sBuyBase;
 
         uint256 staleMag = stalePre;
         int256 fairSkew = _fairSkewBps(spotPost, pBefore, staleMag);
@@ -259,17 +228,17 @@ contract Strategy is AMMStrategyBase {
             trade.reserveY
         );
 
-        uint256 sBuyHatNow = _predictShare(sBuyBase, kappaBuy, rBuyHat, askPrevBps);
-        uint256 sSellHatNow = _predictShare(sSellBase, kappaSell, rSellHat, bidPrevBps);
+        uint256 sBuyHatNow = sBuyBase;
+        uint256 sSellHatNow = sSellBase;
         uint256 midTarget = _midTargetBps(lambdaHat, arbHat, volHat);
         int256 shareAvg = (int256(sBuyHatNow) + int256(sSellHatNow)) / 2 - int256(50e16);
         int256 midShareAdj = _clampSigned(shareAvg / int256(6e16), -5, 3);
         uint256 staleBps = wadToBps(stalePre);
-        int256 arbAdj = int256(wadToBps(arbHat)) / 9;
-        int256 staleAdj = int256(staleBps) / 5;
+        int256 arbAdj = int256(wadToBps(arbHat)) / 40;
+        int256 staleAdj = int256(staleBps) / 24;
         int256 burstAdj = (deltaT <= 1 && stepTrades >= 2) ? int256(-2) : int256(0);
-        int256 reactiveMid = arbAdj + staleAdj + burstAdj - 6;
-        if (highConfidenceArb) reactiveMid += 2;
+        int256 reactiveMid = arbAdj + staleAdj + burstAdj - 12;
+        if (highConfidenceArb) reactiveMid += 1;
         if (!highConfidenceArb && staleBps <= 8 && stepTrades == 1 && deltaT <= 1) reactiveMid -= 1;
 
         midTarget = _clampSignedToUint(int256(midTarget) + midShareAdj + reactiveMid, MIN_BPS, MAX_BPS);
@@ -302,13 +271,6 @@ contract Strategy is AMMStrategyBase {
         slots[9] = trade.reserveX;
         slots[10] = trade.reserveY;
         slots[11] = sBuyBase;
-        slots[12] = sSellBase;
-        slots[13] = kappaBuy;
-        slots[14] = kappaSell;
-        slots[15] = rBuyHat;
-        slots[16] = rSellHat;
-        slots[17] = bestBid;
-        slots[18] = bestAsk;
 
         return (bidOut, askOut);
     }
