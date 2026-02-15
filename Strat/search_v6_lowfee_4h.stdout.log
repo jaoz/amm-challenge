@@ -1,0 +1,496 @@
+Starting search: hours=4.0, quick_sims=40, refine_sims=180, target_fee_bps=35.5
+Progress log: Strat\search_v6_lowfee_4h.progress.jsonl
+[1] quick score=163.45 edge=385.93 p10=316.28 fee=69.85 best_quick=WorldState_BandShift_search_00001:163.45
+[2] quick score=330.06 edge=352.07 p10=293.66 fee=32.07 best_quick=WorldState_BandShift_search_00002:330.06
+[3] quick score=160.22 edge=386.09 p10=315.70 fee=70.35 best_quick=WorldState_BandShift_search_00002:330.06
+[4] quick score=323.39 edge=349.69 p10=293.21 fee=30.70 best_quick=WorldState_BandShift_search_00002:330.06
+[5] quick score=168.87 edge=385.67 p10=315.63 fee=68.94 best_quick=WorldState_BandShift_search_00002:330.06
+[7] quick score=343.66 edge=359.07 p10=300.43 fee=34.66 best_quick=WorldState_BandShift_search_00007:343.66
+[9] quick score=240.37 edge=302.40 p10=252.75 fee=22.09 best_quick=WorldState_BandShift_search_00007:343.66
+[10] quick score=330.18 edge=352.08 p10=293.91 fee=32.05 best_quick=WorldState_BandShift_search_00007:343.66
+[11] quick score=332.67 edge=353.55 p10=295.55 fee=32.49 best_quick=WorldState_BandShift_search_00007:343.66
+[12] quick score=325.12 edge=350.60 p10=292.70 fee=31.03 best_quick=WorldState_BandShift_search_00007:343.66
+[12] REFINE WorldState_BandShift_search_00007 score=335.82 edge=359.59 p10=279.83 fee=34.63
+[12] NEW BEST: edge=359.59 p10=279.83 fee=34.63 -> Strat\search_v6_lowfee_4h.best.sol
+[13] quick score=337.36 edge=355.44 p10=297.30 fee=33.49 best_quick=WorldState_BandShift_search_00007:343.66
+[14] quick score=331.55 edge=353.38 p10=294.92 fee=32.14 best_quick=WorldState_BandShift_search_00007:343.66
+[15] quick score=290.92 edge=334.26 p10=275.98 fee=27.08 best_quick=WorldState_BandShift_search_00007:343.66
+[17] quick score=337.35 edge=355.43 p10=297.31 fee=33.49 best_quick=WorldState_BandShift_search_00007:343.66
+[18] quick score=281.75 edge=329.72 p10=272.00 fee=26.05 best_quick=WorldState_BandShift_search_00007:343.66
+[18] REFINE WorldState_BandShift_search_00013 score=329.66 edge=355.93 p10=277.77 fee=33.48
+[19] quick score=335.43 edge=354.54 p10=296.77 fee=33.06 best_quick=WorldState_BandShift_search_00007:343.66
+[20] quick score=290.11 edge=333.59 p10=281.19 fee=26.40 best_quick=WorldState_BandShift_search_00007:343.66
+[21] quick score=298.46 edge=338.10 p10=278.71 fee=28.03 best_quick=WorldState_BandShift_search_00007:343.66
+[22] quick score=244.27 edge=304.99 p10=255.08 fee=22.41 best_quick=WorldState_BandShift_search_00007:343.66
+[23] quick score=299.01 edge=338.34 p10=279.37 fee=28.06 best_quick=WorldState_BandShift_search_00007:343.66
+[24] quick score=336.07 edge=355.28 p10=296.67 fee=33.21 best_quick=WorldState_BandShift_search_00007:343.66
+[24] REFINE WorldState_BandShift_search_00017 score=329.67 edge=355.91 p10=277.76 fee=33.48
+[26] quick score=335.04 edge=355.53 p10=297.11 fee=32.74 best_quick=WorldState_BandShift_search_00007:343.66
+[27] quick score=329.94 edge=352.15 p10=293.87 fee=31.91 best_quick=WorldState_BandShift_search_00007:343.66
+[29] quick score=335.34 edge=354.47 p10=296.83 fee=33.04 best_quick=WorldState_BandShift_search_00007:343.66
+[31] quick score=335.51 edge=354.57 p10=296.95 fee=33.06 best_quick=WorldState_BandShift_search_00007:343.66
+[32] quick score=299.09 edge=338.36 p10=279.23 fee=28.08 best_quick=WorldState_BandShift_search_00007:343.66
+[33] quick score=297.67 edge=337.73 p10=279.31 fee=27.84 best_quick=WorldState_BandShift_search_00007:343.66
+[34] quick score=341.40 edge=359.05 p10=299.68 fee=37.00 best_quick=WorldState_BandShift_search_00007:343.66
+[36] quick score=330.79 edge=352.15 p10=295.20 fee=32.07 best_quick=WorldState_BandShift_search_00007:343.66
+[36] REFINE WorldState_BandShift_search_00034 score=334.28 edge=359.57 p10=282.51 fee=37.00
+[37] quick score=343.22 edge=362.93 p10=302.48 fee=37.53 best_quick=WorldState_BandShift_search_00007:343.66
+[38] quick score=337.46 edge=356.05 p10=296.82 fee=33.51 best_quick=WorldState_BandShift_search_00007:343.66
+[39] quick score=330.71 edge=352.14 p10=295.23 fee=32.03 best_quick=WorldState_BandShift_search_00007:343.66
+[41] quick score=337.52 edge=355.55 p10=297.45 fee=33.52 best_quick=WorldState_BandShift_search_00007:343.66
+[42] quick score=335.72 edge=354.72 p10=297.04 fee=33.09 best_quick=WorldState_BandShift_search_00007:343.66
+[42] REFINE WorldState_BandShift_search_00037 score=335.80 edge=363.60 p10=284.31 fee=37.53
+[43] quick score=333.04 edge=353.39 p10=295.75 fee=32.54 best_quick=WorldState_BandShift_search_00007:343.66
+[44] quick score=336.85 edge=355.05 p10=296.74 fee=33.48 best_quick=WorldState_BandShift_search_00007:343.66
+[45] quick score=337.52 edge=356.62 p10=297.62 fee=33.30 best_quick=WorldState_BandShift_search_00007:343.66
+[47] quick score=335.79 edge=354.83 p10=296.83 fee=33.12 best_quick=WorldState_BandShift_search_00007:343.66
+[49] quick score=338.23 edge=357.23 p10=297.75 fee=33.43 best_quick=WorldState_BandShift_search_00007:343.66
+[50] quick score=333.07 edge=353.27 p10=295.72 fee=32.58 best_quick=WorldState_BandShift_search_00007:343.66
+[51] quick score=335.15 edge=354.87 p10=296.79 fee=32.87 best_quick=WorldState_BandShift_search_00007:343.66
+[53] quick score=332.87 edge=353.61 p10=296.04 fee=32.41 best_quick=WorldState_BandShift_search_00007:343.66
+[54] quick score=333.67 edge=354.55 p10=296.57 fee=32.44 best_quick=WorldState_BandShift_search_00007:343.66
+[54] REFINE WorldState_BandShift_search_00049 score=330.51 edge=357.67 p10=277.85 fee=33.42
+[55] quick score=330.16 edge=352.53 p10=294.47 fee=31.89 best_quick=WorldState_BandShift_search_00007:343.66
+[56] quick score=339.18 edge=356.11 p10=297.70 fee=34.03 best_quick=WorldState_BandShift_search_00007:343.66
+[58] quick score=345.16 edge=362.14 p10=301.59 fee=36.55 best_quick=WorldState_BandShift_search_00058:345.16
+[59] quick score=343.06 edge=358.63 p10=300.07 fee=34.58 best_quick=WorldState_BandShift_search_00058:345.16
+[61] quick score=345.86 edge=362.96 p10=303.37 fee=36.70 best_quick=WorldState_BandShift_search_00061:345.86
+[62] quick score=345.69 edge=363.43 p10=303.36 fee=36.90 best_quick=WorldState_BandShift_search_00061:345.86
+[63] quick score=333.38 edge=353.23 p10=295.89 fee=32.66 best_quick=WorldState_BandShift_search_00061:345.86
+[64] quick score=336.68 edge=354.93 p10=296.86 fee=33.44 best_quick=WorldState_BandShift_search_00061:345.86
+[65] quick score=269.89 edge=321.39 p10=271.14 fee=24.42 best_quick=WorldState_BandShift_search_00061:345.86
+[66] quick score=336.91 edge=355.10 p10=297.12 fee=33.43 best_quick=WorldState_BandShift_search_00061:345.86
+[66] REFINE WorldState_BandShift_search_00061 score=338.35 edge=363.54 p10=284.14 fee=36.71
+[66] NEW BEST: edge=363.54 p10=284.14 fee=36.71 -> Strat\search_v6_lowfee_4h.best.sol
+[67] quick score=341.42 edge=359.05 p10=299.75 fee=36.99 best_quick=WorldState_BandShift_search_00061:345.86
+[68] quick score=335.66 edge=354.73 p10=296.88 fee=33.09 best_quick=WorldState_BandShift_search_00061:345.86
+[69] quick score=343.97 edge=361.72 p10=301.32 fee=36.86 best_quick=WorldState_BandShift_search_00061:345.86
+[71] quick score=342.70 edge=359.00 p10=299.85 fee=34.36 best_quick=WorldState_BandShift_search_00061:345.86
+[74] quick score=346.36 edge=362.27 p10=302.42 fee=36.25 best_quick=WorldState_BandShift_search_00074:346.36
+[76] quick score=341.49 edge=362.68 p10=302.04 fee=37.99 best_quick=WorldState_BandShift_search_00074:346.36
+[77] quick score=341.51 edge=359.66 p10=299.77 fee=37.12 best_quick=WorldState_BandShift_search_00074:346.36
+[78] quick score=342.36 edge=358.32 p10=299.56 fee=34.47 best_quick=WorldState_BandShift_search_00074:346.36
+[78] REFINE WorldState_BandShift_search_00074 score=339.11 edge=362.95 p10=283.56 fee=36.26
+[78] NEW BEST: edge=362.95 p10=283.56 fee=36.26 -> Strat\search_v6_lowfee_4h.best.sol
+[79] quick score=343.78 edge=358.92 p10=299.87 fee=34.83 best_quick=WorldState_BandShift_search_00074:346.36
+[80] quick score=344.07 edge=359.18 p10=300.03 fee=34.84 best_quick=WorldState_BandShift_search_00074:346.36
+[81] quick score=344.41 edge=362.64 p10=302.82 fee=37.06 best_quick=WorldState_BandShift_search_00074:346.36
+[82] quick score=341.48 edge=361.22 p10=300.95 fee=37.58 best_quick=WorldState_BandShift_search_00074:346.36
+[84] quick score=304.67 edge=341.33 p10=282.72 fee=28.60 best_quick=WorldState_BandShift_search_00074:346.36
+[84] REFINE WorldState_BandShift_search_00062 score=338.17 edge=363.99 p10=284.27 fee=36.89
+[86] quick score=341.54 edge=364.09 p10=303.05 fee=38.37 best_quick=WorldState_BandShift_search_00074:346.36
+[87] quick score=343.97 edge=361.72 p10=301.32 fee=36.86 best_quick=WorldState_BandShift_search_00074:346.36
+[88] quick score=340.13 edge=356.17 p10=298.20 fee=34.28 best_quick=WorldState_BandShift_search_00074:346.36
+[89] quick score=341.01 edge=365.39 p10=303.97 fee=39.05 best_quick=WorldState_BandShift_search_00074:346.36
+[90] quick score=345.29 edge=363.75 p10=303.92 fee=37.15 best_quick=WorldState_BandShift_search_00074:346.36
+[90] REFINE WorldState_BandShift_search_00090 score=337.70 edge=364.45 p10=284.49 fee=37.14
+[91] quick score=343.43 edge=362.75 p10=302.80 fee=37.44 best_quick=WorldState_BandShift_search_00074:346.36
+[92] quick score=341.21 edge=364.32 p10=303.48 fee=38.60 best_quick=WorldState_BandShift_search_00074:346.36
+[94] quick score=341.24 edge=364.13 p10=303.35 fee=38.45 best_quick=WorldState_BandShift_search_00074:346.36
+[95] quick score=345.56 edge=360.11 p10=301.09 fee=35.91 best_quick=WorldState_BandShift_search_00074:346.36
+[96] quick score=254.80 edge=313.10 p10=258.34 fee=23.43 best_quick=WorldState_BandShift_search_00074:346.36
+[96] REFINE WorldState_BandShift_search_00095 score=338.00 edge=360.76 p10=281.73 fee=35.90
+[101] quick score=342.95 edge=358.57 p10=299.71 fee=34.64 best_quick=WorldState_BandShift_search_00074:346.36
+[102] quick score=338.87 edge=357.42 p10=298.69 fee=33.47 best_quick=WorldState_BandShift_search_00074:346.36
+[102] REFINE WorldState_BandShift_search_00058 score=337.87 edge=362.85 p10=283.11 fee=36.57
+[104] quick score=345.99 edge=362.91 p10=303.41 fee=36.66 best_quick=WorldState_BandShift_search_00074:346.36
+[105] quick score=341.19 edge=361.41 p10=301.10 fee=37.72 best_quick=WorldState_BandShift_search_00074:346.36
+[106] quick score=345.34 edge=362.86 p10=302.84 fee=36.77 best_quick=WorldState_BandShift_search_00074:346.36
+[107] quick score=324.37 edge=349.10 p10=293.28 fee=30.96 best_quick=WorldState_BandShift_search_00074:346.36
+[108] quick score=341.25 edge=365.03 p10=302.93 fee=38.74 best_quick=WorldState_BandShift_search_00074:346.36
+[108] REFINE WorldState_BandShift_search_00104 score=338.29 edge=363.46 p10=283.62 fee=36.67
+[112] quick score=342.00 edge=364.72 p10=303.44 fee=38.54 best_quick=WorldState_BandShift_search_00074:346.36
+[113] quick score=340.23 edge=365.54 p10=304.31 fee=39.27 best_quick=WorldState_BandShift_search_00074:346.36
+[114] quick score=341.34 edge=363.34 p10=302.47 fee=38.20 best_quick=WorldState_BandShift_search_00074:346.36
+[114] REFINE WorldState_BandShift_search_00106 score=337.79 edge=363.53 p10=283.19 fee=36.77
+[115] quick score=345.48 edge=360.23 p10=300.92 fee=35.96 best_quick=WorldState_BandShift_search_00074:346.36
+[116] quick score=345.98 edge=363.04 p10=303.53 fee=36.71 best_quick=WorldState_BandShift_search_00074:346.36
+[117] quick score=346.31 edge=360.06 p10=300.82 fee=35.56 best_quick=WorldState_BandShift_search_00074:346.36
+[119] quick score=344.84 edge=360.19 p10=300.38 fee=36.08 best_quick=WorldState_BandShift_search_00074:346.36
+[121] quick score=279.23 edge=327.79 p10=271.45 fee=25.72 best_quick=WorldState_BandShift_search_00074:346.36
+[122] quick score=345.07 edge=361.81 p10=301.26 fee=36.48 best_quick=WorldState_BandShift_search_00074:346.36
+[123] quick score=280.55 edge=328.70 p10=272.13 fee=25.85 best_quick=WorldState_BandShift_search_00074:346.36
+[124] quick score=345.83 edge=363.14 p10=303.39 fee=36.78 best_quick=WorldState_BandShift_search_00074:346.36
+[125] quick score=341.60 edge=364.51 p10=303.16 fee=38.51 best_quick=WorldState_BandShift_search_00074:346.36
+[126] quick score=344.29 edge=359.15 p10=299.96 fee=34.89 best_quick=WorldState_BandShift_search_00074:346.36
+[126] REFINE WorldState_BandShift_search_00117 score=338.97 edge=360.63 p10=281.31 fee=35.56
+[127] quick score=341.43 edge=366.48 p10=304.80 fee=39.17 best_quick=WorldState_BandShift_search_00074:346.36
+[128] quick score=344.23 edge=362.95 p10=302.79 fee=37.18 best_quick=WorldState_BandShift_search_00074:346.36
+[129] quick score=276.83 edge=326.57 p10=274.01 fee=25.08 best_quick=WorldState_BandShift_search_00074:346.36
+[131] quick score=346.67 edge=361.87 p10=302.52 fee=36.11 best_quick=WorldState_BandShift_search_00131:346.67
+[133] quick score=345.45 edge=361.09 p10=301.25 fee=36.22 best_quick=WorldState_BandShift_search_00131:346.67
+[134] quick score=328.83 edge=367.17 p10=305.15 fee=41.44 best_quick=WorldState_BandShift_search_00131:346.67
+[135] quick score=345.16 edge=359.79 p10=301.06 fee=34.99 best_quick=WorldState_BandShift_search_00131:346.67
+[136] quick score=342.54 edge=362.38 p10=301.85 fee=37.56 best_quick=WorldState_BandShift_search_00131:346.67
+[137] quick score=345.34 edge=361.87 p10=301.43 fee=36.46 best_quick=WorldState_BandShift_search_00131:346.67
+[139] quick score=312.60 edge=345.07 p10=290.02 fee=29.11 best_quick=WorldState_BandShift_search_00131:346.67
+[140] quick score=345.54 edge=362.26 p10=302.26 fee=36.52 best_quick=WorldState_BandShift_search_00131:346.67
+[142] quick score=346.29 edge=360.39 p10=300.64 fee=35.29 best_quick=WorldState_BandShift_search_00131:346.67
+[143] quick score=344.85 edge=362.45 p10=302.29 fee=36.81 best_quick=WorldState_BandShift_search_00131:346.67
+[144] quick score=344.86 edge=362.50 p10=302.67 fee=36.86 best_quick=WorldState_BandShift_search_00131:346.67
+[144] REFINE WorldState_BandShift_search_00131 score=338.70 edge=362.33 p10=282.20 fee=36.09
+[146] quick score=344.91 edge=361.56 p10=302.45 fee=36.59 best_quick=WorldState_BandShift_search_00131:346.67
+[149] quick score=335.55 edge=356.04 p10=296.99 fee=32.79 best_quick=WorldState_BandShift_search_00131:346.67
+[150] quick score=346.66 edge=360.74 p10=301.89 fee=35.21 best_quick=WorldState_BandShift_search_00131:346.67
+[150] REFINE WorldState_BandShift_search_00150 score=338.73 edge=361.22 p10=281.49 fee=35.18
+[151] quick score=344.60 edge=364.29 p10=303.21 fee=37.46 best_quick=WorldState_BandShift_search_00131:346.67
+[152] quick score=345.23 edge=362.11 p10=302.35 fee=36.59 best_quick=WorldState_BandShift_search_00131:346.67
+[153] quick score=333.15 edge=354.56 p10=296.08 fee=32.28 best_quick=WorldState_BandShift_search_00131:346.67
+[155] quick score=346.50 edge=360.61 p10=301.01 fee=35.30 best_quick=WorldState_BandShift_search_00131:346.67
+[156] quick score=334.21 edge=352.94 p10=296.03 fee=33.06 best_quick=WorldState_BandShift_search_00131:346.67
+[156] REFINE WorldState_BandShift_search_00155 score=338.77 edge=361.14 p10=281.00 fee=35.29
+[157] quick score=346.36 edge=359.68 p10=300.60 fee=35.56 best_quick=WorldState_BandShift_search_00131:346.67
+[158] quick score=345.72 edge=362.53 p10=302.45 fee=36.55 best_quick=WorldState_BandShift_search_00131:346.67
+[159] quick score=345.06 edge=360.95 p10=300.59 fee=36.27 best_quick=WorldState_BandShift_search_00131:346.67
+[160] quick score=344.91 edge=362.77 p10=302.66 fee=36.87 best_quick=WorldState_BandShift_search_00131:346.67
+[161] quick score=277.85 edge=326.98 p10=269.70 fee=25.73 best_quick=WorldState_BandShift_search_00131:346.67
+[162] quick score=334.97 edge=367.26 p10=305.34 fee=40.48 best_quick=WorldState_BandShift_search_00131:346.67
+[162] REFINE WorldState_BandShift_search_00157 score=338.70 edge=360.27 p10=280.95 fee=35.54
+[163] quick score=346.51 edge=360.69 p10=301.07 fee=35.29 best_quick=WorldState_BandShift_search_00131:346.67
+[164] quick score=288.05 edge=333.22 p10=276.49 fee=26.52 best_quick=WorldState_BandShift_search_00131:346.67
+[167] quick score=345.23 edge=363.15 p10=302.98 fee=36.93 best_quick=WorldState_BandShift_search_00131:346.67
+[168] quick score=342.58 edge=365.28 p10=304.49 fee=38.49 best_quick=WorldState_BandShift_search_00131:346.67
+[168] REFINE WorldState_BandShift_search_00163 score=338.63 edge=361.10 p10=280.61 fee=35.28
+[169] quick score=344.21 edge=364.74 p10=303.23 fee=37.70 best_quick=WorldState_BandShift_search_00131:346.67
+[171] quick score=331.64 edge=353.67 p10=295.34 fee=32.09 best_quick=WorldState_BandShift_search_00131:346.67
+[172] quick score=253.70 edge=310.95 p10=259.80 fee=23.34 best_quick=WorldState_BandShift_search_00131:346.67
+[173] quick score=341.68 edge=362.05 p10=301.77 fee=37.74 best_quick=WorldState_BandShift_search_00131:346.67
+[174] quick score=346.68 edge=361.50 p10=301.87 fee=35.94 best_quick=WorldState_BandShift_search_00174:346.68
+[174] REFINE WorldState_BandShift_search_00174 score=338.83 edge=362.03 p10=281.30 fee=35.93
+[177] quick score=346.34 edge=362.37 p10=302.87 fee=36.38 best_quick=WorldState_BandShift_search_00174:346.68
+[178] quick score=343.05 edge=364.56 p10=304.15 fee=38.12 best_quick=WorldState_BandShift_search_00174:346.68
+[179] quick score=341.74 edge=358.03 p10=298.82 fee=34.40 best_quick=WorldState_BandShift_search_00174:346.68
+[180] quick score=341.93 edge=363.83 p10=303.71 fee=38.26 best_quick=WorldState_BandShift_search_00174:346.68
+[180] REFINE WorldState_BandShift_search_00177 score=338.86 edge=363.08 p10=283.36 fee=36.38
+[181] quick score=345.59 edge=360.08 p10=300.68 fee=35.11 best_quick=WorldState_BandShift_search_00174:346.68
+[182] quick score=343.52 edge=359.35 p10=300.36 fee=34.52 best_quick=WorldState_BandShift_search_00174:346.68
+[183] quick score=341.44 edge=357.38 p10=298.40 fee=34.48 best_quick=WorldState_BandShift_search_00174:346.68
+[184] quick score=333.48 edge=354.84 p10=296.08 fee=32.38 best_quick=WorldState_BandShift_search_00174:346.68
+[185] quick score=341.84 edge=357.64 p10=299.10 fee=34.54 best_quick=WorldState_BandShift_search_00174:346.68
+[186] quick score=297.22 edge=337.35 p10=279.19 fee=27.80 best_quick=WorldState_BandShift_search_00174:346.68
+[186] REFINE WorldState_BandShift_search_00142 score=338.33 edge=361.03 p10=279.66 fee=35.26
+[188] quick score=345.98 edge=364.18 p10=303.70 fee=36.97 best_quick=WorldState_BandShift_search_00174:346.68
+[189] quick score=342.28 edge=364.92 p10=303.47 fee=38.41 best_quick=WorldState_BandShift_search_00174:346.68
+[190] quick score=344.29 edge=362.93 p10=302.83 fee=37.22 best_quick=WorldState_BandShift_search_00174:346.68
+[191] quick score=346.06 edge=362.37 p10=302.57 fee=36.43 best_quick=WorldState_BandShift_search_00174:346.68
+[193] quick score=308.95 edge=343.44 p10=288.12 fee=28.76 best_quick=WorldState_BandShift_search_00174:346.68
+[194] quick score=345.18 edge=360.02 p10=300.96 fee=34.93 best_quick=WorldState_BandShift_search_00174:346.68
+[195] quick score=345.64 edge=362.56 p10=302.47 fee=36.61 best_quick=WorldState_BandShift_search_00174:346.68
+[196] quick score=346.10 edge=362.33 p10=302.70 fee=36.44 best_quick=WorldState_BandShift_search_00174:346.68
+[197] quick score=346.87 edge=362.14 p10=302.82 fee=36.11 best_quick=WorldState_BandShift_search_00197:346.87
+[198] quick score=345.25 edge=363.25 p10=303.25 fee=36.97 best_quick=WorldState_BandShift_search_00197:346.87
+[198] REFINE WorldState_BandShift_search_00197 score=339.45 edge=362.80 p10=283.26 fee=36.11
+[198] NEW BEST: edge=362.80 p10=283.26 fee=36.11 -> Strat\search_v6_lowfee_4h.best.sol
+[200] quick score=345.91 edge=359.99 p10=300.10 fee=35.27 best_quick=WorldState_BandShift_search_00197:346.87
+[201] quick score=345.40 edge=360.05 p10=300.65 fee=35.97 best_quick=WorldState_BandShift_search_00197:346.87
+[202] quick score=346.46 edge=362.30 p10=303.03 fee=36.31 best_quick=WorldState_BandShift_search_00197:346.87
+[205] quick score=273.58 edge=324.70 p10=268.74 fee=25.12 best_quick=WorldState_BandShift_search_00197:346.87
+[206] quick score=346.48 edge=363.65 p10=303.34 fee=36.65 best_quick=WorldState_BandShift_search_00197:346.87
+[209] quick score=346.10 edge=363.21 p10=303.81 fee=36.73 best_quick=WorldState_BandShift_search_00197:346.87
+[213] quick score=344.63 edge=361.09 p10=301.75 fee=36.51 best_quick=WorldState_BandShift_search_00197:346.87
+[215] quick score=347.03 edge=361.98 p10=302.07 fee=35.98 best_quick=WorldState_BandShift_search_00215:347.03
+[217] quick score=346.77 edge=361.83 p10=302.42 fee=36.03 best_quick=WorldState_BandShift_search_00215:347.03
+[218] quick score=346.23 edge=362.76 p10=303.41 fee=36.51 best_quick=WorldState_BandShift_search_00215:347.03
+[220] quick score=347.39 edge=361.38 p10=302.20 fee=35.69 best_quick=WorldState_BandShift_search_00220:347.39
+[221] quick score=345.83 edge=362.42 p10=302.85 fee=36.58 best_quick=WorldState_BandShift_search_00220:347.39
+[222] quick score=345.94 edge=364.46 p10=303.96 fee=37.07 best_quick=WorldState_BandShift_search_00220:347.39
+[222] REFINE WorldState_BandShift_search_00220 score=339.74 edge=361.95 p10=282.45 fee=35.69
+[222] NEW BEST: edge=361.95 p10=282.45 fee=35.69 -> Strat\search_v6_lowfee_4h.best.sol
+[224] quick score=345.92 edge=362.22 p10=302.66 fee=36.46 best_quick=WorldState_BandShift_search_00220:347.39
+[226] quick score=346.64 edge=360.66 p10=300.83 fee=35.69 best_quick=WorldState_BandShift_search_00220:347.39
+[227] quick score=346.31 edge=359.95 p10=300.55 fee=35.52 best_quick=WorldState_BandShift_search_00220:347.39
+[228] quick score=277.03 edge=326.31 p10=270.74 fee=25.50 best_quick=WorldState_BandShift_search_00220:347.39
+[228] REFINE WorldState_BandShift_search_00215 score=339.51 edge=362.49 p10=282.97 fee=35.97
+[229] quick score=281.76 edge=329.05 p10=272.16 fee=26.10 best_quick=WorldState_BandShift_search_00220:347.39
+[230] quick score=324.90 edge=348.83 p10=289.30 fee=31.52 best_quick=WorldState_BandShift_search_00220:347.39
+[231] quick score=346.15 edge=359.53 p10=300.73 fee=35.43 best_quick=WorldState_BandShift_search_00220:347.39
+[233] quick score=347.06 edge=362.00 p10=302.04 fee=35.97 best_quick=WorldState_BandShift_search_00220:347.39
+[235] quick score=344.16 edge=362.09 p10=301.98 fee=36.93 best_quick=WorldState_BandShift_search_00220:347.39
+[239] quick score=344.21 edge=365.66 p10=304.19 fee=37.98 best_quick=WorldState_BandShift_search_00220:347.39
+[240] quick score=347.09 edge=361.48 p10=301.83 fee=35.78 best_quick=WorldState_BandShift_search_00220:347.39
+[240] REFINE WorldState_BandShift_search_00240 score=339.49 edge=362.04 p10=282.24 fee=35.79
+[241] quick score=344.69 edge=361.31 p10=301.03 fee=36.50 best_quick=WorldState_BandShift_search_00220:347.39
+[242] quick score=268.89 edge=322.10 p10=264.53 fee=24.82 best_quick=WorldState_BandShift_search_00220:347.39
+[244] quick score=342.51 edge=358.65 p10=299.94 fee=34.41 best_quick=WorldState_BandShift_search_00220:347.39
+[245] quick score=346.47 edge=361.46 p10=301.48 fee=35.96 best_quick=WorldState_BandShift_search_00220:347.39
+[247] quick score=344.67 edge=362.55 p10=302.04 fee=36.90 best_quick=WorldState_BandShift_search_00220:347.39
+[248] quick score=345.67 edge=362.96 p10=302.60 fee=36.68 best_quick=WorldState_BandShift_search_00220:347.39
+[249] quick score=341.74 edge=366.79 p10=305.69 fee=39.23 best_quick=WorldState_BandShift_search_00220:347.39
+[251] quick score=338.26 edge=363.95 p10=302.76 fee=39.49 best_quick=WorldState_BandShift_search_00220:347.39
+[252] quick score=345.49 edge=360.34 p10=301.41 fee=34.93 best_quick=WorldState_BandShift_search_00220:347.39
+[252] REFINE WorldState_BandShift_search_00233 score=339.56 edge=362.49 p10=282.96 fee=35.95
+[254] quick score=344.46 edge=362.58 p10=302.08 fee=36.97 best_quick=WorldState_BandShift_search_00220:347.39
+[255] quick score=337.76 edge=356.11 p10=298.48 fee=33.35 best_quick=WorldState_BandShift_search_00220:347.39
+[256] quick score=346.65 edge=361.45 p10=301.92 fee=35.94 best_quick=WorldState_BandShift_search_00220:347.39
+[257] quick score=342.12 edge=358.59 p10=299.77 fee=34.28 best_quick=WorldState_BandShift_search_00220:347.39
+[259] quick score=344.38 edge=361.49 p10=300.70 fee=36.61 best_quick=WorldState_BandShift_search_00220:347.39
+[260] quick score=345.10 edge=359.21 p10=299.90 fee=35.76 best_quick=WorldState_BandShift_search_00220:347.39
+[261] quick score=343.86 edge=359.07 p10=299.29 fee=34.78 best_quick=WorldState_BandShift_search_00220:347.39
+[262] quick score=346.59 edge=361.43 p10=301.82 fee=35.93 best_quick=WorldState_BandShift_search_00220:347.39
+[264] quick score=346.09 edge=362.97 p10=302.94 fee=36.59 best_quick=WorldState_BandShift_search_00220:347.39
+[264] REFINE WorldState_BandShift_search_00217 score=339.43 edge=362.49 p10=283.08 fee=36.03
+[265] quick score=337.32 edge=363.44 p10=302.79 fee=39.61 best_quick=WorldState_BandShift_search_00220:347.39
+[266] quick score=344.91 edge=361.93 p10=301.20 fee=36.55 best_quick=WorldState_BandShift_search_00220:347.39
+[267] quick score=346.35 edge=362.62 p10=302.75 fee=36.42 best_quick=WorldState_BandShift_search_00220:347.39
+[268] quick score=347.07 edge=362.08 p10=302.08 fee=35.98 best_quick=WorldState_BandShift_search_00220:347.39
+[270] quick score=344.24 edge=361.75 p10=302.60 fee=36.92 best_quick=WorldState_BandShift_search_00220:347.39
+[270] REFINE WorldState_BandShift_search_00268 score=339.54 edge=362.52 p10=283.12 fee=35.97
+[273] quick score=346.14 edge=362.81 p10=302.65 fee=36.51 best_quick=WorldState_BandShift_search_00220:347.39
+[274] quick score=341.65 edge=359.14 p10=299.55 fee=36.94 best_quick=WorldState_BandShift_search_00220:347.39
+[275] quick score=345.37 edge=362.24 p10=302.04 fee=36.57 best_quick=WorldState_BandShift_search_00220:347.39
+[276] quick score=343.35 edge=362.56 p10=302.35 fee=37.42 best_quick=WorldState_BandShift_search_00220:347.39
+[276] REFINE WorldState_BandShift_search_00256 score=338.92 edge=362.04 p10=281.55 fee=35.93
+[278] quick score=346.49 edge=363.30 p10=302.89 fee=36.47 best_quick=WorldState_BandShift_search_00220:347.39
+[280] quick score=343.38 edge=359.28 p10=300.19 fee=34.53 best_quick=WorldState_BandShift_search_00220:347.39
+[281] quick score=344.48 edge=362.47 p10=302.36 fee=36.95 best_quick=WorldState_BandShift_search_00220:347.39
+[282] quick score=343.30 edge=362.05 p10=301.76 fee=37.21 best_quick=WorldState_BandShift_search_00220:347.39
+[282] REFINE WorldState_BandShift_search_00226 score=339.09 edge=361.29 p10=280.70 fee=35.65
+[283] quick score=344.88 edge=362.85 p10=302.62 fee=36.93 best_quick=WorldState_BandShift_search_00220:347.39
+[284] quick score=344.25 edge=358.53 p10=299.71 fee=35.02 best_quick=WorldState_BandShift_search_00220:347.39
+[287] quick score=346.03 edge=363.92 p10=303.63 fee=36.92 best_quick=WorldState_BandShift_search_00220:347.39
+[288] quick score=345.60 edge=360.14 p10=301.25 fee=35.02 best_quick=WorldState_BandShift_search_00220:347.39
+[288] REFINE WorldState_BandShift_search_00262 score=338.86 edge=362.02 p10=281.49 fee=35.93
+[289] quick score=342.78 edge=363.88 p10=302.74 fee=37.90 best_quick=WorldState_BandShift_search_00220:347.39
+[290] quick score=344.45 edge=359.46 p10=300.48 fee=34.84 best_quick=WorldState_BandShift_search_00220:347.39
+[291] quick score=341.05 edge=366.05 p10=304.36 fee=39.15 best_quick=WorldState_BandShift_search_00220:347.39
+[292] quick score=344.85 edge=363.38 p10=303.34 fee=37.15 best_quick=WorldState_BandShift_search_00220:347.39
+[293] quick score=345.25 edge=364.18 p10=304.45 fee=37.31 best_quick=WorldState_BandShift_search_00220:347.39
+[294] quick score=306.16 edge=342.44 p10=288.47 fee=28.16 best_quick=WorldState_BandShift_search_00220:347.39
+[294] REFINE WorldState_BandShift_search_00278 score=339.23 edge=363.96 p10=284.06 fee=36.48
+[295] quick score=329.97 edge=352.82 p10=293.78 fee=31.92 best_quick=WorldState_BandShift_search_00220:347.39
+[298] quick score=311.17 edge=344.47 p10=288.75 fee=29.09 best_quick=WorldState_BandShift_search_00220:347.39
+[299] quick score=343.72 edge=363.98 p10=303.10 fee=37.61 best_quick=WorldState_BandShift_search_00220:347.39
+[300] quick score=346.44 edge=359.83 p10=300.67 fee=35.55 best_quick=WorldState_BandShift_search_00220:347.39
+[300] REFINE WorldState_BandShift_search_00206 score=338.95 edge=364.10 p10=284.33 fee=36.65
+[301] quick score=345.28 edge=363.60 p10=303.72 fee=37.08 best_quick=WorldState_BandShift_search_00220:347.39
+[304] quick score=346.13 edge=362.39 p10=302.66 fee=36.43 best_quick=WorldState_BandShift_search_00220:347.39
+[305] quick score=347.47 edge=361.35 p10=301.79 fee=35.59 best_quick=WorldState_BandShift_search_00305:347.47
+[306] quick score=345.27 edge=363.36 p10=302.76 fee=36.87 best_quick=WorldState_BandShift_search_00305:347.47
+[306] REFINE WorldState_BandShift_search_00305 score=339.66 edge=361.95 p10=281.53 fee=35.56
+[307] quick score=345.72 edge=362.91 p10=303.15 fee=36.72 best_quick=WorldState_BandShift_search_00305:347.47
+[308] quick score=345.70 edge=360.88 p10=301.05 fee=36.02 best_quick=WorldState_BandShift_search_00305:347.47
+[310] quick score=345.84 edge=360.21 p10=300.85 fee=35.09 best_quick=WorldState_BandShift_search_00305:347.47
+[311] quick score=343.40 edge=364.66 p10=303.68 fee=38.01 best_quick=WorldState_BandShift_search_00305:347.47
+[312] quick score=315.40 edge=346.52 p10=287.10 fee=29.92 best_quick=WorldState_BandShift_search_00305:347.47
+[312] REFINE WorldState_BandShift_search_00245 score=338.92 edge=362.01 p10=282.10 fee=35.97
+[313] quick score=347.43 edge=361.34 p10=301.40 fee=35.56 best_quick=WorldState_BandShift_search_00305:347.47
+[315] quick score=347.44 edge=361.64 p10=302.32 fee=35.74 best_quick=WorldState_BandShift_search_00305:347.47
+[317] quick score=346.37 edge=363.28 p10=303.41 fee=36.58 best_quick=WorldState_BandShift_search_00305:347.47
+[318] quick score=346.61 edge=360.71 p10=301.09 fee=35.29 best_quick=WorldState_BandShift_search_00305:347.47
+[318] REFINE WorldState_BandShift_search_00315 score=340.07 edge=362.13 p10=283.29 fee=35.73
+[318] NEW BEST: edge=362.13 p10=283.29 fee=35.73 -> Strat\search_v6_lowfee_4h.best.sol
+[319] quick score=344.71 edge=363.76 p10=303.77 fee=37.30 best_quick=WorldState_BandShift_search_00305:347.47
+[321] quick score=332.24 edge=354.50 p10=296.17 fee=31.99 best_quick=WorldState_BandShift_search_00305:347.47
+[322] quick score=342.85 edge=362.59 p10=302.57 fee=37.58 best_quick=WorldState_BandShift_search_00305:347.47
+[324] quick score=343.66 edge=363.30 p10=302.08 fee=37.36 best_quick=WorldState_BandShift_search_00305:347.47
+[324] REFINE WorldState_BandShift_search_00313 score=339.66 edge=361.90 p10=281.53 fee=35.55
+[325] quick score=338.42 edge=363.93 p10=303.00 fee=39.46 best_quick=WorldState_BandShift_search_00305:347.47
+[326] quick score=344.22 edge=363.35 p10=303.07 fee=37.32 best_quick=WorldState_BandShift_search_00305:347.47
+[327] quick score=346.18 edge=362.09 p10=302.49 fee=36.28 best_quick=WorldState_BandShift_search_00305:347.47
+[328] quick score=344.46 edge=362.65 p10=303.00 fee=37.04 best_quick=WorldState_BandShift_search_00305:347.47
+[330] quick score=327.07 edge=351.30 p10=294.39 fee=31.21 best_quick=WorldState_BandShift_search_00305:347.47
+[330] REFINE WorldState_BandShift_search_00318 score=338.67 edge=361.11 p10=280.58 fee=35.28
+[331] quick score=341.56 edge=361.29 p10=301.21 fee=37.60 best_quick=WorldState_BandShift_search_00305:347.47
+[332] quick score=339.16 edge=357.53 p10=298.99 fee=33.45 best_quick=WorldState_BandShift_search_00305:347.47
+[333] quick score=296.37 edge=336.88 p10=278.34 fee=27.76 best_quick=WorldState_BandShift_search_00305:347.47
+[334] quick score=346.10 edge=360.23 p10=300.75 fee=35.27 best_quick=WorldState_BandShift_search_00305:347.47
+[335] quick score=346.75 edge=362.46 p10=302.86 fee=36.24 best_quick=WorldState_BandShift_search_00305:347.47
+[336] quick score=338.39 edge=364.20 p10=302.81 fee=39.51 best_quick=WorldState_BandShift_search_00305:347.47
+[336] REFINE WorldState_BandShift_search_00335 score=339.05 edge=363.00 p10=282.91 fee=36.25
+[337] quick score=320.34 edge=347.99 p10=292.74 fee=30.26 best_quick=WorldState_BandShift_search_00305:347.47
+[338] quick score=344.09 edge=363.06 p10=302.42 fee=37.25 best_quick=WorldState_BandShift_search_00305:347.47
+[339] quick score=342.86 edge=364.62 p10=303.62 fee=38.15 best_quick=WorldState_BandShift_search_00305:347.47
+[341] quick score=341.65 edge=363.91 p10=303.04 fee=38.28 best_quick=WorldState_BandShift_search_00305:347.47
+[343] quick score=345.83 edge=360.36 p10=300.52 fee=35.16 best_quick=WorldState_BandShift_search_00305:347.47
+[344] quick score=342.37 edge=364.82 p10=303.85 fee=38.32 best_quick=WorldState_BandShift_search_00305:347.47
+[346] quick score=344.58 edge=361.41 p10=301.14 fee=36.56 best_quick=WorldState_BandShift_search_00305:347.47
+[347] quick score=345.18 edge=363.88 p10=303.92 fee=37.21 best_quick=WorldState_BandShift_search_00305:347.47
+[349] quick score=271.26 edge=322.51 p10=271.66 fee=24.56 best_quick=WorldState_BandShift_search_00305:347.47
+[350] quick score=345.42 edge=363.23 p10=303.11 fee=36.90 best_quick=WorldState_BandShift_search_00305:347.47
+[352] quick score=346.61 edge=361.49 p10=302.04 fee=35.96 best_quick=WorldState_BandShift_search_00305:347.47
+[353] quick score=346.69 edge=361.62 p10=302.58 fee=36.02 best_quick=WorldState_BandShift_search_00305:347.47
+[354] quick score=344.78 edge=359.41 p10=299.96 fee=34.99 best_quick=WorldState_BandShift_search_00305:347.47
+[354] REFINE WorldState_BandShift_search_00353 score=339.12 edge=362.12 p10=282.89 fee=36.02
+[355] quick score=335.44 edge=355.08 p10=296.68 fee=32.98 best_quick=WorldState_BandShift_search_00305:347.47
+[357] quick score=239.52 edge=302.82 p10=249.06 fee=22.25 best_quick=WorldState_BandShift_search_00305:347.47
+[358] quick score=347.26 edge=361.26 p10=301.60 fee=35.64 best_quick=WorldState_BandShift_search_00305:347.47
+[359] quick score=346.48 edge=361.57 p10=302.45 fee=36.05 best_quick=WorldState_BandShift_search_00305:347.47
+[360] quick score=347.65 edge=361.92 p10=302.21 fee=35.73 best_quick=WorldState_BandShift_search_00360:347.65
+[360] REFINE WorldState_BandShift_search_00360 score=339.87 edge=362.55 p10=282.42 fee=35.74
+[361] quick score=277.91 edge=325.73 p10=274.49 fee=25.39 best_quick=WorldState_BandShift_search_00360:347.65
+[362] quick score=255.32 edge=311.65 p10=261.64 fee=23.35 best_quick=WorldState_BandShift_search_00360:347.65
+[363] quick score=272.53 edge=323.74 p10=268.66 fee=25.01 best_quick=WorldState_BandShift_search_00360:347.65
+[364] quick score=345.85 edge=363.06 p10=303.38 fee=36.73 best_quick=WorldState_BandShift_search_00360:347.65
+[365] quick score=340.93 edge=357.43 p10=298.60 fee=34.21 best_quick=WorldState_BandShift_search_00360:347.65
+[366] quick score=344.78 edge=361.95 p10=302.29 fee=36.70 best_quick=WorldState_BandShift_search_00360:347.65
+[366] REFINE WorldState_BandShift_search_00358 score=339.75 edge=361.85 p10=281.85 fee=35.63
+[367] quick score=331.76 edge=353.78 p10=295.56 fee=32.07 best_quick=WorldState_BandShift_search_00360:347.65
+[368] quick score=346.62 edge=362.48 p10=303.31 fee=36.36 best_quick=WorldState_BandShift_search_00360:347.65
+[369] quick score=342.70 edge=364.80 p10=303.84 fee=38.26 best_quick=WorldState_BandShift_search_00360:347.65
+[370] quick score=334.75 edge=355.39 p10=296.00 fee=32.77 best_quick=WorldState_BandShift_search_00360:347.65
+[371] quick score=346.07 edge=362.37 p10=302.76 fee=36.45 best_quick=WorldState_BandShift_search_00360:347.65
+[372] quick score=279.04 edge=327.55 p10=271.28 fee=25.76 best_quick=WorldState_BandShift_search_00360:347.65
+[372] REFINE WorldState_BandShift_search_00368 score=338.91 edge=363.05 p10=283.59 fee=36.37
+[374] quick score=255.06 edge=311.53 p10=262.11 fee=23.30 best_quick=WorldState_BandShift_search_00360:347.65
+[377] quick score=346.83 edge=360.67 p10=300.81 fee=35.38 best_quick=WorldState_BandShift_search_00360:347.65
+[379] quick score=345.41 edge=363.12 p10=302.80 fee=36.84 best_quick=WorldState_BandShift_search_00360:347.65
+[382] quick score=345.66 edge=362.77 p10=302.49 fee=36.64 best_quick=WorldState_BandShift_search_00360:347.65
+[383] quick score=346.36 edge=361.53 p10=301.77 fee=36.04 best_quick=WorldState_BandShift_search_00360:347.65
+[385] quick score=342.28 edge=366.07 p10=305.17 fee=38.87 best_quick=WorldState_BandShift_search_00360:347.65
+[386] quick score=343.31 edge=362.86 p10=303.48 fee=37.54 best_quick=WorldState_BandShift_search_00360:347.65
+[388] quick score=259.20 edge=314.53 p10=263.56 fee=23.67 best_quick=WorldState_BandShift_search_00360:347.65
+[389] quick score=277.34 edge=325.33 p10=273.80 fee=25.33 best_quick=WorldState_BandShift_search_00360:347.65
+[390] quick score=340.97 edge=363.79 p10=303.36 fee=38.52 best_quick=WorldState_BandShift_search_00360:347.65
+[390] REFINE WorldState_BandShift_search_00377 score=338.98 edge=361.09 p10=280.72 fee=35.38
+[391] quick score=344.41 edge=363.45 p10=303.38 fee=37.30 best_quick=WorldState_BandShift_search_00360:347.65
+[392] quick score=344.76 edge=359.85 p10=300.86 fee=34.84 best_quick=WorldState_BandShift_search_00360:347.65
+[393] quick score=345.96 edge=362.62 p10=302.66 fee=36.51 best_quick=WorldState_BandShift_search_00360:347.65
+[395] quick score=346.99 edge=360.54 p10=301.55 fee=35.41 best_quick=WorldState_BandShift_search_00360:347.65
+[396] quick score=346.64 edge=361.45 p10=301.91 fee=35.94 best_quick=WorldState_BandShift_search_00360:347.65
+[396] REFINE WorldState_BandShift_search_00395 score=339.15 edge=361.12 p10=281.12 fee=35.40
+[397] quick score=347.09 edge=361.48 p10=301.83 fee=35.78 best_quick=WorldState_BandShift_search_00360:347.65
+[400] quick score=347.20 edge=361.25 p10=301.61 fee=35.66 best_quick=WorldState_BandShift_search_00360:347.65
+[402] quick score=341.63 edge=365.40 p10=303.30 fee=38.63 best_quick=WorldState_BandShift_search_00360:347.65
+[402] REFINE WorldState_BandShift_search_00400 score=339.69 edge=361.84 p10=281.90 fee=35.65
+[403] quick score=287.93 edge=332.49 p10=278.61 fee=26.36 best_quick=WorldState_BandShift_search_00360:347.65
+[404] quick score=340.74 edge=364.87 p10=303.80 fee=38.86 best_quick=WorldState_BandShift_search_00360:347.65
+[407] quick score=344.37 edge=364.27 p10=303.73 fee=37.59 best_quick=WorldState_BandShift_search_00360:347.65
+[408] quick score=346.68 edge=360.76 p10=301.55 fee=35.24 best_quick=WorldState_BandShift_search_00360:347.65
+[408] REFINE WorldState_BandShift_search_00397 score=339.49 edge=362.04 p10=282.24 fee=35.79
+[410] quick score=322.76 edge=349.82 p10=291.04 fee=30.77 best_quick=WorldState_BandShift_search_00360:347.65
+[412] quick score=341.47 edge=362.58 p10=302.31 fee=37.98 best_quick=WorldState_BandShift_search_00360:347.65
+[414] quick score=347.01 edge=361.83 p10=302.33 fee=35.98 best_quick=WorldState_BandShift_search_00360:347.65
+[414] REFINE WorldState_BandShift_search_00414 score=339.41 edge=362.39 p10=282.74 fee=35.95
+[415] quick score=346.71 edge=361.62 p10=302.63 fee=36.02 best_quick=WorldState_BandShift_search_00360:347.65
+[416] quick score=344.85 edge=363.61 p10=303.13 fee=37.21 best_quick=WorldState_BandShift_search_00360:347.65
+[418] quick score=346.86 edge=361.68 p10=302.42 fee=35.97 best_quick=WorldState_BandShift_search_00360:347.65
+[419] quick score=344.58 edge=359.51 p10=300.51 fee=34.85 best_quick=WorldState_BandShift_search_00360:347.65
+[421] quick score=346.96 edge=362.33 p10=301.75 fee=36.02 best_quick=WorldState_BandShift_search_00360:347.65
+[422] quick score=339.62 edge=358.09 p10=298.10 fee=33.68 best_quick=WorldState_BandShift_search_00360:347.65
+[423] quick score=341.87 edge=359.07 p10=299.56 fee=36.84 best_quick=WorldState_BandShift_search_00360:347.65
+[424] quick score=343.25 edge=359.58 p10=299.97 fee=34.47 best_quick=WorldState_BandShift_search_00360:347.65
+[426] quick score=346.82 edge=360.76 p10=301.18 fee=35.35 best_quick=WorldState_BandShift_search_00360:347.65
+[426] REFINE WorldState_BandShift_search_00421 score=339.45 edge=362.80 p10=282.60 fee=36.01
+[427] quick score=346.80 edge=361.88 p10=302.45 fee=36.04 best_quick=WorldState_BandShift_search_00360:347.65
+[428] quick score=345.39 edge=359.91 p10=300.80 fee=35.07 best_quick=WorldState_BandShift_search_00360:347.65
+[429] quick score=346.72 edge=360.88 p10=302.14 fee=35.17 best_quick=WorldState_BandShift_search_00360:347.65
+[431] quick score=347.10 edge=362.01 p10=302.03 fee=35.94 best_quick=WorldState_BandShift_search_00360:347.65
+[432] quick score=320.86 edge=348.80 p10=293.13 fee=30.22 best_quick=WorldState_BandShift_search_00360:347.65
+[432] REFINE WorldState_BandShift_search_00431 score=339.53 edge=362.46 p10=282.72 fee=35.93
+[433] quick score=344.85 edge=359.59 p10=300.26 fee=35.00 best_quick=WorldState_BandShift_search_00360:347.65
+[434] quick score=346.50 edge=363.12 p10=303.09 fee=36.51 best_quick=WorldState_BandShift_search_00360:347.65
+[435] quick score=344.41 edge=359.17 p10=300.03 fee=34.93 best_quick=WorldState_BandShift_search_00360:347.65
+[436] quick score=345.79 edge=363.50 p10=303.22 fee=36.84 best_quick=WorldState_BandShift_search_00360:347.65
+[437] quick score=274.87 edge=325.16 p10=270.20 fee=25.22 best_quick=WorldState_BandShift_search_00360:347.65
+[438] quick score=346.52 edge=361.76 p10=302.08 fee=36.06 best_quick=WorldState_BandShift_search_00360:347.65
+[438] REFINE WorldState_BandShift_search_00418 score=339.36 edge=362.23 p10=282.78 fee=35.95
+[439] quick score=339.98 edge=366.68 p10=304.27 fee=39.58 best_quick=WorldState_BandShift_search_00360:347.65
+[441] quick score=343.80 edge=363.51 p10=302.84 fee=37.49 best_quick=WorldState_BandShift_search_00360:347.65
+[445] quick score=343.13 edge=356.97 p10=297.83 fee=35.25 best_quick=WorldState_BandShift_search_00360:347.65
+[446] quick score=344.58 edge=360.64 p10=300.69 fee=36.33 best_quick=WorldState_BandShift_search_00360:347.65
+[447] quick score=335.70 edge=355.69 p10=295.72 fee=33.12 best_quick=WorldState_BandShift_search_00360:347.65
+[448] quick score=288.25 edge=332.65 p10=279.01 fee=26.38 best_quick=WorldState_BandShift_search_00360:347.65
+[449] quick score=344.31 edge=364.40 p10=304.07 fee=37.60 best_quick=WorldState_BandShift_search_00360:347.65
+[451] quick score=341.68 edge=358.19 p10=298.25 fee=34.35 best_quick=WorldState_BandShift_search_00360:347.65
+[452] quick score=345.28 edge=363.54 p10=303.15 fee=37.04 best_quick=WorldState_BandShift_search_00360:347.65
+[453] quick score=346.78 edge=361.21 p10=301.23 fee=35.76 best_quick=WorldState_BandShift_search_00360:347.65
+[454] quick score=345.34 edge=364.42 p10=303.68 fee=37.31 best_quick=WorldState_BandShift_search_00360:347.65
+[455] quick score=345.27 edge=364.30 p10=303.02 fee=37.16 best_quick=WorldState_BandShift_search_00360:347.65
+[456] quick score=347.26 edge=361.23 p10=301.58 fee=35.63 best_quick=WorldState_BandShift_search_00360:347.65
+[456] REFINE WorldState_BandShift_search_00456 score=339.74 edge=361.82 p10=281.86 fee=35.62
+[458] quick score=343.24 edge=362.19 p10=302.62 fee=37.30 best_quick=WorldState_BandShift_search_00360:347.65
+[459] quick score=345.14 edge=360.18 p10=301.14 fee=34.85 best_quick=WorldState_BandShift_search_00360:347.65
+[461] quick score=346.32 edge=362.07 p10=302.38 fee=36.26 best_quick=WorldState_BandShift_search_00360:347.65
+[462] quick score=342.79 edge=365.31 p10=304.15 fee=38.44 best_quick=WorldState_BandShift_search_00360:347.65
+[462] REFINE WorldState_BandShift_search_00426 score=339.11 edge=361.25 p10=281.20 fee=35.33
+[463] quick score=306.47 edge=342.29 p10=287.40 fee=28.38 best_quick=WorldState_BandShift_search_00360:347.65
+[464] quick score=344.60 edge=360.74 p10=301.20 fee=36.45 best_quick=WorldState_BandShift_search_00360:347.65
+[465] quick score=346.15 edge=362.22 p10=302.08 fee=36.33 best_quick=WorldState_BandShift_search_00360:347.65
+[466] quick score=345.90 edge=359.92 p10=300.55 fee=35.26 best_quick=WorldState_BandShift_search_00360:347.65
+[467] quick score=345.40 edge=360.04 p10=300.84 fee=35.06 best_quick=WorldState_BandShift_search_00360:347.65
+[472] quick score=346.87 edge=360.70 p10=300.96 fee=35.35 best_quick=WorldState_BandShift_search_00360:347.65
+[473] quick score=347.06 edge=361.47 p10=301.77 fee=35.79 best_quick=WorldState_BandShift_search_00360:347.65
+[475] quick score=343.70 edge=364.04 p10=303.32 fee=37.65 best_quick=WorldState_BandShift_search_00360:347.65
+[476] quick score=343.02 edge=363.59 p10=302.90 fee=37.77 best_quick=WorldState_BandShift_search_00360:347.65
+[477] quick score=346.30 edge=361.90 p10=301.90 fee=36.14 best_quick=WorldState_BandShift_search_00360:347.65
+[479] quick score=345.89 edge=363.18 p10=303.01 fee=36.72 best_quick=WorldState_BandShift_search_00360:347.65
+[480] quick score=319.65 edge=348.30 p10=292.03 fee=30.12 best_quick=WorldState_BandShift_search_00360:347.65
+[480] REFINE WorldState_BandShift_search_00473 score=339.46 edge=362.04 p10=282.22 fee=35.79
+[481] quick score=347.10 edge=361.46 p10=301.78 fee=35.77 best_quick=WorldState_BandShift_search_00360:347.65
+[482] quick score=345.52 edge=362.98 p10=302.82 fee=36.78 best_quick=WorldState_BandShift_search_00360:347.65
+[483] quick score=340.84 edge=365.31 p10=303.03 fee=38.91 best_quick=WorldState_BandShift_search_00360:347.65
+[485] quick score=347.14 edge=361.91 p10=302.07 fee=35.90 best_quick=WorldState_BandShift_search_00360:347.65
+[486] quick score=347.01 edge=362.20 p10=302.11 fee=35.99 best_quick=WorldState_BandShift_search_00360:347.65
+[486] REFINE WorldState_BandShift_search_00485 score=339.68 edge=362.34 p10=283.18 fee=35.89
+[487] quick score=347.05 edge=361.50 p10=301.80 fee=35.80 best_quick=WorldState_BandShift_search_00360:347.65
+[489] quick score=345.97 edge=362.34 p10=302.50 fee=36.45 best_quick=WorldState_BandShift_search_00360:347.65
+[490] quick score=345.32 edge=361.78 p10=301.31 fee=36.37 best_quick=WorldState_BandShift_search_00360:347.65
+[491] quick score=344.71 edge=362.23 p10=301.72 fee=36.76 best_quick=WorldState_BandShift_search_00360:347.65
+[494] quick score=341.13 edge=363.09 p10=302.16 fee=38.23 best_quick=WorldState_BandShift_search_00360:347.65
+[495] quick score=346.68 edge=362.27 p10=301.89 fee=36.09 best_quick=WorldState_BandShift_search_00360:347.65
+[496] quick score=262.58 edge=317.96 p10=260.05 fee=24.39 best_quick=WorldState_BandShift_search_00360:347.65
+[497] quick score=325.34 edge=349.55 p10=293.42 fee=31.10 best_quick=WorldState_BandShift_search_00360:347.65
+[499] quick score=346.90 edge=361.66 p10=301.63 fee=35.89 best_quick=WorldState_BandShift_search_00360:347.65
+[501] quick score=345.49 edge=359.65 p10=300.29 fee=35.22 best_quick=WorldState_BandShift_search_00360:347.65
+[502] quick score=256.20 edge=314.62 p10=255.53 fee=23.81 best_quick=WorldState_BandShift_search_00360:347.65
+[503] quick score=344.80 edge=362.69 p10=302.35 fee=36.85 best_quick=WorldState_BandShift_search_00360:347.65
+[507] quick score=340.44 edge=357.67 p10=299.13 fee=33.94 best_quick=WorldState_BandShift_search_00360:347.65
+[509] quick score=341.80 edge=363.08 p10=302.88 fee=38.03 best_quick=WorldState_BandShift_search_00360:347.65
+[510] quick score=347.07 edge=360.51 p10=301.53 fee=35.53 best_quick=WorldState_BandShift_search_00360:347.65
+[510] REFINE WorldState_BandShift_search_00481 score=339.48 edge=362.01 p10=282.01 fee=35.77
+{
+  "best_refined": {
+    "iteration": 318,
+    "name": "WorldState_BandShift_search_00315",
+    "params": {
+      "a_arb": 12,
+      "a_price_arb": 20,
+      "a_price_spot": 6,
+      "a_retail": 10,
+      "a_vol": 22,
+      "arb_boost": 9,
+      "arb_cut": 6,
+      "arb_gate_bps": 120,
+      "arb_hi_pct": 56,
+      "arb_lo_pct": 38,
+      "base_early_bps": 47,
+      "base_late_bps": 47,
+      "base_max_bps": 68,
+      "base_min_bps": 24,
+      "boost1": 12,
+      "boost2": 4,
+      "cut1": 7,
+      "cut2": 4,
+      "open_bps": 36,
+      "quote_max_bps": 44,
+      "quote_min_bps": 30,
+      "ret_boost": 5,
+      "ret_cut": 4,
+      "ret_hi_pct": 68,
+      "ret_lo_pct": 32,
+      "vol_hi1": 105,
+      "vol_hi2": 100,
+      "vol_lo1": 88,
+      "vol_lo2": 90
+    },
+    "refine_metrics": {
+      "arb_volume_y": 35732.99500334461,
+      "avg_edge": 362.1324564994478,
+      "avg_fee_bps": 35.731965277778826,
+      "max_edge": 492.08636190062236,
+      "median_edge": 364.2063532572419,
+      "min_edge": 252.49940730196727,
+      "p05_edge": 274.20017514328526,
+      "p10_edge": 283.2859574105169,
+      "retail_volume_y": 72139.36608081212
+    },
+    "refine_score": 340.0704477876723,
+    "timestamp": 1771135186.8187923
+  },
+  "iterations": 510,
+  "quick_evals": 374,
+  "quick_sims": 40,
+  "refine_evals": 58,
+  "refine_sims": 180,
+  "target_fee_bps": 35.5
+}

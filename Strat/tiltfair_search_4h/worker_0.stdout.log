@@ -1,0 +1,402 @@
+[worker 0] start hours=4.0 quick=40 refine=180 target_fee=35.5
+[worker 0] it=1 quick score=282.79 edge=318.01 p10=259.23 fee=28.24 best=WorldState_TiltFair_w0_000001:282.79
+[worker 0] it=2 quick score=247.22 edge=297.14 p10=242.17 fee=24.57 best=WorldState_TiltFair_w0_000001:282.79
+[worker 0] it=3 quick score=247.27 edge=297.24 p10=242.16 fee=24.58 best=WorldState_TiltFair_w0_000001:282.79
+[worker 0] it=4 quick score=281.07 edge=374.12 p10=309.87 fee=49.61 best=WorldState_TiltFair_w0_000001:282.79
+[worker 0] it=5 quick score=281.16 edge=372.93 p10=310.01 fee=49.40 best=WorldState_TiltFair_w0_000001:282.79
+[worker 0] it=6 quick score=310.29 edge=368.41 p10=305.96 fee=44.49 best=WorldState_TiltFair_w0_000006:310.29
+[worker 0] it=6 REFINE score=302.39 edge=369.19 p10=285.64 fee=44.47
+[worker 0] NEW BEST refine score=302.39 edge=369.19 fee=44.47
+[worker 0] it=7 quick score=313.77 edge=370.56 p10=306.87 fee=44.24 best=WorldState_TiltFair_w0_000007:313.77
+[worker 0] it=8 quick score=229.37 edge=286.02 p10=232.26 fee=22.98 best=WorldState_TiltFair_w0_000007:313.77
+[worker 0] it=9 quick score=310.29 edge=368.41 p10=305.96 fee=44.49 best=WorldState_TiltFair_w0_000007:313.77
+[worker 0] it=10 quick score=241.29 edge=294.23 p10=239.95 fee=23.81 best=WorldState_TiltFair_w0_000007:313.77
+[worker 0] it=11 quick score=223.27 edge=278.26 p10=225.80 fee=23.45 best=WorldState_TiltFair_w0_000007:313.77
+[worker 0] it=12 quick score=232.55 edge=289.33 p10=234.66 fee=23.01 best=WorldState_TiltFair_w0_000007:313.77
+[worker 0] it=12 REFINE score=306.45 edge=371.54 p10=289.61 fee=44.34
+[worker 0] NEW BEST refine score=306.45 edge=371.54 fee=44.34
+[worker 0] it=13 quick score=231.10 edge=287.09 p10=233.43 fee=23.13 best=WorldState_TiltFair_w0_000007:313.77
+[worker 0] it=14 quick score=300.74 edge=369.03 p10=304.73 fee=45.88 best=WorldState_TiltFair_w0_000007:313.77
+[worker 0] it=15 quick score=313.82 edge=370.71 p10=307.14 fee=44.31 best=WorldState_TiltFair_w0_000015:313.82
+[worker 0] it=16 quick score=207.41 edge=271.31 p10=217.89 fee=21.33 best=WorldState_TiltFair_w0_000015:313.82
+[worker 0] it=17 quick score=291.13 edge=372.44 p10=309.63 fee=47.84 best=WorldState_TiltFair_w0_000015:313.82
+[worker 0] it=18 quick score=180.21 edge=249.81 p10=200.65 fee=19.59 best=WorldState_TiltFair_w0_000015:313.82
+[worker 0] it=18 REFINE score=306.01 edge=371.56 p10=289.27 fee=44.39
+[worker 0] it=19 quick score=221.44 edge=364.82 p10=299.44 fee=56.94 best=WorldState_TiltFair_w0_000015:313.82
+[worker 0] it=20 quick score=333.72 edge=352.00 p10=293.13 fee=36.81 best=WorldState_TiltFair_w0_000020:333.72
+[worker 0] it=21 quick score=286.10 edge=357.74 p10=296.90 fee=46.54 best=WorldState_TiltFair_w0_000020:333.72
+[worker 0] it=22 quick score=179.78 edge=249.82 p10=200.54 fee=19.61 best=WorldState_TiltFair_w0_000020:333.72
+[worker 0] it=23 quick score=221.50 edge=364.50 p10=297.86 fee=56.85 best=WorldState_TiltFair_w0_000020:333.72
+[worker 0] it=24 quick score=161.94 edge=378.06 p10=310.75 fee=67.54 best=WorldState_TiltFair_w0_000020:333.72
+[worker 0] it=24 REFINE score=326.82 edge=352.79 p10=275.53 fee=36.80
+[worker 0] NEW BEST refine score=326.82 edge=352.79 fee=36.80
+[worker 0] it=25 quick score=341.40 edge=356.45 p10=299.67 fee=36.05 best=WorldState_TiltFair_w0_000025:341.40
+[worker 0] it=26 quick score=279.31 edge=370.66 p10=306.92 fee=49.47 best=WorldState_TiltFair_w0_000025:341.40
+[worker 0] it=27 quick score=275.86 edge=310.70 p10=251.76 fee=28.78 best=WorldState_TiltFair_w0_000025:341.40
+[worker 0] it=28 quick score=248.77 edge=297.85 p10=245.03 fee=24.62 best=WorldState_TiltFair_w0_000025:341.40
+[worker 0] it=29 quick score=338.50 edge=354.65 p10=297.34 fee=34.52 best=WorldState_TiltFair_w0_000025:341.40
+[worker 0] it=30 quick score=248.03 edge=297.42 p10=243.70 fee=24.62 best=WorldState_TiltFair_w0_000025:341.40
+[worker 0] it=30 REFINE score=334.11 edge=356.92 p10=281.83 fee=36.05
+[worker 0] NEW BEST refine score=334.11 edge=356.92 fee=36.05
+[worker 0] it=31 quick score=255.58 edge=302.46 p10=249.63 fee=25.13 best=WorldState_TiltFair_w0_000025:341.40
+[worker 0] it=32 quick score=285.84 edge=357.62 p10=296.31 fee=46.53 best=WorldState_TiltFair_w0_000025:341.40
+[worker 0] it=33 quick score=334.75 edge=351.95 p10=293.39 fee=36.45 best=WorldState_TiltFair_w0_000025:341.40
+[worker 0] it=34 quick score=340.78 edge=355.09 p10=297.48 fee=35.74 best=WorldState_TiltFair_w0_000025:341.40
+[worker 0] it=35 quick score=261.21 edge=302.00 p10=251.33 fee=26.24 best=WorldState_TiltFair_w0_000025:341.40
+[worker 0] it=36 quick score=299.39 edge=357.90 p10=295.46 fee=44.57 best=WorldState_TiltFair_w0_000025:341.40
+[worker 0] it=36 REFINE score=333.38 edge=355.49 p10=279.59 fee=35.75
+[worker 0] it=37 quick score=310.27 edge=368.40 p10=305.97 fee=44.49 best=WorldState_TiltFair_w0_000025:341.40
+[worker 0] it=38 quick score=273.94 edge=373.22 p10=307.99 fee=50.57 best=WorldState_TiltFair_w0_000025:341.40
+[worker 0] it=39 quick score=275.92 edge=370.55 p10=305.96 fee=49.80 best=WorldState_TiltFair_w0_000025:341.40
+[worker 0] it=40 quick score=298.40 edge=370.45 p10=307.07 fee=46.52 best=WorldState_TiltFair_w0_000025:341.40
+[worker 0] it=41 quick score=319.17 edge=337.18 p10=283.00 fee=33.59 best=WorldState_TiltFair_w0_000025:341.40
+[worker 0] it=42 quick score=315.97 edge=342.44 p10=284.79 fee=39.39 best=WorldState_TiltFair_w0_000025:341.40
+[worker 0] it=42 REFINE score=331.39 edge=355.14 p10=280.32 fee=34.51
+[worker 0] it=43 quick score=286.79 edge=328.40 p10=276.78 fee=25.88 best=WorldState_TiltFair_w0_000025:341.40
+[worker 0] it=44 quick score=310.92 edge=367.77 p10=305.17 fee=44.31 best=WorldState_TiltFair_w0_000025:341.40
+[worker 0] it=45 quick score=319.89 edge=353.85 p10=294.33 fee=41.08 best=WorldState_TiltFair_w0_000025:341.40
+[worker 0] it=46 quick score=341.71 edge=355.42 p10=297.36 fee=35.51 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=47 quick score=301.57 edge=368.35 p10=304.90 fee=45.70 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=48 quick score=335.11 edge=352.19 p10=293.88 fee=36.46 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=48 REFINE score=334.49 edge=355.86 p10=279.95 fee=35.51
+[worker 0] NEW BEST refine score=334.49 edge=355.86 fee=35.51
+[worker 0] it=49 quick score=334.69 edge=351.48 p10=292.80 fee=36.29 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=50 quick score=315.93 edge=370.02 p10=308.01 fee=43.93 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=51 quick score=309.50 edge=367.02 p10=304.76 fee=44.42 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=52 quick score=271.97 edge=312.17 p10=262.68 fee=26.14 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=53 quick score=308.96 edge=366.34 p10=304.02 fee=44.44 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=54 quick score=310.84 edge=369.59 p10=305.30 fee=44.58 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=54 REFINE score=327.89 edge=352.90 p10=275.43 fee=36.45
+[worker 0] it=55 quick score=299.98 edge=329.55 p10=278.37 fee=28.85 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=56 quick score=323.49 edge=363.71 p10=302.02 fee=41.99 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=57 quick score=303.00 edge=369.60 p10=305.61 fee=45.67 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=58 quick score=329.12 edge=350.38 p10=289.92 fee=37.53 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=59 quick score=315.16 edge=342.29 p10=284.00 fee=39.53 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=60 quick score=329.53 edge=352.95 p10=293.59 fee=38.32 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=60 REFINE score=327.69 edge=352.68 p10=275.24 fee=36.45
+[worker 0] it=61 quick score=316.45 edge=341.76 p10=284.12 fee=39.03 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=62 quick score=296.23 edge=369.17 p10=305.21 fee=46.75 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=63 quick score=209.58 edge=375.29 p10=307.00 fee=60.14 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=64 quick score=329.42 edge=365.93 p10=302.84 fee=41.31 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=65 quick score=105.93 edge=191.79 p10=158.37 fee=14.70 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=66 quick score=325.19 edge=367.41 p10=304.23 fee=42.14 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=66 REFINE score=327.74 edge=352.16 p10=275.02 fee=36.28
+[worker 0] it=67 quick score=293.88 edge=352.39 p10=291.36 fee=44.65 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=68 quick score=307.15 edge=359.01 p10=297.57 fee=43.64 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=69 quick score=330.88 edge=350.34 p10=291.52 fee=37.14 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=70 quick score=271.13 edge=356.50 p10=292.05 fee=48.42 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=71 quick score=307.09 edge=335.25 p10=280.07 fee=29.99 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=72 quick score=265.62 edge=366.77 p10=300.16 fee=50.65 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=72 REFINE score=323.74 edge=350.99 p10=274.17 fee=37.13
+[worker 0] it=73 quick score=331.01 edge=359.39 p10=299.65 fee=40.01 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=74 quick score=256.42 edge=372.50 p10=307.15 fee=53.03 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=75 quick score=338.28 edge=353.18 p10=296.01 fee=34.92 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=76 quick score=318.77 edge=336.92 p10=282.99 fee=33.53 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=77 quick score=334.73 edge=351.60 p10=292.69 fee=36.30 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=78 quick score=205.60 edge=364.50 p10=300.76 fee=59.25 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=78 REFINE score=331.04 edge=353.59 p10=278.52 fee=34.92
+[worker 0] it=79 quick score=329.68 edge=353.75 p10=294.08 fee=38.56 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=80 quick score=315.41 edge=341.96 p10=284.30 fee=39.44 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=81 quick score=338.44 edge=354.66 p10=297.29 fee=34.50 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=82 quick score=329.45 edge=354.19 p10=294.62 fee=38.78 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=83 quick score=311.76 edge=368.92 p10=305.73 fee=44.34 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=84 quick score=329.87 edge=364.29 p10=302.78 fee=41.18 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=84 REFINE score=331.27 edge=355.13 p10=280.33 fee=34.50
+[worker 0] it=85 quick score=322.16 edge=344.04 p10=286.93 fee=37.99 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=86 quick score=278.55 edge=357.30 p10=295.32 fee=47.61 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=87 quick score=333.40 edge=358.59 p10=298.25 fee=38.92 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=88 quick score=336.82 edge=354.18 p10=296.18 fee=36.70 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=89 quick score=330.53 edge=359.29 p10=298.76 fee=40.03 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=90 quick score=336.90 edge=360.53 p10=300.43 fee=38.56 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=90 REFINE score=329.67 edge=361.09 p10=283.85 fee=38.56
+[worker 0] it=91 quick score=329.45 edge=346.23 p10=288.37 fee=36.25 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=92 quick score=333.20 edge=354.55 p10=294.19 fee=37.67 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=93 quick score=338.27 edge=353.16 p10=295.96 fee=34.93 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=94 quick score=334.87 edge=351.58 p10=293.24 fee=36.34 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=95 quick score=338.47 edge=353.13 p10=295.56 fee=35.03 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=96 quick score=268.27 edge=370.13 p10=305.91 fee=50.95 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=96 REFINE score=331.42 edge=353.60 p10=278.82 fee=35.05
+[worker 0] it=97 quick score=338.24 edge=353.29 p10=296.08 fee=34.86 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=98 quick score=337.49 edge=354.02 p10=296.48 fee=34.35 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=99 quick score=321.21 edge=340.60 p10=283.83 fee=37.19 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=100 quick score=279.07 edge=366.77 p10=303.07 fee=48.90 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=101 quick score=259.34 edge=359.45 p10=298.61 fee=50.70 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=102 quick score=322.24 edge=351.88 p10=292.81 fee=40.47 best=WorldState_TiltFair_w0_000046:341.71
+[worker 0] it=102 REFINE score=331.04 edge=353.57 p10=278.45 fee=34.93
+[worker 0] it=103 quick score=341.78 edge=355.36 p10=297.78 fee=35.53 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=104 quick score=333.90 edge=352.33 p10=293.49 fee=36.80 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=105 quick score=320.44 edge=343.95 p10=289.81 fee=31.36 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=106 quick score=295.71 edge=371.19 p10=306.87 fee=47.10 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=107 quick score=338.04 edge=361.11 p10=301.01 fee=38.38 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=108 quick score=336.81 edge=354.18 p10=296.20 fee=36.70 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=108 REFINE score=334.34 edge=355.75 p10=279.83 fee=35.52
+[worker 0] it=109 quick score=312.03 edge=344.84 p10=285.50 fee=40.91 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=110 quick score=321.91 edge=363.65 p10=301.98 fee=42.25 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=111 quick score=332.49 edge=349.81 p10=293.32 fee=33.99 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=112 quick score=338.06 edge=353.34 p10=296.08 fee=34.80 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=113 quick score=338.11 edge=353.28 p10=296.01 fee=34.83 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=114 quick score=341.21 edge=355.94 p10=297.96 fee=35.10 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=114 REFINE score=333.86 edge=356.32 p10=280.28 fee=35.11
+[worker 0] it=115 quick score=338.29 edge=353.20 p10=296.04 fee=34.91 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=116 quick score=334.56 edge=349.39 p10=292.52 fee=35.05 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=117 quick score=273.52 edge=369.28 p10=303.93 fee=50.03 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=118 quick score=338.47 edge=353.14 p10=295.89 fee=35.01 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=119 quick score=322.24 edge=345.24 p10=289.57 fee=38.67 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=120 quick score=168.07 edge=373.79 p10=306.88 fee=66.08 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=120 REFINE score=331.28 edge=353.57 p10=278.62 fee=35.01
+[worker 0] it=121 quick score=341.70 edge=355.53 p10=297.77 fee=35.41 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=122 quick score=337.46 edge=354.08 p10=296.57 fee=34.31 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=123 quick score=336.94 edge=359.76 p10=300.13 fee=38.37 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=124 quick score=334.79 edge=354.28 p10=296.10 fee=37.38 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=125 quick score=338.08 edge=353.53 p10=296.14 fee=34.75 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=126 quick score=282.99 edge=369.58 p10=307.19 fee=48.72 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=126 REFINE score=334.32 edge=355.92 p10=279.95 fee=35.41
+[worker 0] it=127 quick score=340.44 edge=355.13 p10=297.54 fee=35.87 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=128 quick score=273.25 edge=311.44 p10=255.66 fee=27.47 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=129 quick score=282.25 edge=372.95 p10=308.20 fee=49.33 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=130 quick score=271.54 edge=353.92 p10=291.84 fee=48.13 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=131 quick score=341.60 edge=355.53 p10=297.87 fee=35.35 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=132 quick score=341.35 edge=356.44 p10=299.61 fee=36.06 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=132 REFINE score=334.15 edge=355.94 p10=279.89 fee=35.35
+[worker 0] it=133 quick score=283.19 edge=357.17 p10=296.87 fee=46.94 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=134 quick score=338.06 edge=353.54 p10=296.21 fee=34.73 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=135 quick score=338.33 edge=353.09 p10=295.87 fee=34.98 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=136 quick score=298.66 edge=332.27 p10=280.10 fee=27.77 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=137 quick score=341.44 edge=356.52 p10=299.72 fee=36.06 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=138 quick score=341.69 edge=355.37 p10=297.46 fee=35.52 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=138 REFINE score=334.46 edge=355.85 p10=279.99 fee=35.52
+[worker 0] it=139 quick score=306.56 edge=328.75 p10=275.46 fee=31.92 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=140 quick score=315.54 edge=357.46 p10=297.93 fee=42.25 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=141 quick score=199.84 edge=268.20 p10=226.04 fee=19.05 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=142 quick score=135.10 edge=206.60 p10=164.31 fee=18.94 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=143 quick score=324.06 edge=340.90 p10=284.15 fee=36.41 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=144 quick score=338.50 edge=354.40 p10=296.82 fee=36.28 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=144 REFINE score=334.07 edge=356.97 p10=281.85 fee=36.07
+[worker 0] it=145 quick score=315.22 edge=356.79 p10=298.49 fee=42.31 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=146 quick score=338.34 edge=353.19 p10=296.03 fee=34.94 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=147 quick score=294.53 edge=371.44 p10=306.71 fee=47.28 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=148 quick score=317.80 edge=356.10 p10=295.63 fee=41.72 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=149 quick score=340.02 edge=354.84 p10=297.31 fee=35.94 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=150 quick score=261.47 edge=367.52 p10=302.81 fee=51.54 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=150 REFINE score=334.08 edge=356.93 p10=281.84 fee=36.06
+[worker 0] it=151 quick score=338.43 edge=354.53 p10=296.83 fee=34.57 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=152 quick score=285.05 edge=353.30 p10=291.30 fee=46.00 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=153 quick score=339.98 edge=354.84 p10=297.31 fee=35.95 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=154 quick score=336.97 edge=354.42 p10=297.00 fee=34.04 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=155 quick score=337.50 edge=354.37 p10=296.96 fee=34.23 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=156 quick score=331.78 edge=349.12 p10=291.75 fee=36.63 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=156 REFINE score=333.08 edge=355.57 p10=279.72 fee=35.87
+[worker 0] it=157 quick score=339.97 edge=354.85 p10=297.31 fee=35.96 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=158 quick score=339.82 edge=354.76 p10=297.29 fee=35.98 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=159 quick score=308.56 edge=333.86 p10=281.75 fee=30.44 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=160 quick score=331.60 edge=351.25 p10=293.90 fee=37.51 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=161 quick score=341.30 edge=356.56 p10=299.67 fee=36.10 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=162 quick score=340.06 edge=354.83 p10=297.18 fee=35.91 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=162 REFINE score=333.99 edge=357.00 p10=281.77 fee=36.10
+[worker 0] it=163 quick score=213.37 edge=357.69 p10=293.17 fee=57.15 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=164 quick score=312.94 edge=368.58 p10=305.13 fee=44.19 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=165 quick score=338.52 edge=354.40 p10=296.82 fee=36.28 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=166 quick score=269.74 edge=358.74 p10=294.81 fee=49.00 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=167 quick score=293.77 edge=371.82 p10=306.06 fee=47.37 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=168 quick score=324.74 edge=353.91 p10=292.73 fee=40.02 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=168 REFINE score=332.77 edge=355.26 p10=279.61 fee=35.91
+[worker 0] it=169 quick score=341.69 edge=355.37 p10=297.46 fee=35.52 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=170 quick score=340.70 edge=355.81 p10=297.81 fee=35.96 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=171 quick score=338.44 edge=354.65 p10=297.26 fee=34.51 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=172 quick score=217.24 edge=277.19 p10=231.24 fee=21.43 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=173 quick score=295.90 edge=371.30 p10=306.92 fee=47.08 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=174 quick score=339.23 edge=352.60 p10=295.80 fee=35.56 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=174 REFINE score=334.46 edge=355.85 p10=279.99 fee=35.52
+[worker 0] it=175 quick score=314.17 edge=368.18 p10=304.95 fee=43.99 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=176 quick score=330.85 edge=351.65 p10=295.57 fee=32.67 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=177 quick score=341.10 edge=355.02 p10=297.21 fee=35.61 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=178 quick score=339.23 edge=354.60 p10=296.93 fee=36.10 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=179 quick score=326.63 edge=347.86 p10=292.41 fee=32.40 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=180 quick score=295.71 edge=322.06 p10=268.58 fee=30.64 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=180 REFINE score=333.80 edge=355.47 p10=279.73 fee=35.61
+[worker 0] it=181 quick score=318.99 edge=365.00 p10=302.53 fee=42.84 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=182 quick score=331.02 edge=349.78 p10=293.87 fee=33.36 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=183 quick score=341.47 edge=355.10 p10=297.21 fee=35.51 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=184 quick score=340.59 edge=355.06 p10=297.21 fee=35.80 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=185 quick score=299.45 edge=329.93 p10=277.57 fee=28.60 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=186 quick score=341.70 edge=355.47 p10=297.78 fee=35.41 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=186 REFINE score=334.27 edge=355.89 p10=279.92 fee=35.40
+[worker 0] it=187 quick score=308.96 edge=365.38 p10=303.25 fee=44.40 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=188 quick score=341.25 edge=356.47 p10=299.58 fee=36.10 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=189 quick score=340.37 edge=355.11 p10=297.52 fee=35.89 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=190 quick score=253.32 edge=305.89 p10=258.48 fee=23.02 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=191 quick score=341.56 edge=355.94 p10=297.98 fee=35.23 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=192 quick score=340.62 edge=355.06 p10=297.21 fee=35.79 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=192 REFINE score=334.18 edge=356.34 p10=280.34 fee=35.23
+[worker 0] it=193 quick score=317.75 edge=352.89 p10=293.34 fee=41.31 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=194 quick score=340.28 edge=355.06 p10=297.38 fee=35.90 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=195 quick score=341.40 edge=355.71 p10=297.95 fee=35.22 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=196 quick score=341.72 edge=355.44 p10=297.38 fee=35.52 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=197 quick score=313.12 edge=345.18 p10=286.51 fee=40.83 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=198 quick score=338.22 edge=353.33 p10=296.09 fee=34.87 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=198 REFINE score=334.48 edge=355.89 p10=280.01 fee=35.53
+[worker 0] it=199 quick score=318.06 edge=348.72 p10=290.92 fee=40.68 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=200 quick score=332.17 edge=354.94 p10=296.52 fee=38.39 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=201 quick score=325.00 edge=365.68 p10=303.43 fee=42.06 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=202 quick score=279.32 edge=373.80 p10=308.86 fee=49.79 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=203 quick score=330.65 edge=364.38 p10=302.80 fee=41.07 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=204 quick score=213.63 edge=378.25 p10=308.07 fee=59.93 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=204 REFINE score=334.18 edge=355.56 p10=279.72 fee=35.51
+[worker 0] it=205 quick score=117.21 edge=193.62 p10=160.48 fee=16.93 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=206 quick score=341.74 edge=355.39 p10=297.42 fee=35.50 best=WorldState_TiltFair_w0_000103:341.78
+[worker 0] it=207 quick score=342.13 edge=356.03 p10=298.04 fee=35.39 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=208 quick score=269.93 edge=363.59 p10=299.55 fee=49.68 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=209 quick score=341.54 edge=355.55 p10=297.94 fee=35.32 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=210 quick score=341.21 edge=355.94 p10=298.00 fee=35.10 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=210 REFINE score=334.80 edge=356.44 p10=280.84 fee=35.39
+[worker 0] NEW BEST refine score=334.80 edge=356.44 fee=35.39
+[worker 0] it=211 quick score=291.34 edge=369.19 p10=305.49 fee=47.46 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=212 quick score=341.52 edge=355.54 p10=297.88 fee=35.33 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=213 quick score=317.37 edge=349.73 p10=290.23 fee=40.85 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=214 quick score=284.79 edge=373.42 p10=308.30 fee=49.00 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=215 quick score=341.51 edge=355.91 p10=297.91 fee=35.22 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=216 quick score=288.15 edge=344.97 p10=285.89 fee=44.44 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=216 REFINE score=334.47 edge=355.87 p10=279.79 fee=35.50
+[worker 0] it=217 quick score=341.54 edge=355.92 p10=297.93 fee=35.24 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=218 quick score=177.07 edge=371.41 p10=302.24 fee=64.29 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=219 quick score=299.75 edge=370.94 p10=306.26 fee=46.42 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=220 quick score=187.89 edge=369.47 p10=302.46 fee=62.51 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=221 quick score=341.54 edge=355.11 p10=297.39 fee=35.51 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=222 quick score=341.57 edge=355.25 p10=297.49 fee=35.45 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=222 REFINE score=334.20 edge=355.69 p10=279.82 fee=35.44
+[worker 0] it=223 quick score=234.43 edge=370.78 p10=305.62 fee=55.99 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=224 quick score=341.79 edge=355.48 p10=297.59 fee=35.48 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=225 quick score=341.35 edge=356.56 p10=299.72 fee=36.09 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=226 quick score=293.29 edge=332.31 p10=280.40 fee=26.47 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=227 quick score=341.51 edge=356.54 p10=299.90 fee=36.06 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=228 quick score=341.23 edge=355.93 p10=297.82 fee=35.13 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=228 REFINE score=334.34 edge=355.82 p10=279.73 fee=35.48
+[worker 0] it=229 quick score=341.60 edge=356.52 p10=299.67 fee=36.01 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=230 quick score=336.49 edge=361.73 p10=301.50 fee=39.12 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=231 quick score=341.88 edge=356.42 p10=299.03 fee=35.83 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=232 quick score=237.71 edge=289.42 p10=238.15 fee=23.92 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=233 quick score=341.61 edge=355.36 p10=297.10 fee=35.50 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=234 quick score=330.04 edge=350.41 p10=294.31 fee=32.77 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=234 REFINE score=334.70 edge=356.87 p10=281.84 fee=35.84
+[worker 0] it=235 quick score=302.94 edge=352.16 p10=293.96 fee=43.41 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=236 quick score=341.62 edge=355.95 p10=297.93 fee=35.25 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=237 quick score=224.82 edge=276.10 p10=219.67 fee=24.59 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=238 quick score=341.72 edge=355.30 p10=297.68 fee=35.52 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=239 quick score=341.78 edge=355.45 p10=297.58 fee=35.48 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=240 quick score=341.79 edge=355.48 p10=297.59 fee=35.48 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=240 REFINE score=334.35 edge=355.82 p10=279.74 fee=35.48
+[worker 0] it=241 quick score=297.04 edge=349.00 p10=289.39 fee=43.69 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=242 quick score=341.62 edge=356.32 p10=298.00 fee=35.78 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=243 quick score=334.28 edge=351.93 p10=295.12 fee=33.89 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=244 quick score=333.28 edge=352.95 p10=296.09 fee=33.16 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=245 quick score=313.18 edge=336.92 p10=281.01 fee=38.66 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=246 quick score=341.23 edge=355.95 p10=298.00 fee=35.10 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=246 REFINE score=334.56 edge=355.94 p10=280.10 fee=35.48
+[worker 0] it=247 quick score=341.81 edge=355.41 p10=297.75 fee=35.48 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=248 quick score=341.80 edge=356.45 p10=298.98 fee=35.88 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=249 quick score=268.51 edge=369.23 p10=305.48 fee=50.86 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=250 quick score=341.37 edge=355.29 p10=297.38 fee=35.38 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=251 quick score=341.78 edge=355.61 p10=297.80 fee=35.39 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=252 quick score=341.51 edge=356.47 p10=299.61 fee=36.02 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=252 REFINE score=334.44 edge=355.83 p10=279.88 fee=35.48
+[worker 0] it=253 quick score=319.14 edge=334.65 p10=275.97 fee=35.12 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=254 quick score=341.42 edge=355.28 p10=297.28 fee=35.56 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=255 quick score=341.92 edge=356.53 p10=299.36 fee=35.89 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=256 quick score=276.36 edge=372.54 p10=307.71 fee=50.13 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=257 quick score=241.03 edge=365.86 p10=299.78 fee=54.23 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=258 quick score=320.47 edge=345.62 p10=286.91 fee=38.90 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=258 REFINE score=334.78 edge=357.05 p10=281.92 fee=35.86
+[worker 0] it=259 quick score=291.95 edge=366.18 p10=301.42 fee=46.82 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=260 quick score=341.71 edge=355.47 p10=297.68 fee=35.44 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=261 quick score=341.69 edge=355.48 p10=297.83 fee=35.41 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=262 quick score=336.36 edge=361.93 p10=301.68 fee=39.21 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=263 quick score=254.06 edge=359.76 p10=293.97 fee=51.40 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=264 quick score=339.85 edge=358.90 p10=299.79 fee=37.16 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=264 REFINE score=334.78 edge=356.98 p10=281.91 fee=35.85
+[worker 0] it=265 quick score=341.76 edge=356.38 p10=298.70 fee=35.83 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=266 quick score=341.73 edge=355.40 p10=297.37 fee=35.49 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=267 quick score=305.82 edge=367.56 p10=305.40 fee=45.16 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=268 quick score=319.35 edge=366.93 p10=304.14 fee=43.06 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=269 quick score=341.11 edge=355.21 p10=297.56 fee=35.67 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=270 quick score=303.74 edge=357.73 p10=296.71 fee=43.96 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=270 REFINE score=334.23 edge=355.95 p10=279.86 fee=35.39
+[worker 0] it=271 quick score=296.91 edge=370.14 p10=307.75 fee=46.83 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=272 quick score=341.76 edge=356.39 p10=298.70 fee=35.84 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=273 quick score=277.86 edge=310.19 p10=255.72 fee=28.68 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=274 quick score=329.85 edge=350.63 p10=294.73 fee=32.62 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=275 quick score=269.03 edge=373.75 p10=307.94 fee=51.33 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=276 quick score=244.25 edge=290.54 p10=236.41 fee=25.44 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=276 REFINE score=334.93 edge=356.96 p10=281.92 fee=35.80
+[worker 0] NEW BEST refine score=334.93 edge=356.96 fee=35.80
+[worker 0] it=277 quick score=312.98 edge=340.82 p10=283.88 fee=39.99 best=WorldState_TiltFair_w0_000207:342.13
+[worker 0] it=278 quick score=342.34 edge=356.08 p10=297.99 fee=35.47 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=279 quick score=262.75 edge=360.98 p10=297.71 fee=50.41 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=280 quick score=154.68 edge=373.16 p10=306.13 fee=67.97 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=281 quick score=290.28 edge=372.38 p10=307.81 fee=48.06 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=282 quick score=342.17 edge=356.08 p10=297.95 fee=35.41 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=282 REFINE score=335.01 edge=356.51 p10=280.84 fee=35.46
+[worker 0] NEW BEST refine score=335.01 edge=356.51 fee=35.46
+[worker 0] it=283 quick score=287.07 edge=364.33 p10=301.19 fee=47.34 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=284 quick score=341.71 edge=355.41 p10=297.38 fee=35.48 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=285 quick score=332.69 edge=351.14 p10=294.08 fee=37.14 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=286 quick score=341.73 edge=355.26 p10=297.61 fee=35.52 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=287 quick score=336.44 edge=357.74 p10=298.80 fee=37.93 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=288 quick score=281.43 edge=359.25 p10=296.75 fee=47.43 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=288 REFINE score=334.83 edge=356.49 p10=280.75 fee=35.41
+[worker 0] it=289 quick score=341.71 edge=355.47 p10=297.77 fee=35.41 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=290 quick score=303.79 edge=362.85 p10=301.38 fee=44.79 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=291 quick score=307.55 edge=338.58 p10=286.28 fee=28.39 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=292 quick score=341.82 edge=355.47 p10=297.50 fee=35.51 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=293 quick score=340.73 edge=357.10 p10=298.69 fee=36.36 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=294 quick score=341.59 edge=355.59 p10=297.84 fee=35.35 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=294 REFINE score=334.54 edge=355.93 p10=279.96 fee=35.51
+[worker 0] it=295 quick score=338.72 edge=354.91 p10=296.77 fee=36.30 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=296 quick score=342.15 edge=356.44 p10=298.49 fee=35.71 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=297 quick score=322.56 edge=349.19 p10=290.48 fee=39.41 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=298 quick score=239.55 edge=361.35 p10=296.75 fee=53.78 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=299 quick score=342.08 edge=356.46 p10=298.37 fee=35.73 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=300 quick score=296.92 edge=358.45 p10=298.03 fee=45.18 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=300 REFINE score=335.22 edge=356.93 p10=281.96 fee=35.70
+[worker 0] NEW BEST refine score=335.22 edge=356.93 fee=35.70
+[worker 0] it=301 quick score=342.27 edge=356.43 p10=298.70 fee=35.68 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=302 quick score=341.31 edge=355.13 p10=297.32 fee=35.58 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=303 quick score=341.31 edge=356.38 p10=298.58 fee=35.96 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=304 quick score=341.82 edge=356.39 p10=298.81 fee=35.82 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=305 quick score=264.94 edge=364.95 p10=300.53 fee=50.62 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=306 quick score=334.49 edge=360.78 p10=300.77 fee=39.47 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=306 REFINE score=335.32 edge=356.91 p10=281.98 fee=35.67
+[worker 0] NEW BEST refine score=335.32 edge=356.91 fee=35.67
+[worker 0] it=307 quick score=314.58 edge=358.61 p10=296.72 fee=42.51 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=308 quick score=311.03 edge=354.46 p10=294.27 fee=42.49 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=309 quick score=342.17 edge=356.07 p10=298.00 fee=35.42 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=310 quick score=315.82 edge=354.61 p10=293.98 fee=41.73 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=311 quick score=342.18 edge=356.03 p10=298.10 fee=35.40 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=312 quick score=341.82 edge=356.40 p10=298.73 fee=35.83 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=312 REFINE score=334.83 edge=356.44 p10=280.88 fee=35.40
+[worker 0] it=313 quick score=342.13 edge=356.42 p10=298.47 fee=35.70 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=314 quick score=334.43 edge=356.77 p10=299.62 fee=38.40 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=315 quick score=303.50 edge=368.91 p10=304.40 fee=45.59 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=316 quick score=327.77 edge=342.14 p10=285.83 fee=35.75 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=317 quick score=341.41 edge=355.34 p10=296.86 fee=35.56 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=318 quick score=342.09 edge=356.51 p10=298.41 fee=35.72 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=318 REFINE score=334.82 edge=356.49 p10=280.70 fee=35.41
+[worker 0] it=319 quick score=342.05 edge=356.56 p10=299.78 fee=35.88 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=320 quick score=283.23 edge=326.97 p10=276.09 fee=25.31 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=321 quick score=321.84 edge=342.28 p10=287.04 fee=32.68 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=322 quick score=247.44 edge=373.17 p10=306.03 fee=54.30 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=323 quick score=341.78 edge=355.33 p10=297.69 fee=35.51 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=324 quick score=285.57 edge=360.83 p10=296.48 fee=46.96 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=324 REFINE score=335.26 edge=356.91 p10=281.92 fee=35.68
+[worker 0] it=325 quick score=297.86 edge=365.80 p10=304.38 fee=46.03 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=326 quick score=341.74 edge=356.34 p10=298.78 fee=35.83 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=327 quick score=342.03 edge=356.07 p10=297.95 fee=35.37 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=328 quick score=273.65 edge=374.20 p10=308.52 fee=50.72 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=329 quick score=300.01 edge=366.50 p10=302.72 fee=45.76 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=330 quick score=336.42 edge=361.70 p10=301.53 fee=39.13 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=330 REFINE score=335.19 edge=356.98 p10=281.91 fee=35.72
+[worker 0] it=331 quick score=342.02 edge=356.03 p10=298.00 fee=35.37 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=332 quick score=341.71 edge=355.65 p10=297.67 fee=35.61 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=333 quick score=232.95 edge=277.85 p10=235.19 fee=24.58 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=334 quick score=171.30 edge=246.80 p10=203.73 fee=17.73 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=335 quick score=341.15 edge=355.99 p10=298.01 fee=35.06 best=WorldState_TiltFair_w0_000278:342.34
+[worker 0] it=336 quick score=342.04 edge=356.44 p10=298.28 fee=35.73 best=WorldState_TiltFair_w0_000278:342.34

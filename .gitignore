@@ -56,3 +56,4 @@ strategies/
 # Misc
 *.log
 .env
+/amm_challenge.egg-info/
