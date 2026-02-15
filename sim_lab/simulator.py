@@ -6,6 +6,8 @@ import csv
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from decimal import Decimal
+import json
+import math
 from pathlib import Path
 from statistics import fmean
 from typing import Any
@@ -47,6 +49,9 @@ class StepRecord:
     step: int
     fair_price: float
     submission_spot: float
+    internal_pool_price_y_per_x: float
+    internal_pool_bid_side_price_y_per_x: float
+    internal_pool_ask_side_price_y_per_x: float
     normalizer_spot: float
     internal_price_estimate: float
     p_low: float
@@ -57,6 +62,8 @@ class StepRecord:
     arb_hat: float
     stale_hat: float
     inventory_signed: float
+    required_no_arb_bid_bps: float
+    required_no_arb_ask_bps: float
 
 
 @dataclass(frozen=True)
@@ -65,6 +72,8 @@ class EventRecord:
     event_index: int
     event_type: str
     amm: str
+    amm_trade_side: str
+    trader_side: str
     trade_side: str
     amount_x: float
     amount_y: float
@@ -75,6 +84,23 @@ class EventRecord:
     bid_fee_bps: float
     ask_fee_bps: float
     probable_arb: bool
+
+
+@dataclass(frozen=True)
+class EstimationDiagnostic:
+    step: int
+    fair_price: float
+    internal_price_estimate: float
+    p_low: float
+    p_high: float
+    bid_fee_bps: float
+    ask_fee_bps: float
+    internal_times_1_minus_bid: float
+    internal_times_1_plus_ask: float
+    rel_error_bps: float
+    in_user_band: bool
+    in_filter_band: bool
+    status: str
 
 
 @dataclass(frozen=True)
@@ -134,6 +160,158 @@ def _trade_edge(trade: TradeInfo, fair_price: float) -> float:
     if trade.side == "buy":
         return (amount_x * fair_price) - amount_y
     return amount_y - (amount_x * fair_price)
+
+
+def _quantile(sorted_values: list[float], p: float) -> float:
+    if not sorted_values:
+        return 0.0
+    idx = max(0, min(len(sorted_values) - 1, math.ceil(p * len(sorted_values)) - 1))
+    return sorted_values[idx]
+
+
+def _diagnostic_status(rel_error_bps: float, in_user_band: bool, in_filter_band: bool) -> str:
+    if in_filter_band and rel_error_bps <= 12.0:
+        return "good"
+    if in_user_band and rel_error_bps <= 35.0:
+        return "ok"
+    return "bad"
+
+
+def build_estimation_diagnostics(result: SimulationRunResult) -> list[EstimationDiagnostic]:
+    """Build per-step diagnostics for internal state estimation quality."""
+    diagnostics: list[EstimationDiagnostic] = []
+    for row in result.step_records:
+        fair = float(row.fair_price)
+        p_hat = max(float(row.internal_price_estimate), EPS)
+        bid = max(float(row.bid_fee_bps) / 10_000.0, 0.0)
+        ask = max(float(row.ask_fee_bps) / 10_000.0, 0.0)
+
+        user_lower = p_hat * (1.0 - bid)
+        user_upper = p_hat * (1.0 + ask)
+        lo_user, hi_user = (user_lower, user_upper) if user_lower <= user_upper else (user_upper, user_lower)
+        in_user_band = lo_user <= fair <= hi_user
+        in_filter_band = float(row.p_low) <= fair <= float(row.p_high)
+        rel_error_bps = abs(math.log(max(fair, EPS) / p_hat)) * 10_000.0
+        status = _diagnostic_status(rel_error_bps, in_user_band, in_filter_band)
+
+        diagnostics.append(
+            EstimationDiagnostic(
+                step=int(row.step),
+                fair_price=fair,
+                internal_price_estimate=p_hat,
+                p_low=float(row.p_low),
+                p_high=float(row.p_high),
+                bid_fee_bps=float(row.bid_fee_bps),
+                ask_fee_bps=float(row.ask_fee_bps),
+                internal_times_1_minus_bid=user_lower,
+                internal_times_1_plus_ask=user_upper,
+                rel_error_bps=rel_error_bps,
+                in_user_band=in_user_band,
+                in_filter_band=in_filter_band,
+                status=status,
+            )
+        )
+    return diagnostics
+
+
+def summarize_estimation_diagnostics(diagnostics: list[EstimationDiagnostic]) -> dict[str, Any]:
+    """Summarize where internal estimation is good vs bad."""
+    n = len(diagnostics)
+    if n == 0:
+        return {
+            "n_steps": 0,
+            "good_count": 0,
+            "ok_count": 0,
+            "bad_count": 0,
+            "good_ratio": 0.0,
+            "ok_ratio": 0.0,
+            "bad_ratio": 0.0,
+            "mean_rel_error_bps": 0.0,
+            "p50_rel_error_bps": 0.0,
+            "p90_rel_error_bps": 0.0,
+            "p99_rel_error_bps": 0.0,
+            "max_rel_error_bps": 0.0,
+            "in_user_band_ratio": 0.0,
+            "in_filter_band_ratio": 0.0,
+            "longest_bad_streak_steps": 0,
+            "longest_bad_streak_start_step": None,
+            "longest_bad_streak_end_step": None,
+            "worst_steps": [],
+            "top_bad_streaks": [],
+        }
+
+    errors = sorted(d.rel_error_bps for d in diagnostics)
+    good_count = sum(1 for d in diagnostics if d.status == "good")
+    ok_count = sum(1 for d in diagnostics if d.status == "ok")
+    bad_count = n - good_count - ok_count
+    in_user_band_count = sum(1 for d in diagnostics if d.in_user_band)
+    in_filter_band_count = sum(1 for d in diagnostics if d.in_filter_band)
+
+    longest_len = 0
+    longest_start = None
+    longest_end = None
+    streaks: list[tuple[int, int, int]] = []
+    curr_start = None
+    curr_len = 0
+    for d in diagnostics:
+        if d.status == "bad":
+            if curr_start is None:
+                curr_start = d.step
+            curr_len += 1
+        elif curr_start is not None:
+            streaks.append((curr_start, d.step - 1, curr_len))
+            if curr_len > longest_len:
+                longest_len = curr_len
+                longest_start = curr_start
+                longest_end = d.step - 1
+            curr_start = None
+            curr_len = 0
+    if curr_start is not None:
+        end_step = diagnostics[-1].step
+        streaks.append((curr_start, end_step, curr_len))
+        if curr_len > longest_len:
+            longest_len = curr_len
+            longest_start = curr_start
+            longest_end = end_step
+
+    worst_steps = sorted(diagnostics, key=lambda d: d.rel_error_bps, reverse=True)[:12]
+    top_bad_streaks = sorted(streaks, key=lambda x: x[2], reverse=True)[:8]
+    return {
+        "n_steps": n,
+        "good_count": good_count,
+        "ok_count": ok_count,
+        "bad_count": bad_count,
+        "good_ratio": good_count / n,
+        "ok_ratio": ok_count / n,
+        "bad_ratio": bad_count / n,
+        "mean_rel_error_bps": fmean(d.rel_error_bps for d in diagnostics),
+        "p50_rel_error_bps": _quantile(errors, 0.50),
+        "p90_rel_error_bps": _quantile(errors, 0.90),
+        "p99_rel_error_bps": _quantile(errors, 0.99),
+        "max_rel_error_bps": errors[-1],
+        "in_user_band_ratio": in_user_band_count / n,
+        "in_filter_band_ratio": in_filter_band_count / n,
+        "longest_bad_streak_steps": longest_len,
+        "longest_bad_streak_start_step": longest_start,
+        "longest_bad_streak_end_step": longest_end,
+        "worst_steps": [
+            {
+                "step": w.step,
+                "rel_error_bps": w.rel_error_bps,
+                "fair_price": w.fair_price,
+                "internal_price_estimate": w.internal_price_estimate,
+                "internal_times_1_minus_bid": w.internal_times_1_minus_bid,
+                "internal_times_1_plus_ask": w.internal_times_1_plus_ask,
+                "in_user_band": w.in_user_band,
+                "in_filter_band": w.in_filter_band,
+                "status": w.status,
+            }
+            for w in worst_steps
+        ],
+        "top_bad_streaks": [
+            {"start_step": s, "end_step": e, "length": l} for s, e, l in top_bad_streaks
+        ],
+    }
 
 
 class DeterministicSimulator:
@@ -248,6 +426,8 @@ class DeterministicSimulator:
                             event_index=event_index,
                             event_type="arb",
                             amm=amm_name,
+                            amm_trade_side=str(trade.side),
+                            trader_side="sell" if str(trade.side) == "buy" else "buy",
                             trade_side=str(trade.side),
                             amount_x=float(trade.amount_x),
                             amount_y=float(trade.amount_y),
@@ -292,6 +472,8 @@ class DeterministicSimulator:
                             event_index=event_index,
                             event_type="retail",
                             amm=amm_name,
+                            amm_trade_side=str(trade.side),
+                            trader_side="sell" if str(trade.side) == "buy" else "buy",
                             trade_side=str(trade.side),
                             amount_x=float(trade.amount_x),
                             amount_y=float(trade.amount_y),
@@ -311,11 +493,17 @@ class DeterministicSimulator:
             avg_ask_fee_samples.append(float(snap["ask_fee_bps"]))
 
             if capture_steps:
+                pool_price_y_per_x = float(submission.spot_price)
+                bid_fee = float(snap["bid_fee_bps"]) / 10_000.0
+                ask_fee = float(snap["ask_fee_bps"]) / 10_000.0
                 step_records.append(
                     StepRecord(
                         step=step,
                         fair_price=fair_price,
-                        submission_spot=float(submission.spot_price),
+                        submission_spot=pool_price_y_per_x,
+                        internal_pool_price_y_per_x=pool_price_y_per_x,
+                        internal_pool_bid_side_price_y_per_x=pool_price_y_per_x * (1.0 - bid_fee),
+                        internal_pool_ask_side_price_y_per_x=pool_price_y_per_x / max(1.0 - ask_fee, EPS),
                         normalizer_spot=float(normalizer.spot_price),
                         internal_price_estimate=float(snap["p_step"]),
                         p_low=float(snap["p_low"]),
@@ -326,6 +514,8 @@ class DeterministicSimulator:
                         arb_hat=float(snap["arb_hat"]),
                         stale_hat=float(snap["stale_hat"]),
                         inventory_signed=float(snap["inventory_signed"]),
+                        required_no_arb_bid_bps=float(snap.get("required_no_arb_bid_bps", 0.0)),
+                        required_no_arb_ask_bps=float(snap.get("required_no_arb_ask_bps", 0.0)),
                     )
                 )
 
@@ -387,7 +577,7 @@ def write_event_trace_csv(result: SimulationRunResult, path: str | Path) -> Path
 
 
 def write_price_plot_png(result: SimulationRunResult, path: str | Path) -> Path | None:
-    """Plot external fair price vs internal estimate and submission spot."""
+    """Plot external fair price and internal fee-adjusted boundary curves."""
     if not result.step_records:
         return None
 
@@ -399,15 +589,27 @@ def write_price_plot_png(result: SimulationRunResult, path: str | Path) -> Path 
     steps = [row.step for row in result.step_records]
     fair = [row.fair_price for row in result.step_records]
     p_hat = [row.internal_price_estimate for row in result.step_records]
-    spot = [row.submission_spot for row in result.step_records]
+    lower = [row.internal_pool_bid_side_price_y_per_x for row in result.step_records]
+    upper = [row.internal_pool_ask_side_price_y_per_x for row in result.step_records]
+    internal_pool_yx = [row.internal_pool_price_y_per_x for row in result.step_records]
 
     out = Path(path)
     out.parent.mkdir(parents=True, exist_ok=True)
 
     fig, ax = plt.subplots(1, 1, figsize=(13, 6))
-    ax.plot(steps, fair, label="external fair price", linewidth=1.3)
-    ax.plot(steps, p_hat, label="internal estimate p_step", linewidth=1.2)
-    ax.plot(steps, spot, label="submission spot", linewidth=1.0, alpha=0.9)
+    ax.plot(steps, fair, label="external fair price", linewidth=1.4)
+    ax.plot(steps, lower, label="internal pool*(1- bid fee)", linewidth=1.1)
+    ax.plot(steps, upper, label="internal pool/(1- ask fee)", linewidth=1.1)
+    ax.plot(steps, internal_pool_yx, label="internal pool price y/x", linewidth=1.0, alpha=0.8)
+    ax.fill_between(steps, lower, upper, alpha=0.10, label="internal pool fee band")
+    ax.plot(steps, p_hat, label="internal estimate p_step", linewidth=1.0, linestyle="--", alpha=0.75)
+
+    diagnostics = build_estimation_diagnostics(result)
+    bad_steps = [d.step for d in diagnostics if d.status == "bad"]
+    bad_prices = [d.fair_price for d in diagnostics if d.status == "bad"]
+    if bad_steps:
+        ax.scatter(bad_steps, bad_prices, s=8, alpha=0.45, label="bad estimation steps")
+
     ax.set_xlabel("step")
     ax.set_ylabel("price (Y per X)")
     ax.set_title(f"Price Evolution | seed={result.seed}")
@@ -416,4 +618,35 @@ def write_price_plot_png(result: SimulationRunResult, path: str | Path) -> Path 
     fig.tight_layout()
     fig.savefig(out, dpi=140)
     plt.close(fig)
+    return out
+
+
+def write_estimation_diagnostics_csv(result: SimulationRunResult, path: str | Path) -> Path:
+    """Write step-by-step internal-estimation diagnostics to CSV."""
+    diagnostics = build_estimation_diagnostics(result)
+    out = Path(path)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    fields = [f.name for f in EstimationDiagnostic.__dataclass_fields__.values()]
+    with out.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer.writeheader()
+        for row in diagnostics:
+            writer.writerow(asdict(row))
+    return out
+
+
+def write_estimation_analysis_json(result: SimulationRunResult, path: str | Path) -> Path:
+    """Write aggregated internal-estimation analysis to JSON."""
+    diagnostics = build_estimation_diagnostics(result)
+    summary = summarize_estimation_diagnostics(diagnostics)
+    out = Path(path)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "run_id": result.run_id,
+        "seed": result.seed,
+        "n_steps": result.n_steps,
+        "analysis_generated_at": datetime.now(timezone.utc).isoformat(),
+        "summary": summary,
+    }
+    out.write_text(json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8")
     return out

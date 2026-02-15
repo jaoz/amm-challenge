@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 from dataclasses import replace
+from datetime import datetime, timezone
 import json
 from pathlib import Path
 
@@ -11,6 +12,8 @@ from sim_lab.config import OptimizationConfig, StrategyParams, WorldConfig
 from sim_lab.optimizer import run_deterministic_optimization
 from sim_lab.simulator import (
     DeterministicSimulator,
+    write_estimation_analysis_json,
+    write_estimation_diagnostics_csv,
     write_event_trace_csv,
     write_price_plot_png,
     write_step_trace_csv,
@@ -57,6 +60,7 @@ def _build_parser() -> argparse.ArgumentParser:
 def _run_trace(args: argparse.Namespace) -> int:
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
+    run_ts = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
 
     strategy_params = replace(StrategyParams(), center_fee_bps=float(args.center_fee_bps))
     world = WorldConfig(n_steps=int(args.steps))
@@ -67,15 +71,23 @@ def _run_trace(args: argparse.Namespace) -> int:
         n_steps=int(args.steps),
         capture_steps=True,
         capture_events=True,
-        run_id=f"trace-{args.seed}-{args.steps}",
+        run_id=f"trace-{run_ts}-{args.seed}-{args.steps}",
     )
 
-    prefix = out_dir / f"trace_seed_{args.seed}_steps_{args.steps}"
+    prefix = out_dir / f"trace_ts_{run_ts}_seed_{args.seed}_steps_{args.steps}"
     step_path = write_step_trace_csv(result, prefix.with_name(prefix.name + "_steps.csv"))
     event_path = write_event_trace_csv(result, prefix.with_name(prefix.name + "_events.csv"))
     plot_path = None
     if not args.no_plot:
         plot_path = write_price_plot_png(result, prefix.with_name(prefix.name + "_prices.png"))
+    diag_csv_path = write_estimation_diagnostics_csv(
+        result,
+        prefix.with_name(prefix.name + "_estimation_diagnostics.csv"),
+    )
+    diag_json_path = write_estimation_analysis_json(
+        result,
+        prefix.with_name(prefix.name + "_estimation_analysis.json"),
+    )
 
     summary_path = prefix.with_name(prefix.name + "_summary.json")
     summary_path.write_text(json.dumps(result.summary(), indent=2, sort_keys=True), encoding="utf-8")
@@ -89,6 +101,8 @@ def _run_trace(args: argparse.Namespace) -> int:
     print(f"Step trace: {step_path}")
     print(f"Event trace: {event_path}")
     print(f"Summary: {summary_path}")
+    print(f"Estimation diagnostics CSV: {diag_csv_path}")
+    print(f"Estimation analysis JSON: {diag_json_path}")
     if plot_path is None:
         print("Plot: skipped or matplotlib unavailable")
     else:

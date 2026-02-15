@@ -1,0 +1,13 @@
+{
+  "ask_protected_when_active_ratio": 0.7333333333333333,
+  "ask_shield_active_ratio": 0.3,
+  "ask_shield_active_steps": 3000,
+  "bid_protected_when_active_ratio": 0.7772561293688054,
+  "bid_shield_active_ratio": 0.3834,
+  "bid_shield_active_steps": 3834,
+  "both_shield_active_steps": 0,
+  "buffer_bps": 1.0,
+  "n_steps": 10000,
+  "trace_step_file": "sim_lab\\out\\analysis_arb_shield_final_ts_20260215_200013\\trace_ts_20260215_190014_seed_20260215_steps_10000_steps.csv",
+  "trigger_bps": 35.0
+}

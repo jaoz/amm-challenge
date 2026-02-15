@@ -1,0 +1,9 @@
+{
+  "completed_at": "2026-02-15T20:57:54.947976",
+  "n_sims": 1000,
+  "n_steps": 10000,
+  "seed_start": 20260215,
+  "started_at": "2026-02-15T20:49:11.7158813+01:00",
+  "strategy": "sim_lab/strategy.py",
+  "summary_file": "sim_lab\\out\\full_run_1000x10000_ts_20260215_204911\\aggregate_summary.json"
+}

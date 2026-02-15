@@ -1,0 +1,15 @@
+{
+  "arb_trade_count_submission": 973,
+  "arb_volume_y_submission": 10475.343932453492,
+  "avg_fee_bps_submission": 73.84805393757236,
+  "n_steps": 10000,
+  "retail_trade_count_submission": 3151,
+  "retail_volume_y_submission": 38412.59907203411,
+  "run_id": "trace-20260215_185737-20260215-10000",
+  "sampled_retail_arrival_rate": 0.7679346079515024,
+  "sampled_retail_mean_size": 19.13654364438529,
+  "sampled_sigma": 0.0009883701542474782,
+  "seed": 20260215,
+  "total_edge_normalizer": 456.31377282228647,
+  "total_edge_submission": 343.20896092709455
+}

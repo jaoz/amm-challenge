@@ -36,8 +36,8 @@ Stretch target:
 
 Fee note for calibration (not the optimization objective):
 - use `~37 bps` as an initialization prior / search center
-- practical sweep center band: `34-40 bps`
 - do not prefer higher/lower fee unless it improves mean edge
+- opening quote condition: start at symmetric `29 bps` (`bidFee=askFee=29`) to be slightly better than the 30 bps normalizer and capture early flow for state estimation
 
 ## Known World Model
 
@@ -60,6 +60,55 @@ Use:
 - `delta_t = timestamp - last_timestamp` as a no-trade gap signal.
 - `stepTrades` to index multiple trades inside a step.
 
+## Timestamp Ordering Leak (Use Explicitly)
+
+The simulator trade ordering per step is:
+1. fair price update
+2. arbitrage on each AMM (at most one arb trade on our AMM for that timestamp)
+3. retail routing/execution (zero or more trades)
+
+Implication for our callback stream:
+- first observed trade at a new `timestamp` can be arb or retail
+- second and later observed trades with same `timestamp` are always retail
+
+Required classification rule:
+- if `stepTrades == 1`: run arb-vs-retail classifier with boundary checks
+- if `stepTrades >= 2`: classify as retail (no arb), skip arb-anchor updates
+
+Use this leak in:
+- hidden price anchoring (only allow arb anchor on `stepTrades == 1`)
+- `lambda_hat` updates (same-timestamp additional trades are strong retail signal)
+- toxicity/staleness logic (do not mark later same-step trades as arb)
+
+Additional opening condition:
+- keep opening quote at `29 bps` until the first observed trade callback, then switch to normal adaptive control
+
+## Trade Size Signal for Arb/Retail Classification
+
+Use trade size in Y terms as an additional classifier feature on `stepTrades == 1`.
+
+Retail prior (known world model):
+- `amountY_retail ~ LogNormal(mu_r, sigma_r)` with `sigma_r = 1.2`
+- `mean_retail ~ 20` (run-specific in `[19, 21]`), so
+- `mu_r = log(mean_retail_hat) - 0.5 * sigma_r^2`
+
+Use full-distribution tail score (not only small cutoff):
+- `z = (log(amountY) - mu_r) / sigma_r`
+- `F = Phi(z)` (standard normal CDF)
+- `tailProb = 2 * min(F, 1 - F)`  (two-sided tail probability)
+- `arbSizeScore = 1 - tailProb`
+
+Interpretation:
+- both very small and very large trades can be arb-like (high `arbSizeScore`)
+- mid-sized trades near the retail mode are more retail-like
+
+Required classifier integration:
+- keep boundary/direction checks as primary conditions
+- keep a small-trade heuristic as an optional extra feature
+- add two-sided tail-based boost using `arbSizeScore` (or `tailProb` threshold + strength)
+- relax anchor/move thresholds more when tail signal is stronger
+- keep `stepTrades >= 2` forced retail (size signal must not override timestamp leak rule)
+
 ## Continuous Adaptive Control (No Phases)
 
 Use one continuous controller.
@@ -77,30 +126,46 @@ Control:
 - bounded per-update change
 - bounded asymmetry
 
+Large-imbalance protection priority:
+- after a retail fill can leave pool imbalanced vs `p_step`; this creates immediate one-sided arb exposure
+- compute required no-arb side fee from current spot:
+- `bid_required = max(0, 1 - p_step / spot)`, `ask_required = max(0, 1 - spot / p_step)`
+- cap required no-arb fee at `10%` before applying any buffer
+- when required side fee is small (up to about `35 bps`), normal inventory tilt logic can dominate
+- when required side fee exceeds `~35 bps`, no-arb protection must override inventory-tilt limits:
+- enforce side fee floor `required + 35 bps`
+- allow that exposed side to jump beyond normal per-step fee-change cap
+- allow temporary asymmetry beyond normal asymmetry cap if needed to remove arb exposure
+- non-exposed side can be `0 bps` only as an optional candidate (never forced), and only when that side's flow direction compensates current internal inventory imbalance
+
 ## Route-Dependent Objective Math (Robust Observable Version)
 
 Retail routing depends on both fees and reserves, but competitor reserves are not directly observed in callbacks.
-Use a robust reduced model based on latent route competitiveness and online sensitivities.
+Use an explicit latent-state model of the normalizer AMM and update it online from observed fills.
 
-Maintain latent route states:
-- `r_buy_hat`: effective competitiveness for buy flow (trader buys X)
-- `r_sell_hat`: effective competitiveness for sell flow (trader sells X)
-- `s_buy_base`, `s_sell_base`: baseline captured share by side
-- `kappa_buy`, `kappa_sell`: local sensitivity of captured share to fee deltas
+Maintain latent normalizer state:
+- `norm_x_hat`, `norm_y_hat` (normalizer reserve estimates)
+- `norm_k` (invariant, approximately constant)
+- optional low-weight share/sensitivity EWMAs for diagnostics (`s_*`, `kappa_*`)
 
-Reference from exact router math (for design intuition only):
+Use exact 2-AMM router equations (same as simulator):
 - buy side uses `A_i = sqrt(x_i * (1-askFee_i) * y_i)` and split by ratio `A_1/A_2`
 - sell side uses `B_i = sqrt(y_i * (1-bidFee_i) * x_i)` and split by ratio `B_1/B_2`
 
-Online observable approximation:
-- `s_buy_hat = clamp(s_buy_base + kappa_buy * (askFee_norm - askFee), 0, 1)`
-- `s_sell_hat = clamp(s_sell_base + kappa_sell * (bidFee_norm - bidFee), 0, 1)`
-- update `s_*_base` and `kappa_*` with EWMA from realized side volumes after small fee perturbations
+State update from observed submission retail fills:
+- infer full order size and counterpart normalizer fill by inverting split equations
+- if inversion is non-interior, allow clamped one-sided routing (`submission=100%`, `normalizer=0%`)
+- apply inferred normalizer trade to `norm_x_hat`,`norm_y_hat` with smoothing `alpha_norm_state`
+- on new timestamp, project normalizer toward no-arb boundary around `p_step` with low-confidence arb projection (`alpha_norm_arb`)
 
-Use these share estimates in one-step edge approximation:
-- `E[edge_t | state, fees] = E_retail_t(state, s_buy_hat, s_sell_hat, fees) - E_arb_t(state, fees)`
+One-step expected edge (per callback):
+- evaluate candidate `(bidFee, askFee)` pairs
+- for buy flow, compute split using `(our reserves, norm estimates, ask fees)` and edge from exact AMM quote
+- for sell flow, compute split using `(our reserves, norm estimates, bid fees)` and edge from exact AMM quote
+- combine sides with `buyProb_hat` and expected order count `lambda_hat`
+- subtract arb/toxicity and inventory penalties
 
-Avoid static fee-only sigmoid share curves; keep sensitivities state-dependent and continuously updated.
+Avoid static fee-only sigmoid share curves; fee choice should come from split math + latent normalizer state at current step.
 
 ## Hidden True Price Estimation (Best Practical Filter)
 
@@ -184,9 +249,10 @@ Practical approximation:
 - evaluate a discrete action set of fee pairs each callback
 - one-step lookahead with value proxy:
 - `f_t = argmax_{f in F} (E[edge_next | B_t, f] + V_hat(post_state(B_t, f)))`
+- `E[edge_next | ...]` must be computed from exact split formulas using `(our reserves, norm_x_hat, norm_y_hat)` rather than only fee-distance heuristics
 
 Where:
-- `E[edge_next | ...]` uses route-dependent split formulas above
+- `E[edge_next | ...]` uses route-dependent split formulas + latent normalizer reserve estimates
 - `V_hat` penalizes toxic stale exposure and extreme inventory drift
 - `V_hat` must use explicit features:
 - `phi = [arb_hat, stale_mag, inv_abs, inv_signed, lambda_hat, spread_to_norm, fee_jump]`

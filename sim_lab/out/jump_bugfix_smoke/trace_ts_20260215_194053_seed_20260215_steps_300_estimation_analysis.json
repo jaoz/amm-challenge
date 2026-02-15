@@ -1,0 +1,201 @@
+{
+  "analysis_generated_at": "2026-02-15T19:40:53.818995+00:00",
+  "n_steps": 300,
+  "run_id": "trace-20260215_194053-20260215-300",
+  "seed": 20260215,
+  "summary": {
+    "bad_count": 200,
+    "bad_ratio": 0.6666666666666666,
+    "good_count": 60,
+    "good_ratio": 0.2,
+    "in_filter_band_ratio": 0.9933333333333333,
+    "in_user_band_ratio": 0.58,
+    "longest_bad_streak_end_step": 115,
+    "longest_bad_streak_start_step": 65,
+    "longest_bad_streak_steps": 51,
+    "max_rel_error_bps": 105.32861710752398,
+    "mean_rel_error_bps": 39.66440878106397,
+    "n_steps": 300,
+    "ok_count": 40,
+    "ok_ratio": 0.13333333333333333,
+    "p50_rel_error_bps": 35.38777366368628,
+    "p90_rel_error_bps": 81.15815744010635,
+    "p99_rel_error_bps": 96.71582435546587,
+    "top_bad_streaks": [
+      {
+        "end_step": 115,
+        "length": 51,
+        "start_step": 65
+      },
+      {
+        "end_step": 299,
+        "length": 41,
+        "start_step": 259
+      },
+      {
+        "end_step": 149,
+        "length": 33,
+        "start_step": 117
+      },
+      {
+        "end_step": 47,
+        "length": 21,
+        "start_step": 27
+      },
+      {
+        "end_step": 212,
+        "length": 17,
+        "start_step": 196
+      },
+      {
+        "end_step": 257,
+        "length": 14,
+        "start_step": 244
+      },
+      {
+        "end_step": 24,
+        "length": 5,
+        "start_step": 20
+      },
+      {
+        "end_step": 238,
+        "length": 5,
+        "start_step": 234
+      }
+    ],
+    "worst_steps": [
+      {
+        "fair_price": 101.43958602354276,
+        "in_filter_band": true,
+        "in_user_band": true,
+        "internal_price_estimate": 100.37674410151293,
+        "internal_times_1_minus_bid": 100.29644270623172,
+        "internal_times_1_plus_ask": 102.98816599381182,
+        "rel_error_bps": 105.32861710752398,
+        "status": "bad",
+        "step": 283
+      },
+      {
+        "fair_price": 101.399776768199,
+        "in_filter_band": true,
+        "in_user_band": true,
+        "internal_price_estimate": 100.37674410151293,
+        "internal_times_1_minus_bid": 100.29644270623172,
+        "internal_times_1_plus_ask": 102.98816599381182,
+        "rel_error_bps": 101.40341685970337,
+        "status": "bad",
+        "step": 280
+      },
+      {
+        "fair_price": 101.36759773369698,
+        "in_filter_band": true,
+        "in_user_band": true,
+        "internal_price_estimate": 100.37674410151293,
+        "internal_times_1_minus_bid": 100.29644270623172,
+        "internal_times_1_plus_ask": 102.98816599381182,
+        "rel_error_bps": 98.22943141443984,
+        "status": "bad",
+        "step": 281
+      },
+      {
+        "fair_price": 101.40232889929653,
+        "in_filter_band": true,
+        "in_user_band": true,
+        "internal_price_estimate": 100.42633522564493,
+        "internal_times_1_minus_bid": 99.57462030695079,
+        "internal_times_1_plus_ask": 103.00891939019836,
+        "rel_error_bps": 96.71582435546587,
+        "status": "bad",
+        "step": 290
+      },
+      {
+        "fair_price": 99.27529267715619,
+        "in_filter_band": true,
+        "in_user_band": false,
+        "internal_price_estimate": 100.23863706005768,
+        "internal_times_1_minus_bid": 100.15844615040963,
+        "internal_times_1_plus_ask": 101.95199688038178,
+        "rel_error_bps": 96.56988569607113,
+        "status": "bad",
+        "step": 102
+      },
+      {
+        "fair_price": 101.34719968998294,
+        "in_filter_band": true,
+        "in_user_band": true,
+        "internal_price_estimate": 100.37674410151293,
+        "internal_times_1_minus_bid": 100.29644270623172,
+        "internal_times_1_plus_ask": 102.98816599381182,
+        "rel_error_bps": 96.21694450750212,
+        "status": "bad",
+        "step": 279
+      },
+      {
+        "fair_price": 101.40383239289172,
+        "in_filter_band": true,
+        "in_user_band": true,
+        "internal_price_estimate": 100.44290569335467,
+        "internal_times_1_minus_bid": 99.59105024066089,
+        "internal_times_1_plus_ask": 103.02591598744284,
+        "rel_error_bps": 95.21421730523407,
+        "status": "bad",
+        "step": 294
+      },
+      {
+        "fair_price": 99.31230012895084,
+        "in_filter_band": true,
+        "in_user_band": false,
+        "internal_price_estimate": 100.25214054331978,
+        "internal_times_1_minus_bid": 100.17193883088513,
+        "internal_times_1_plus_ask": 101.88971712385407,
+        "rel_error_bps": 94.18986263632841,
+        "status": "bad",
+        "step": 101
+      },
+      {
+        "fair_price": 101.39090369360525,
+        "in_filter_band": true,
+        "in_user_band": true,
+        "internal_price_estimate": 100.44290569335467,
+        "internal_times_1_minus_bid": 99.59105024066089,
+        "internal_times_1_plus_ask": 103.02591598744284,
+        "rel_error_bps": 93.93916455451053,
+        "status": "bad",
+        "step": 295
+      },
+      {
+        "fair_price": 99.30831015373661,
+        "in_filter_band": true,
+        "in_user_band": false,
+        "internal_price_estimate": 100.23863706005768,
+        "internal_times_1_minus_bid": 100.15844615040963,
+        "internal_times_1_plus_ask": 101.95199688038178,
+        "rel_error_bps": 93.24458829850144,
+        "status": "bad",
+        "step": 104
+      },
+      {
+        "fair_price": 101.35843575323828,
+        "in_filter_band": true,
+        "in_user_band": true,
+        "internal_price_estimate": 100.42633522564493,
+        "internal_times_1_minus_bid": 99.57462030695079,
+        "internal_times_1_plus_ask": 103.00891939019836,
+        "rel_error_bps": 92.38627402859534,
+        "status": "bad",
+        "step": 289
+      },
+      {
+        "fair_price": 101.35675698090881,
+        "in_filter_band": true,
+        "in_user_band": true,
+        "internal_price_estimate": 100.42633522564493,
+        "internal_times_1_minus_bid": 99.57462030695079,
+        "internal_times_1_plus_ask": 103.00891939019836,
+        "rel_error_bps": 92.2206453643728,
+        "status": "bad",
+        "step": 287
+      }
+    ]
+  }
+}

@@ -1,0 +1,991 @@
+{
+  "comparison": {
+    "mean_edge_delta_submission_minus_normalizer": -2.161873732200362,
+    "wins_submission_over_normalizer": 23
+  },
+  "n_runs": 100,
+  "normalizer": {
+    "mean_edge": 344.8384054291257,
+    "std_edge": 52.9499692494513
+  },
+  "params": {
+    "action_grid_bps": [
+      -4.0,
+      -2.0,
+      0.0,
+      2.0,
+      4.0
+    ],
+    "alpha_arb": 0.1,
+    "alpha_arb_same_step": 0.24,
+    "alpha_kappa": 0.05,
+    "alpha_lambda": 0.08,
+    "alpha_lambda_same_step": 0.22,
+    "alpha_order": 0.06,
+    "alpha_share": 0.08,
+    "alpha_vol": 0.06,
+    "arb_anchor_gate": 0.006,
+    "arb_move_floor": 0.0002,
+    "asym_grid_bps": [
+      -6.0,
+      -3.0,
+      0.0,
+      3.0,
+      6.0
+    ],
+    "c_sigma": 2.0,
+    "center_fee_bps": 37.0,
+    "collapse_reopen_eps": 0.003,
+    "edge_arb_scale": 24.0,
+    "edge_inventory_scale": 14.0,
+    "eps_weak": 0.06,
+    "kappa_prior": 7.0,
+    "lambda_prior": 0.8,
+    "lambda_same_step_bonus": 0.9,
+    "max_anchor_move_bps": 14.0,
+    "max_asym_bps": 12.0,
+    "max_fee_bps": 100.0,
+    "max_mid_move_bps": 7.0,
+    "max_step_change_bps": 3.0,
+    "mid_smoothing": 0.03,
+    "mid_smoothing_same_step": 0.008,
+    "min_fee_bps": 8.0,
+    "normalizer_fee_bps": 30.0,
+    "normalizer_pretrade_arb_alpha": 0.75,
+    "normalizer_state_alpha": 0.45,
+    "opening_fee_bps": 29.0,
+    "order_size_prior": 20.0,
+    "retail_mean_blend": 0.45,
+    "retail_mean_prior_y": 20.0,
+    "retail_size_sigma_assumed": 1.2,
+    "size_arb_abs_y": 1.0,
+    "size_arb_rel_ratio": 0.06,
+    "size_arb_relax_anchor_mult": 1.6,
+    "size_arb_relax_move_mult": 0.35,
+    "size_tail_prob_gate": 0.3,
+    "size_tail_relax_anchor_mult": 2.0,
+    "size_tail_relax_move_mult": 0.4,
+    "value_penalty_arb": 8.0,
+    "value_penalty_inv_abs": 24.0,
+    "value_penalty_inv_signed": 10.0,
+    "value_penalty_jump": 18.0,
+    "value_penalty_lambda_gap": 10.0,
+    "value_penalty_spread": 30.0,
+    "value_penalty_stale": 40.0,
+    "w_arb_anchor": 0.52
+  },
+  "per_seed": [
+    {
+      "arb_trade_count_submission": 3341,
+      "avg_fee_bps_submission": 31.506299999999985,
+      "edge_delta_submission_minus_normalizer": -2.157110419157789,
+      "edge_normalizer": 310.79557142424613,
+      "edge_submission": 308.63846100508835,
+      "retail_trade_count_submission": 7346,
+      "seed": 20260215
+    },
+    {
+      "arb_trade_count_submission": 3351,
+      "avg_fee_bps_submission": 31.286600000000014,
+      "edge_delta_submission_minus_normalizer": -0.707386314186806,
+      "edge_normalizer": 308.37333876339807,
+      "edge_submission": 307.66595244921126,
+      "retail_trade_count_submission": 7213,
+      "seed": 20260216
+    },
+    {
+      "arb_trade_count_submission": 2941,
+      "avg_fee_bps_submission": 32.286899999999974,
+      "edge_delta_submission_minus_normalizer": -5.610058342695339,
+      "edge_normalizer": 242.589337938292,
+      "edge_submission": 236.97927959559667,
+      "retail_trade_count_submission": 5647,
+      "seed": 20260217
+    },
+    {
+      "arb_trade_count_submission": 3753,
+      "avg_fee_bps_submission": 31.449949999999983,
+      "edge_delta_submission_minus_normalizer": -0.1680649765218618,
+      "edge_normalizer": 440.8333934950888,
+      "edge_submission": 440.6653285185669,
+      "retail_trade_count_submission": 9554,
+      "seed": 20260218
+    },
+    {
+      "arb_trade_count_submission": 3492,
+      "avg_fee_bps_submission": 31.437099999999973,
+      "edge_delta_submission_minus_normalizer": 1.735621725449903,
+      "edge_normalizer": 373.18275153211937,
+      "edge_submission": 374.91837325756927,
+      "retail_trade_count_submission": 8353,
+      "seed": 20260219
+    },
+    {
+      "arb_trade_count_submission": 3182,
+      "avg_fee_bps_submission": 33.038349999999966,
+      "edge_delta_submission_minus_normalizer": -4.690311618258534,
+      "edge_normalizer": 331.7883442870461,
+      "edge_submission": 327.09803266878754,
+      "retail_trade_count_submission": 6353,
+      "seed": 20260220
+    },
+    {
+      "arb_trade_count_submission": 3504,
+      "avg_fee_bps_submission": 31.228399999999972,
+      "edge_delta_submission_minus_normalizer": -1.0915104728522351,
+      "edge_normalizer": 401.36290104731034,
+      "edge_submission": 400.2713905744581,
+      "retail_trade_count_submission": 8763,
+      "seed": 20260221
+    },
+    {
+      "arb_trade_count_submission": 2818,
+      "avg_fee_bps_submission": 35.43015,
+      "edge_delta_submission_minus_normalizer": -7.114318049254678,
+      "edge_normalizer": 298.67232646482546,
+      "edge_submission": 291.5580084155708,
+      "retail_trade_count_submission": 5612,
+      "seed": 20260222
+    },
+    {
+      "arb_trade_count_submission": 3268,
+      "avg_fee_bps_submission": 32.01349999999997,
+      "edge_delta_submission_minus_normalizer": -3.348166088142989,
+      "edge_normalizer": 311.4751997233478,
+      "edge_submission": 308.12703363520484,
+      "retail_trade_count_submission": 6810,
+      "seed": 20260223
+    },
+    {
+      "arb_trade_count_submission": 3216,
+      "avg_fee_bps_submission": 31.27214999999999,
+      "edge_delta_submission_minus_normalizer": -3.405242591159265,
+      "edge_normalizer": 279.78160766842774,
+      "edge_submission": 276.3763650772685,
+      "retail_trade_count_submission": 6165,
+      "seed": 20260224
+    },
+    {
+      "arb_trade_count_submission": 3565,
+      "avg_fee_bps_submission": 33.26,
+      "edge_delta_submission_minus_normalizer": -5.100512044899347,
+      "edge_normalizer": 460.20360009022824,
+      "edge_submission": 455.1030880453289,
+      "retail_trade_count_submission": 9039,
+      "seed": 20260225
+    },
+    {
+      "arb_trade_count_submission": 3010,
+      "avg_fee_bps_submission": 33.590449999999976,
+      "edge_delta_submission_minus_normalizer": -10.049547621000784,
+      "edge_normalizer": 307.7824047542853,
+      "edge_submission": 297.73285713328454,
+      "retail_trade_count_submission": 6369,
+      "seed": 20260226
+    },
+    {
+      "arb_trade_count_submission": 3318,
+      "avg_fee_bps_submission": 31.35529999999998,
+      "edge_delta_submission_minus_normalizer": -0.3717655658635408,
+      "edge_normalizer": 319.73763648939223,
+      "edge_submission": 319.3658709235287,
+      "retail_trade_count_submission": 6578,
+      "seed": 20260227
+    },
+    {
+      "arb_trade_count_submission": 3192,
+      "avg_fee_bps_submission": 32.283099999999976,
+      "edge_delta_submission_minus_normalizer": -7.090109389953625,
+      "edge_normalizer": 321.49297419278014,
+      "edge_submission": 314.4028648028265,
+      "retail_trade_count_submission": 6899,
+      "seed": 20260228
+    },
+    {
+      "arb_trade_count_submission": 3297,
+      "avg_fee_bps_submission": 30.991499999999995,
+      "edge_delta_submission_minus_normalizer": 2.4816648706919295,
+      "edge_normalizer": 360.8944157206457,
+      "edge_submission": 363.37608059133765,
+      "retail_trade_count_submission": 8226,
+      "seed": 20260229
+    },
+    {
+      "arb_trade_count_submission": 3279,
+      "avg_fee_bps_submission": 31.380250000000004,
+      "edge_delta_submission_minus_normalizer": -4.240429810769285,
+      "edge_normalizer": 301.4279177883107,
+      "edge_submission": 297.1874879775414,
+      "retail_trade_count_submission": 7232,
+      "seed": 20260230
+    },
+    {
+      "arb_trade_count_submission": 3091,
+      "avg_fee_bps_submission": 32.19684999999998,
+      "edge_delta_submission_minus_normalizer": -6.6287516223606815,
+      "edge_normalizer": 244.89860977277652,
+      "edge_submission": 238.26985815041584,
+      "retail_trade_count_submission": 5782,
+      "seed": 20260231
+    },
+    {
+      "arb_trade_count_submission": 3066,
+      "avg_fee_bps_submission": 32.10929999999999,
+      "edge_delta_submission_minus_normalizer": -5.394898454681481,
+      "edge_normalizer": 271.7412534295747,
+      "edge_submission": 266.34635497489325,
+      "retail_trade_count_submission": 6150,
+      "seed": 20260232
+    },
+    {
+      "arb_trade_count_submission": 3405,
+      "avg_fee_bps_submission": 31.655649999999973,
+      "edge_delta_submission_minus_normalizer": -0.038566746820549724,
+      "edge_normalizer": 358.97334750010816,
+      "edge_submission": 358.9347807532876,
+      "retail_trade_count_submission": 7506,
+      "seed": 20260233
+    },
+    {
+      "arb_trade_count_submission": 3564,
+      "avg_fee_bps_submission": 32.81060000000001,
+      "edge_delta_submission_minus_normalizer": -4.433133069082601,
+      "edge_normalizer": 458.04614136427807,
+      "edge_submission": 453.61300829519547,
+      "retail_trade_count_submission": 9289,
+      "seed": 20260234
+    },
+    {
+      "arb_trade_count_submission": 3491,
+      "avg_fee_bps_submission": 32.26289999999999,
+      "edge_delta_submission_minus_normalizer": 0.16685566909603722,
+      "edge_normalizer": 408.96447351653353,
+      "edge_submission": 409.13132918562957,
+      "retail_trade_count_submission": 8735,
+      "seed": 20260235
+    },
+    {
+      "arb_trade_count_submission": 3376,
+      "avg_fee_bps_submission": 32.51629999999997,
+      "edge_delta_submission_minus_normalizer": -5.369880813049349,
+      "edge_normalizer": 378.1880709817567,
+      "edge_submission": 372.81819016870736,
+      "retail_trade_count_submission": 7794,
+      "seed": 20260236
+    },
+    {
+      "arb_trade_count_submission": 3461,
+      "avg_fee_bps_submission": 31.22054999999998,
+      "edge_delta_submission_minus_normalizer": -1.9541690382676506,
+      "edge_normalizer": 317.2317961903161,
+      "edge_submission": 315.27762715204847,
+      "retail_trade_count_submission": 7288,
+      "seed": 20260237
+    },
+    {
+      "arb_trade_count_submission": 3297,
+      "avg_fee_bps_submission": 31.297549999999987,
+      "edge_delta_submission_minus_normalizer": -2.1250627205290584,
+      "edge_normalizer": 299.16697146910934,
+      "edge_submission": 297.0419087485803,
+      "retail_trade_count_submission": 6681,
+      "seed": 20260238
+    },
+    {
+      "arb_trade_count_submission": 3402,
+      "avg_fee_bps_submission": 31.00374999999999,
+      "edge_delta_submission_minus_normalizer": 0.19672355793176166,
+      "edge_normalizer": 384.4616020516608,
+      "edge_submission": 384.65832560959257,
+      "retail_trade_count_submission": 8420,
+      "seed": 20260239
+    },
+    {
+      "arb_trade_count_submission": 3460,
+      "avg_fee_bps_submission": 30.983799999999988,
+      "edge_delta_submission_minus_normalizer": 1.7074322119573822,
+      "edge_normalizer": 376.67388570503664,
+      "edge_submission": 378.381317916994,
+      "retail_trade_count_submission": 8103,
+      "seed": 20260240
+    },
+    {
+      "arb_trade_count_submission": 3363,
+      "avg_fee_bps_submission": 31.61320000000001,
+      "edge_delta_submission_minus_normalizer": -3.177336834425944,
+      "edge_normalizer": 384.0022126760378,
+      "edge_submission": 380.82487584161186,
+      "retail_trade_count_submission": 8734,
+      "seed": 20260241
+    },
+    {
+      "arb_trade_count_submission": 3245,
+      "avg_fee_bps_submission": 31.75119999999996,
+      "edge_delta_submission_minus_normalizer": -3.914196708316979,
+      "edge_normalizer": 330.12565872552,
+      "edge_submission": 326.211462017203,
+      "retail_trade_count_submission": 7426,
+      "seed": 20260242
+    },
+    {
+      "arb_trade_count_submission": 3162,
+      "avg_fee_bps_submission": 31.742999999999974,
+      "edge_delta_submission_minus_normalizer": -4.0971568654777,
+      "edge_normalizer": 295.4094322078173,
+      "edge_submission": 291.3122753423396,
+      "retail_trade_count_submission": 6242,
+      "seed": 20260243
+    },
+    {
+      "arb_trade_count_submission": 3106,
+      "avg_fee_bps_submission": 31.514350000000015,
+      "edge_delta_submission_minus_normalizer": 0.5342865849435725,
+      "edge_normalizer": 270.43774725676934,
+      "edge_submission": 270.9720338417129,
+      "retail_trade_count_submission": 5895,
+      "seed": 20260244
+    },
+    {
+      "arb_trade_count_submission": 3240,
+      "avg_fee_bps_submission": 32.85889999999999,
+      "edge_delta_submission_minus_normalizer": -3.6088288060217906,
+      "edge_normalizer": 347.82681828086123,
+      "edge_submission": 344.21798947483944,
+      "retail_trade_count_submission": 7020,
+      "seed": 20260245
+    },
+    {
+      "arb_trade_count_submission": 3261,
+      "avg_fee_bps_submission": 33.97719999999998,
+      "edge_delta_submission_minus_normalizer": -10.198032561917728,
+      "edge_normalizer": 390.586181439999,
+      "edge_submission": 380.38814887808127,
+      "retail_trade_count_submission": 7287,
+      "seed": 20260246
+    },
+    {
+      "arb_trade_count_submission": 3519,
+      "avg_fee_bps_submission": 31.354699999999973,
+      "edge_delta_submission_minus_normalizer": -0.9055864639527158,
+      "edge_normalizer": 378.2774798883142,
+      "edge_submission": 377.3718934243615,
+      "retail_trade_count_submission": 8262,
+      "seed": 20260247
+    },
+    {
+      "arb_trade_count_submission": 3290,
+      "avg_fee_bps_submission": 31.292699999999975,
+      "edge_delta_submission_minus_normalizer": -4.023838475791763,
+      "edge_normalizer": 316.1371717583795,
+      "edge_submission": 312.11333328258775,
+      "retail_trade_count_submission": 6966,
+      "seed": 20260248
+    },
+    {
+      "arb_trade_count_submission": 3373,
+      "avg_fee_bps_submission": 31.345649999999985,
+      "edge_delta_submission_minus_normalizer": -2.702229374865908,
+      "edge_normalizer": 340.3906515162139,
+      "edge_submission": 337.688422141348,
+      "retail_trade_count_submission": 7958,
+      "seed": 20260249
+    },
+    {
+      "arb_trade_count_submission": 3481,
+      "avg_fee_bps_submission": 31.563249999999993,
+      "edge_delta_submission_minus_normalizer": -2.57846217119976,
+      "edge_normalizer": 354.81291125414964,
+      "edge_submission": 352.2344490829499,
+      "retail_trade_count_submission": 7611,
+      "seed": 20260250
+    },
+    {
+      "arb_trade_count_submission": 2973,
+      "avg_fee_bps_submission": 32.40909999999998,
+      "edge_delta_submission_minus_normalizer": -5.6567612667118965,
+      "edge_normalizer": 264.4873821808097,
+      "edge_submission": 258.8306209140978,
+      "retail_trade_count_submission": 6079,
+      "seed": 20260251
+    },
+    {
+      "arb_trade_count_submission": 3526,
+      "avg_fee_bps_submission": 30.90324999999998,
+      "edge_delta_submission_minus_normalizer": 2.589491914309008,
+      "edge_normalizer": 387.21505615068236,
+      "edge_submission": 389.80454806499137,
+      "retail_trade_count_submission": 9155,
+      "seed": 20260252
+    },
+    {
+      "arb_trade_count_submission": 3590,
+      "avg_fee_bps_submission": 31.85984999999996,
+      "edge_delta_submission_minus_normalizer": -2.8091610322333054,
+      "edge_normalizer": 408.54188358866895,
+      "edge_submission": 405.73272255643565,
+      "retail_trade_count_submission": 8346,
+      "seed": 20260253
+    },
+    {
+      "arb_trade_count_submission": 3360,
+      "avg_fee_bps_submission": 32.411100000000005,
+      "edge_delta_submission_minus_normalizer": -2.5391981087446993,
+      "edge_normalizer": 366.7189778421219,
+      "edge_submission": 364.1797797333772,
+      "retail_trade_count_submission": 8054,
+      "seed": 20260254
+    },
+    {
+      "arb_trade_count_submission": 3484,
+      "avg_fee_bps_submission": 30.751949999999987,
+      "edge_delta_submission_minus_normalizer": 0.6364227257268453,
+      "edge_normalizer": 367.92593463297936,
+      "edge_submission": 368.5623573587062,
+      "retail_trade_count_submission": 8461,
+      "seed": 20260255
+    },
+    {
+      "arb_trade_count_submission": 3417,
+      "avg_fee_bps_submission": 32.54205,
+      "edge_delta_submission_minus_normalizer": -2.390378570920916,
+      "edge_normalizer": 357.7386859411643,
+      "edge_submission": 355.3483073702434,
+      "retail_trade_count_submission": 7304,
+      "seed": 20260256
+    },
+    {
+      "arb_trade_count_submission": 3350,
+      "avg_fee_bps_submission": 30.450699999999983,
+      "edge_delta_submission_minus_normalizer": 0.6980820716019593,
+      "edge_normalizer": 324.35011703262796,
+      "edge_submission": 325.0481991042299,
+      "retail_trade_count_submission": 7644,
+      "seed": 20260257
+    },
+    {
+      "arb_trade_count_submission": 3392,
+      "avg_fee_bps_submission": 31.12004999999997,
+      "edge_delta_submission_minus_normalizer": -0.871696902852193,
+      "edge_normalizer": 326.5841210393632,
+      "edge_submission": 325.712424136511,
+      "retail_trade_count_submission": 7616,
+      "seed": 20260258
+    },
+    {
+      "arb_trade_count_submission": 3344,
+      "avg_fee_bps_submission": 31.772799999999982,
+      "edge_delta_submission_minus_normalizer": -1.7933130063923386,
+      "edge_normalizer": 360.94588992821275,
+      "edge_submission": 359.1525769218204,
+      "retail_trade_count_submission": 7688,
+      "seed": 20260259
+    },
+    {
+      "arb_trade_count_submission": 3057,
+      "avg_fee_bps_submission": 35.548950000000026,
+      "edge_delta_submission_minus_normalizer": -11.629991808937348,
+      "edge_normalizer": 274.798913784748,
+      "edge_submission": 263.16892197581063,
+      "retail_trade_count_submission": 5880,
+      "seed": 20260260
+    },
+    {
+      "arb_trade_count_submission": 3214,
+      "avg_fee_bps_submission": 31.006250000000005,
+      "edge_delta_submission_minus_normalizer": 0.3783855259496818,
+      "edge_normalizer": 287.15627537984716,
+      "edge_submission": 287.53466090579684,
+      "retail_trade_count_submission": 6691,
+      "seed": 20260261
+    },
+    {
+      "arb_trade_count_submission": 3318,
+      "avg_fee_bps_submission": 30.825199999999988,
+      "edge_delta_submission_minus_normalizer": 0.8854743602045119,
+      "edge_normalizer": 307.71765572072763,
+      "edge_submission": 308.60313008093215,
+      "retail_trade_count_submission": 7183,
+      "seed": 20260262
+    },
+    {
+      "arb_trade_count_submission": 3716,
+      "avg_fee_bps_submission": 30.957699999999985,
+      "edge_delta_submission_minus_normalizer": 1.6240769996629751,
+      "edge_normalizer": 428.3736148332717,
+      "edge_submission": 429.99769183293466,
+      "retail_trade_count_submission": 9638,
+      "seed": 20260263
+    },
+    {
+      "arb_trade_count_submission": 3348,
+      "avg_fee_bps_submission": 32.26035,
+      "edge_delta_submission_minus_normalizer": -5.561674998393187,
+      "edge_normalizer": 399.1027647242465,
+      "edge_submission": 393.54108972585334,
+      "retail_trade_count_submission": 9244,
+      "seed": 20260264
+    },
+    {
+      "arb_trade_count_submission": 3400,
+      "avg_fee_bps_submission": 31.293599999999998,
+      "edge_delta_submission_minus_normalizer": -1.4693815076048509,
+      "edge_normalizer": 303.13777315828213,
+      "edge_submission": 301.6683916506773,
+      "retail_trade_count_submission": 6618,
+      "seed": 20260265
+    },
+    {
+      "arb_trade_count_submission": 3329,
+      "avg_fee_bps_submission": 31.073549999999983,
+      "edge_delta_submission_minus_normalizer": -0.8391936982754942,
+      "edge_normalizer": 308.9353827035228,
+      "edge_submission": 308.0961890052473,
+      "retail_trade_count_submission": 6496,
+      "seed": 20260266
+    },
+    {
+      "arb_trade_count_submission": 3236,
+      "avg_fee_bps_submission": 32.04249999999999,
+      "edge_delta_submission_minus_normalizer": -3.686257566215261,
+      "edge_normalizer": 331.1510675988844,
+      "edge_submission": 327.46481003266916,
+      "retail_trade_count_submission": 7387,
+      "seed": 20260267
+    },
+    {
+      "arb_trade_count_submission": 3206,
+      "avg_fee_bps_submission": 31.327349999999985,
+      "edge_delta_submission_minus_normalizer": -3.2315949151600876,
+      "edge_normalizer": 285.3885173046532,
+      "edge_submission": 282.1569223894931,
+      "retail_trade_count_submission": 6499,
+      "seed": 20260268
+    },
+    {
+      "arb_trade_count_submission": 3266,
+      "avg_fee_bps_submission": 30.776899999999983,
+      "edge_delta_submission_minus_normalizer": -0.9658115275836394,
+      "edge_normalizer": 275.4376467887783,
+      "edge_submission": 274.47183526119466,
+      "retail_trade_count_submission": 6555,
+      "seed": 20260269
+    },
+    {
+      "arb_trade_count_submission": 3456,
+      "avg_fee_bps_submission": 31.464900000000004,
+      "edge_delta_submission_minus_normalizer": -1.611740749536068,
+      "edge_normalizer": 354.73059749162474,
+      "edge_submission": 353.11885674208867,
+      "retail_trade_count_submission": 7585,
+      "seed": 20260270
+    },
+    {
+      "arb_trade_count_submission": 3277,
+      "avg_fee_bps_submission": 31.529449999999976,
+      "edge_delta_submission_minus_normalizer": -1.1813960683757614,
+      "edge_normalizer": 320.0466224794458,
+      "edge_submission": 318.86522641107,
+      "retail_trade_count_submission": 7407,
+      "seed": 20260271
+    },
+    {
+      "arb_trade_count_submission": 3482,
+      "avg_fee_bps_submission": 32.06299999999999,
+      "edge_delta_submission_minus_normalizer": -5.042783976250178,
+      "edge_normalizer": 388.69064742838697,
+      "edge_submission": 383.6478634521368,
+      "retail_trade_count_submission": 8436,
+      "seed": 20260272
+    },
+    {
+      "arb_trade_count_submission": 3068,
+      "avg_fee_bps_submission": 30.759749999999983,
+      "edge_delta_submission_minus_normalizer": 0.005481164742661804,
+      "edge_normalizer": 274.94162763932974,
+      "edge_submission": 274.9471088040724,
+      "retail_trade_count_submission": 6116,
+      "seed": 20260273
+    },
+    {
+      "arb_trade_count_submission": 3672,
+      "avg_fee_bps_submission": 31.728599999999986,
+      "edge_delta_submission_minus_normalizer": -4.766247134173057,
+      "edge_normalizer": 406.31982614446406,
+      "edge_submission": 401.553579010291,
+      "retail_trade_count_submission": 9550,
+      "seed": 20260274
+    },
+    {
+      "arb_trade_count_submission": 3589,
+      "avg_fee_bps_submission": 30.657899999999984,
+      "edge_delta_submission_minus_normalizer": 1.6514394613847116,
+      "edge_normalizer": 401.1378637244153,
+      "edge_submission": 402.7893031858,
+      "retail_trade_count_submission": 9230,
+      "seed": 20260275
+    },
+    {
+      "arb_trade_count_submission": 3183,
+      "avg_fee_bps_submission": 31.352249999999987,
+      "edge_delta_submission_minus_normalizer": -1.1141838693614545,
+      "edge_normalizer": 269.2173448150742,
+      "edge_submission": 268.1031609457128,
+      "retail_trade_count_submission": 6629,
+      "seed": 20260276
+    },
+    {
+      "arb_trade_count_submission": 3446,
+      "avg_fee_bps_submission": 31.295999999999985,
+      "edge_delta_submission_minus_normalizer": -1.9572848551493962,
+      "edge_normalizer": 388.0661458044162,
+      "edge_submission": 386.1088609492668,
+      "retail_trade_count_submission": 8751,
+      "seed": 20260277
+    },
+    {
+      "arb_trade_count_submission": 3437,
+      "avg_fee_bps_submission": 30.980549999999994,
+      "edge_delta_submission_minus_normalizer": -0.28364199626156505,
+      "edge_normalizer": 321.8024308968036,
+      "edge_submission": 321.51878890054206,
+      "retail_trade_count_submission": 7712,
+      "seed": 20260278
+    },
+    {
+      "arb_trade_count_submission": 3383,
+      "avg_fee_bps_submission": 31.090999999999987,
+      "edge_delta_submission_minus_normalizer": -0.8437158629931787,
+      "edge_normalizer": 337.33620199305574,
+      "edge_submission": 336.49248613006256,
+      "retail_trade_count_submission": 7272,
+      "seed": 20260279
+    },
+    {
+      "arb_trade_count_submission": 3155,
+      "avg_fee_bps_submission": 31.265999999999984,
+      "edge_delta_submission_minus_normalizer": 0.20245478902126024,
+      "edge_normalizer": 277.870284347838,
+      "edge_submission": 278.07273913685924,
+      "retail_trade_count_submission": 6226,
+      "seed": 20260280
+    },
+    {
+      "arb_trade_count_submission": 3181,
+      "avg_fee_bps_submission": 30.890800000000006,
+      "edge_delta_submission_minus_normalizer": -0.39635781819475824,
+      "edge_normalizer": 259.3342720137182,
+      "edge_submission": 258.93791419552343,
+      "retail_trade_count_submission": 5888,
+      "seed": 20260281
+    },
+    {
+      "arb_trade_count_submission": 3399,
+      "avg_fee_bps_submission": 31.157,
+      "edge_delta_submission_minus_normalizer": -0.779768047484481,
+      "edge_normalizer": 330.86912084643126,
+      "edge_submission": 330.0893527989468,
+      "retail_trade_count_submission": 7199,
+      "seed": 20260282
+    },
+    {
+      "arb_trade_count_submission": 3293,
+      "avg_fee_bps_submission": 31.58819999999998,
+      "edge_delta_submission_minus_normalizer": -2.811947575011004,
+      "edge_normalizer": 335.73251348543164,
+      "edge_submission": 332.92056591042063,
+      "retail_trade_count_submission": 6899,
+      "seed": 20260283
+    },
+    {
+      "arb_trade_count_submission": 3191,
+      "avg_fee_bps_submission": 31.905999999999985,
+      "edge_delta_submission_minus_normalizer": -3.8187080874063213,
+      "edge_normalizer": 285.4104007321757,
+      "edge_submission": 281.59169264476935,
+      "retail_trade_count_submission": 6164,
+      "seed": 20260284
+    },
+    {
+      "arb_trade_count_submission": 3425,
+      "avg_fee_bps_submission": 31.664149999999978,
+      "edge_delta_submission_minus_normalizer": -0.8320488211659836,
+      "edge_normalizer": 420.20342444723366,
+      "edge_submission": 419.3713756260677,
+      "retail_trade_count_submission": 8892,
+      "seed": 20260285
+    },
+    {
+      "arb_trade_count_submission": 3181,
+      "avg_fee_bps_submission": 31.29049999999998,
+      "edge_delta_submission_minus_normalizer": -1.4482703092779161,
+      "edge_normalizer": 292.187112006669,
+      "edge_submission": 290.7388416973911,
+      "retail_trade_count_submission": 5896,
+      "seed": 20260286
+    },
+    {
+      "arb_trade_count_submission": 3496,
+      "avg_fee_bps_submission": 30.901549999999986,
+      "edge_delta_submission_minus_normalizer": 1.75005558267992,
+      "edge_normalizer": 371.6956556733479,
+      "edge_submission": 373.44571125602783,
+      "retail_trade_count_submission": 8054,
+      "seed": 20260287
+    },
+    {
+      "arb_trade_count_submission": 3577,
+      "avg_fee_bps_submission": 30.627299999999984,
+      "edge_delta_submission_minus_normalizer": 2.0196031756885304,
+      "edge_normalizer": 401.7937068949427,
+      "edge_submission": 403.81331007063125,
+      "retail_trade_count_submission": 9216,
+      "seed": 20260288
+    },
+    {
+      "arb_trade_count_submission": 3171,
+      "avg_fee_bps_submission": 31.734450000000002,
+      "edge_delta_submission_minus_normalizer": -3.043313301456749,
+      "edge_normalizer": 267.8863511256583,
+      "edge_submission": 264.84303782420153,
+      "retail_trade_count_submission": 6193,
+      "seed": 20260289
+    },
+    {
+      "arb_trade_count_submission": 3594,
+      "avg_fee_bps_submission": 31.059299999999965,
+      "edge_delta_submission_minus_normalizer": 0.7924909112089153,
+      "edge_normalizer": 437.6156870905556,
+      "edge_submission": 438.4081780017645,
+      "retail_trade_count_submission": 9450,
+      "seed": 20260290
+    },
+    {
+      "arb_trade_count_submission": 3310,
+      "avg_fee_bps_submission": 30.804849999999995,
+      "edge_delta_submission_minus_normalizer": -1.178519349282908,
+      "edge_normalizer": 327.0795101849539,
+      "edge_submission": 325.900990835671,
+      "retail_trade_count_submission": 7491,
+      "seed": 20260291
+    },
+    {
+      "arb_trade_count_submission": 3630,
+      "avg_fee_bps_submission": 30.60269999999997,
+      "edge_delta_submission_minus_normalizer": 1.614981336627352,
+      "edge_normalizer": 391.12351895167643,
+      "edge_submission": 392.7385002883038,
+      "retail_trade_count_submission": 9602,
+      "seed": 20260292
+    },
+    {
+      "arb_trade_count_submission": 3524,
+      "avg_fee_bps_submission": 31.433500000000006,
+      "edge_delta_submission_minus_normalizer": -0.17294655768586153,
+      "edge_normalizer": 370.50570517258365,
+      "edge_submission": 370.3327586148978,
+      "retail_trade_count_submission": 7983,
+      "seed": 20260293
+    },
+    {
+      "arb_trade_count_submission": 3553,
+      "avg_fee_bps_submission": 30.602499999999985,
+      "edge_delta_submission_minus_normalizer": 1.7706846885352547,
+      "edge_normalizer": 391.015714787427,
+      "edge_submission": 392.78639947596224,
+      "retail_trade_count_submission": 9467,
+      "seed": 20260294
+    },
+    {
+      "arb_trade_count_submission": 3177,
+      "avg_fee_bps_submission": 32.58724999999998,
+      "edge_delta_submission_minus_normalizer": -1.532820001192249,
+      "edge_normalizer": 287.9863797127307,
+      "edge_submission": 286.45355971153845,
+      "retail_trade_count_submission": 5928,
+      "seed": 20260295
+    },
+    {
+      "arb_trade_count_submission": 3233,
+      "avg_fee_bps_submission": 32.00825000000002,
+      "edge_delta_submission_minus_normalizer": -4.256998325078257,
+      "edge_normalizer": 316.2182556135378,
+      "edge_submission": 311.96125728845954,
+      "retail_trade_count_submission": 6895,
+      "seed": 20260296
+    },
+    {
+      "arb_trade_count_submission": 3451,
+      "avg_fee_bps_submission": 31.519749999999988,
+      "edge_delta_submission_minus_normalizer": -0.9580832861092858,
+      "edge_normalizer": 352.43910230257484,
+      "edge_submission": 351.48101901646555,
+      "retail_trade_count_submission": 7663,
+      "seed": 20260297
+    },
+    {
+      "arb_trade_count_submission": 3705,
+      "avg_fee_bps_submission": 31.294100000000007,
+      "edge_delta_submission_minus_normalizer": -1.193187926681162,
+      "edge_normalizer": 414.71937730862504,
+      "edge_submission": 413.5261893819439,
+      "retail_trade_count_submission": 9233,
+      "seed": 20260298
+    },
+    {
+      "arb_trade_count_submission": 3410,
+      "avg_fee_bps_submission": 31.770100000000006,
+      "edge_delta_submission_minus_normalizer": -1.1341405287540738,
+      "edge_normalizer": 392.15177088357893,
+      "edge_submission": 391.01763035482486,
+      "retail_trade_count_submission": 8770,
+      "seed": 20260299
+    },
+    {
+      "arb_trade_count_submission": 3240,
+      "avg_fee_bps_submission": 32.32689999999998,
+      "edge_delta_submission_minus_normalizer": -5.370080241994742,
+      "edge_normalizer": 296.390874794075,
+      "edge_submission": 291.02079455208025,
+      "retail_trade_count_submission": 6773,
+      "seed": 20260300
+    },
+    {
+      "arb_trade_count_submission": 3128,
+      "avg_fee_bps_submission": 32.03199999999999,
+      "edge_delta_submission_minus_normalizer": -8.668893247791402,
+      "edge_normalizer": 309.83162581337785,
+      "edge_submission": 301.16273256558645,
+      "retail_trade_count_submission": 6830,
+      "seed": 20260301
+    },
+    {
+      "arb_trade_count_submission": 3430,
+      "avg_fee_bps_submission": 31.189099999999968,
+      "edge_delta_submission_minus_normalizer": -1.3025873938345285,
+      "edge_normalizer": 355.98102012992666,
+      "edge_submission": 354.67843273609213,
+      "retail_trade_count_submission": 8095,
+      "seed": 20260302
+    },
+    {
+      "arb_trade_count_submission": 3309,
+      "avg_fee_bps_submission": 31.303299999999986,
+      "edge_delta_submission_minus_normalizer": -1.4309369260437848,
+      "edge_normalizer": 328.01763834351965,
+      "edge_submission": 326.58670141747587,
+      "retail_trade_count_submission": 7265,
+      "seed": 20260303
+    },
+    {
+      "arb_trade_count_submission": 3399,
+      "avg_fee_bps_submission": 32.86934999999997,
+      "edge_delta_submission_minus_normalizer": -6.086388197794349,
+      "edge_normalizer": 383.34543355412717,
+      "edge_submission": 377.2590453563328,
+      "retail_trade_count_submission": 7795,
+      "seed": 20260304
+    },
+    {
+      "arb_trade_count_submission": 3670,
+      "avg_fee_bps_submission": 31.334699999999984,
+      "edge_delta_submission_minus_normalizer": -1.310402298679719,
+      "edge_normalizer": 410.60419978520406,
+      "edge_submission": 409.29379748652434,
+      "retail_trade_count_submission": 8841,
+      "seed": 20260305
+    },
+    {
+      "arb_trade_count_submission": 3577,
+      "avg_fee_bps_submission": 31.09279999999998,
+      "edge_delta_submission_minus_normalizer": -0.04674426111239427,
+      "edge_normalizer": 414.525177209139,
+      "edge_submission": 414.4784329480266,
+      "retail_trade_count_submission": 8820,
+      "seed": 20260306
+    },
+    {
+      "arb_trade_count_submission": 3189,
+      "avg_fee_bps_submission": 30.55884999999998,
+      "edge_delta_submission_minus_normalizer": -0.4063033117478767,
+      "edge_normalizer": 318.13375791333675,
+      "edge_submission": 317.7274546015889,
+      "retail_trade_count_submission": 7966,
+      "seed": 20260307
+    },
+    {
+      "arb_trade_count_submission": 3290,
+      "avg_fee_bps_submission": 30.89594999999997,
+      "edge_delta_submission_minus_normalizer": 0.11970569428348199,
+      "edge_normalizer": 307.4869628920808,
+      "edge_submission": 307.60666858636426,
+      "retail_trade_count_submission": 6747,
+      "seed": 20260308
+    },
+    {
+      "arb_trade_count_submission": 3448,
+      "avg_fee_bps_submission": 31.000949999999968,
+      "edge_delta_submission_minus_normalizer": -1.0906149343639413,
+      "edge_normalizer": 335.74685648543704,
+      "edge_submission": 334.6562415510731,
+      "retail_trade_count_submission": 8064,
+      "seed": 20260309
+    },
+    {
+      "arb_trade_count_submission": 3242,
+      "avg_fee_bps_submission": 31.26089999999999,
+      "edge_delta_submission_minus_normalizer": -2.9492363639689643,
+      "edge_normalizer": 289.7020927784691,
+      "edge_submission": 286.7528564145001,
+      "retail_trade_count_submission": 6530,
+      "seed": 20260310
+    },
+    {
+      "arb_trade_count_submission": 3753,
+      "avg_fee_bps_submission": 31.343299999999985,
+      "edge_delta_submission_minus_normalizer": 0.8219902793359211,
+      "edge_normalizer": 455.4624132607255,
+      "edge_submission": 456.2844035400614,
+      "retail_trade_count_submission": 9296,
+      "seed": 20260311
+    },
+    {
+      "arb_trade_count_submission": 3379,
+      "avg_fee_bps_submission": 32.27229999999998,
+      "edge_delta_submission_minus_normalizer": -4.632845541709514,
+      "edge_normalizer": 417.9903171578437,
+      "edge_submission": 413.3574716161342,
+      "retail_trade_count_submission": 8848,
+      "seed": 20260312
+    },
+    {
+      "arb_trade_count_submission": 3452,
+      "avg_fee_bps_submission": 32.397100000000016,
+      "edge_delta_submission_minus_normalizer": -7.385003853393471,
+      "edge_normalizer": 396.0566488372547,
+      "edge_submission": 388.67164498386126,
+      "retail_trade_count_submission": 8771,
+      "seed": 20260313
+    },
+    {
+      "arb_trade_count_submission": 3578,
+      "avg_fee_bps_submission": 31.652349999999977,
+      "edge_delta_submission_minus_normalizer": 0.20644143974953977,
+      "edge_normalizer": 435.98455326079767,
+      "edge_submission": 436.1909947005472,
+      "retail_trade_count_submission": 9074,
+      "seed": 20260314
+    }
+  ],
+  "run_name": "edge_opt_state_estimation_full_run_100x10000",
+  "seed_end": 20260314,
+  "seed_start": 20260215,
+  "steps_per_run": 10000,
+  "submission": {
+    "mean_arb_trade_count": 3354.39,
+    "mean_avg_fee_bps": 31.653760999999985,
+    "mean_edge": 342.6765316969253,
+    "mean_retail_trade_count": 7593.58,
+    "std_avg_fee_bps": 0.8729212837243715,
+    "std_edge": 53.692970755079706
+  }
+}

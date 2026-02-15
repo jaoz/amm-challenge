@@ -1,0 +1,9 @@
+{
+  "max_required_no_arb_bps": 729.8483678566214,
+  "n_steps": 10000,
+  "trace_step_file": "sim_lab\\out\\analysis_arb35_zero_other_side_ts_20260215_201048\\trace_ts_20260215_191048_seed_20260215_steps_10000_steps.csv",
+  "zero_ask_ratio": 0.4757,
+  "zero_ask_steps": 4757,
+  "zero_bid_ratio": 0.5239,
+  "zero_bid_steps": 5239
+}

@@ -90,27 +90,36 @@ def build_seed_sets(
 class StrategyParams:
     """Tunable deterministic strategy parameters."""
 
+    opening_fee_bps: float = 29.0
     center_fee_bps: float = 37.0
     min_fee_bps: float = 8.0
-    max_fee_bps: float = 100.0
+    max_fee_bps: float = 1_000.0
     max_step_change_bps: float = 3.0
     max_asym_bps: float = 12.0
     normalizer_fee_bps: float = 30.0
+    normalizer_state_alpha: float = 0.45
+    normalizer_pretrade_arb_alpha: float = 0.75
 
     # Hidden-price filter controls.
     eps_weak: float = 0.06
     collapse_reopen_eps: float = 0.003
-    w_arb_anchor: float = 0.68
+    w_arb_anchor: float = 0.52
     c_sigma: float = 2.0
-    mid_smoothing: float = 0.08
+    mid_smoothing: float = 0.03
+    mid_smoothing_same_step: float = 0.008
+    max_anchor_move_bps: float = 14.0
+    max_mid_move_bps: float = 7.0
 
     # State EWMAs.
     alpha_lambda: float = 0.08
+    alpha_lambda_same_step: float = 0.22
     alpha_arb: float = 0.10
+    alpha_arb_same_step: float = 0.24
     alpha_vol: float = 0.06
     alpha_share: float = 0.08
     alpha_order: float = 0.06
     alpha_kappa: float = 0.05
+    lambda_same_step_bonus: float = 0.9
 
     # Priors.
     lambda_prior: float = 0.8
@@ -120,14 +129,31 @@ class StrategyParams:
     # Probable-arb classifier.
     arb_anchor_gate: float = 0.006
     arb_move_floor: float = 0.0002
+    retail_size_sigma_assumed: float = 1.2
+    retail_mean_prior_y: float = 20.0
+    retail_mean_blend: float = 0.45
+    size_arb_abs_y: float = 1.0
+    size_arb_rel_ratio: float = 0.06
+    size_arb_relax_anchor_mult: float = 1.6
+    size_arb_relax_move_mult: float = 0.35
+    size_tail_prob_gate: float = 0.30
+    size_tail_relax_anchor_mult: float = 2.0
+    size_tail_relax_move_mult: float = 0.40
 
     # One-step value proxy weights.
     value_penalty_arb: float = 8.0
     value_penalty_stale: float = 40.0
     value_penalty_inv_abs: float = 24.0
     value_penalty_inv_signed: float = 10.0
+    value_penalty_lambda_gap: float = 10.0
     value_penalty_spread: float = 30.0
     value_penalty_jump: float = 18.0
+    edge_arb_scale: float = 24.0
+    edge_inventory_scale: float = 14.0
+
+    # Large-imbalance no-arb protection.
+    arb_shield_trigger_bps: float = 35.0
+    arb_shield_buffer_bps: float = 35.0
 
     # Discrete action set around center.
     action_grid_bps: tuple[float, ...] = (-4.0, -2.0, 0.0, 2.0, 4.0)

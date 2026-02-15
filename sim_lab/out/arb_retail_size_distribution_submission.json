@@ -1,0 +1,72 @@
+{
+  "config": {
+    "n_seeds": 80,
+    "steps": 3000,
+    "seed0": 450000
+  },
+  "bins": {
+    "[0,1]": {
+      "n": 21801,
+      "share_of_all": 0.0732811649153944,
+      "arb_count": 10748,
+      "retail_count": 11053,
+      "p_arb_given_bin": 0.4930049080317417
+    },
+    "(1,2]": {
+      "n": 28109,
+      "share_of_all": 0.09448466880449616,
+      "arb_count": 9949,
+      "retail_count": 18160,
+      "p_arb_given_bin": 0.3539435767903518
+    },
+    "(2,3]": {
+      "n": 27488,
+      "share_of_all": 0.09239725981351135,
+      "arb_count": 9202,
+      "retail_count": 18286,
+      "p_arb_given_bin": 0.33476426076833526
+    },
+    "(3,5]": {
+      "n": 45973,
+      "share_of_all": 0.15453213130844576,
+      "arb_count": 15181,
+      "retail_count": 30792,
+      "p_arb_given_bin": 0.3302155613077241
+    },
+    "(5,8]": {
+      "n": 49162,
+      "share_of_all": 0.1652515311027301,
+      "arb_count": 15782,
+      "retail_count": 33380,
+      "p_arb_given_bin": 0.32102030023188644
+    },
+    "(8,15]": {
+      "n": 59929,
+      "share_of_all": 0.20144337104787258,
+      "arb_count": 18577,
+      "retail_count": 41352,
+      "p_arb_given_bin": 0.309983480451868
+    },
+    "(15,30]": {
+      "n": 41267,
+      "share_of_all": 0.13871353757000046,
+      "arb_count": 14244,
+      "retail_count": 27023,
+      "p_arb_given_bin": 0.345166840332469
+    },
+    "(30,50]": {
+      "n": 14256,
+      "share_of_all": 0.04791964987999919,
+      "arb_count": 5648,
+      "retail_count": 8608,
+      "p_arb_given_bin": 0.3961840628507295
+    },
+    "(50,1000000000]": {
+      "n": 9513,
+      "share_of_all": 0.03197668555754997,
+      "arb_count": 4126,
+      "retail_count": 5387,
+      "p_arb_given_bin": 0.4337222747818774
+    }
+  }
+}
