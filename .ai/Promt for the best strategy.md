@@ -22,6 +22,23 @@ Do NOT optimize for:
 
 If mean edge increases, accept the change.
 
+## Leader Benchmark Target
+
+Use this reference from the current leader snapshot:
+- `mean_edge_ref = 528.71`
+- `avg_fee_ref = 37.0 bps`
+
+Hard task target:
+- produce a strategy that beats `528.0` mean edge on final test (`S_test`)
+
+Stretch target:
+- exceed `530.0` mean edge on final test
+
+Fee note for calibration (not the optimization objective):
+- use `~37 bps` as an initialization prior / search center
+- practical sweep center band: `34-40 bps`
+- do not prefer higher/lower fee unless it improves mean edge
+
 ## Known World Model
 
 - Fair price follows GBM per step.
@@ -205,6 +222,9 @@ Selection and reporting rule:
 - candidate A beats B only if `mean_d > z_alpha * se_d` and `mean_d > min_effect`
 - recommended: `z_alpha = 1.64` (one-sided), `min_effect = 1.0` edge
 - report both validation and test mean edge for final candidate
+- final success flag:
+- `PASS` if `mean_edge_test > 528.0`
+- `STRETCH PASS` if `mean_edge_test > 530.0`
 
 ## Execution Environment (Docker-First, No Local Rust Build)
 
