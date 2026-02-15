@@ -1,0 +1,20 @@
+{
+  "max_edge_submission": 487.0620207661862,
+  "mean_arb_trade_count_submission": 3338.881,
+  "mean_arb_volume_y_submission": 39175.60752933146,
+  "mean_avg_ask_fee_bps_submission": 31.825240997657012,
+  "mean_avg_bid_fee_bps_submission": 31.754955654102588,
+  "mean_avg_fee_bps_submission": 31.7900983258798,
+  "mean_edge_normalizer": 353.1016553191217,
+  "mean_edge_submission": 354.6930692067671,
+  "mean_retail_trade_count_submission": 7633.708,
+  "mean_retail_volume_y_submission": 76651.46487997888,
+  "min_edge_submission": 236.77529981850364,
+  "n_simulations": 1000,
+  "n_steps": 10000,
+  "p10_edge_submission": 279.4411915490162,
+  "p50_edge_submission": 351.33684281742194,
+  "p90_edge_submission": 431.17972549503725,
+  "seed_end": 20261214,
+  "seed_start": 20260215
+}

@@ -1,0 +1,5 @@
+{"seed_from": 20260215, "seed_to": 20260414, "n_sims": 200, "mean_edge_submission": 351.9809228385339, "mean_avg_fee_bps_submission": 31.851741988985314, "mean_retail_trade_count_submission": 7527.23}
+{"seed_from": 20260415, "seed_to": 20260614, "n_sims": 200, "mean_edge_submission": 351.64663233707734, "mean_avg_fee_bps_submission": 31.783895728861445, "mean_retail_trade_count_submission": 7570.23}
+{"seed_from": 20260615, "seed_to": 20260814, "n_sims": 200, "mean_edge_submission": 356.6820227205104, "mean_avg_fee_bps_submission": 31.78397169903118, "mean_retail_trade_count_submission": 7713.055}
+{"seed_from": 20260815, "seed_to": 20261014, "n_sims": 200, "mean_edge_submission": 358.05347277805083, "mean_avg_fee_bps_submission": 31.724715168477697, "mean_retail_trade_count_submission": 7742.95}
+{"seed_from": 20261015, "seed_to": 20261214, "n_sims": 200, "mean_edge_submission": 355.10229535966323, "mean_avg_fee_bps_submission": 31.806167044043363, "mean_retail_trade_count_submission": 7615.075}

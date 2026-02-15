@@ -128,44 +128,17 @@ Control:
 
 Large-imbalance protection priority:
 - after a retail fill can leave pool imbalanced vs `p_step`; this creates immediate one-sided arb exposure
-- compute required no-arb side fee from current spot:
-- `bid_required = max(0, 1 - p_step / spot)`, `ask_required = max(0, 1 - spot / p_step)`
+- compute required no-arb side fee from spot estimation:
+- `bid_required_fee = max(0, 1 - p_step / pool_price)`, `ask_required = max(0, 1 - pool_price / p_step)`
 - cap required no-arb fee at `10%` before applying any buffer
 - when required side fee is small (up to about `35 bps`), normal inventory tilt logic can dominate
 - when required side fee exceeds `~35 bps`, no-arb protection must override inventory-tilt limits:
-- enforce side fee floor `required + 35 bps`
+- enforce side fee floor `required + BX bps` BX - to opmize i would expect 10-30 bps
 - allow that exposed side to jump beyond normal per-step fee-change cap
 - allow temporary asymmetry beyond normal asymmetry cap if needed to remove arb exposure
-- non-exposed side can be `0 bps` only as an optional candidate (never forced), and only when that side's flow direction compensates current internal inventory imbalance
+- non-exposed side can be `0 bps`, especiallly if exposed side fee is high 
 
-## Route-Dependent Objective Math (Robust Observable Version)
 
-Retail routing depends on both fees and reserves, but competitor reserves are not directly observed in callbacks.
-Use an explicit latent-state model of the normalizer AMM and update it online from observed fills.
-
-Maintain latent normalizer state:
-- `norm_x_hat`, `norm_y_hat` (normalizer reserve estimates)
-- `norm_k` (invariant, approximately constant)
-- optional low-weight share/sensitivity EWMAs for diagnostics (`s_*`, `kappa_*`)
-
-Use exact 2-AMM router equations (same as simulator):
-- buy side uses `A_i = sqrt(x_i * (1-askFee_i) * y_i)` and split by ratio `A_1/A_2`
-- sell side uses `B_i = sqrt(y_i * (1-bidFee_i) * x_i)` and split by ratio `B_1/B_2`
-
-State update from observed submission retail fills:
-- infer full order size and counterpart normalizer fill by inverting split equations
-- if inversion is non-interior, allow clamped one-sided routing (`submission=100%`, `normalizer=0%`)
-- apply inferred normalizer trade to `norm_x_hat`,`norm_y_hat` with smoothing `alpha_norm_state`
-- on new timestamp, project normalizer toward no-arb boundary around `p_step` with low-confidence arb projection (`alpha_norm_arb`)
-
-One-step expected edge (per callback):
-- evaluate candidate `(bidFee, askFee)` pairs
-- for buy flow, compute split using `(our reserves, norm estimates, ask fees)` and edge from exact AMM quote
-- for sell flow, compute split using `(our reserves, norm estimates, bid fees)` and edge from exact AMM quote
-- combine sides with `buyProb_hat` and expected order count `lambda_hat`
-- subtract arb/toxicity and inventory penalties
-
-Avoid static fee-only sigmoid share curves; fee choice should come from split math + latent normalizer state at current step.
 
 ## Hidden True Price Estimation (Best Practical Filter)
 
@@ -238,6 +211,7 @@ Use `p_step` for:
 - stale/toxicity estimation
 - inventory value
 - side tilt decisions
+- fee to arb protection logic 
 
 ## Policy Optimization Under Uncertainty
 
