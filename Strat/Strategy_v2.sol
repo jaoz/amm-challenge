@@ -23,8 +23,9 @@ contract Strategy is AMMStrategyBase {
     uint256 private constant A_STEP_SMOOTH = 4e16;
 
     uint256 private constant K_SIGMA_MULT = 2;
-    uint256 private constant EPS_WEAK_BPS = 24;
-    uint256 private constant COLLAPSE_BUF_BPS = 14;
+    uint256 private constant EPS_WEAK_BPS = 40;
+    uint256 private constant COLLAPSE_BUF_BPS = 20;
+    uint256 private constant A_WEAK_TIGHTEN = 22e16;
     uint256 private constant ANCHOR_WEIGHT_ARB = 72e16;
 
     uint256 private constant RETAIL_MEAN_Y = 20 * WAD;
@@ -101,7 +102,7 @@ contract Strategy is AMMStrategyBase {
         uint256 pStep = slots[8];
         if (pStep == 0) pStep = _safePrice(trade.reserveY, trade.reserveX, 100 * WAD);
         if (pLow == 0 || pHigh == 0) {
-            uint256 width = bpsToWad(30);
+            uint256 width = bpsToWad(20);
             pLow = wmul(pStep, WAD - width);
             pHigh = wmul(pStep, WAD + width);
         }
@@ -131,7 +132,8 @@ contract Strategy is AMMStrategyBase {
                 pStep = _geomMeanOrFallback(pLow, pHigh, pStep);
             }
 
-            uint256 kSigma = clamp(volHat * K_SIGMA_MULT, bpsToWad(6), bpsToWad(40));
+            uint256 dtScale = deltaT > 6 ? 2 : 1;
+            uint256 kSigma = clamp(volHat * dtScale, bpsToWad(3), bpsToWad(20));
             uint256 loMul = kSigma >= WAD ? 1 : (WAD - kSigma);
             uint256 hiMul = WAD + kSigma;
             pLow = wmul(pLow, loMul);
@@ -154,6 +156,7 @@ contract Strategy is AMMStrategyBase {
         uint256 spotPre = _safePrice(yPre, xPre, pStep);
         uint256 spotPost = _safePrice(trade.reserveY, trade.reserveX, pStep);
         uint256 stalePre = _relDiff(spotPost, pBefore);
+        uint256 relSize = trade.reserveY == 0 ? 0 : wdiv(trade.amountY, trade.reserveY);
 
         uint256 gammaBid = _gammaFromFee(bidPrev);
         uint256 gammaAsk = _gammaFromFee(askPrev);
@@ -182,8 +185,8 @@ contract Strategy is AMMStrategyBase {
             uint256 eps = bpsToWad(EPS_WEAK_BPS);
             uint256 lAdj = wmul(weakL, WAD - eps);
             uint256 uAdj = wmul(weakU, WAD + eps);
-            if (lAdj > pLow) pLow = lAdj;
-            if (uAdj < pHigh) pHigh = uAdj;
+            if (lAdj > pLow) pLow = _ewma(pLow, lAdj, A_WEAK_TIGHTEN);
+            if (uAdj < pHigh) pHigh = _ewma(pHigh, uAdj, A_WEAK_TIGHTEN);
         }
 
         if (pLow > pHigh) {
@@ -195,10 +198,12 @@ contract Strategy is AMMStrategyBase {
 
         uint256 midNow = _geomMeanOrFallback(pLow, pHigh, pStep);
         if (highConfidenceArb && !anchoredThisStep) {
-            pStep = _anchorBlendFast(midNow, pAnchor, ANCHOR_WEIGHT_ARB);
+            uint256 anchorW = ANCHOR_WEIGHT_ARB + clamp(relSize * 4, 0, 12e16);
+            if (anchorW > 90e16) anchorW = 90e16;
+            pStep = _anchorBlendFast(midNow, pAnchor, anchorW);
             anchoredThisStep = true;
         } else if (anchoredThisStep) {
-            pStep = _ewma(pStep, midNow, A_STEP_SMOOTH);
+            // Keep anchored price fixed within the same timestamp.
         } else {
             pStep = midNow;
         }
@@ -234,10 +239,10 @@ contract Strategy is AMMStrategyBase {
         int256 shareAvg = (int256(sBuyHatNow) + int256(sSellHatNow)) / 2 - int256(50e16);
         int256 midShareAdj = _clampSigned(shareAvg / int256(6e16), -5, 3);
         uint256 staleBps = wadToBps(stalePre);
-        int256 arbAdj = int256(wadToBps(arbHat)) / 40;
-        int256 staleAdj = int256(staleBps) / 24;
+        int256 arbAdj = _clampSigned((int256(arbHat) - int256(45e16)) / int256(8e16), -2, 6);
+        int256 staleAdj = _clampSigned((int256(staleBps) - 8) / 8, -1, 4);
         int256 burstAdj = (deltaT <= 1 && stepTrades >= 2) ? int256(-2) : int256(0);
-        int256 reactiveMid = arbAdj + staleAdj + burstAdj - 12;
+        int256 reactiveMid = arbAdj + staleAdj + burstAdj;
         if (highConfidenceArb) reactiveMid += 1;
         if (!highConfidenceArb && staleBps <= 8 && stepTrades == 1 && deltaT <= 1) reactiveMid -= 1;
 
@@ -478,10 +483,11 @@ contract Strategy is AMMStrategyBase {
         if (_relDiff(pAnchor, pStep) <= tol) score += 1;
 
         uint256 rel = reserveY == 0 ? 0 : wdiv(amountY, reserveY);
-        if (rel >= bpsToWad(1)) score += 1;
+        if (rel >= bpsToWad(8) / 10) score += 1;
+        if (deltaT >= 2) score += 1;
 
         if (stepTrades > 2 && score > 0) score -= 1;
-        return score >= 2;
+        return score >= 3;
     }
 
     function _enforceAsymmetry(uint256 bidBps, uint256 askBps, uint256 maxAsym)
