@@ -75,8 +75,6 @@ contract Strategy is AMMStrategyBase {
         slots[9] = initialX;
         slots[10] = initialY;
         slots[11] = 50e16;
-        slots[17] = OPEN_BPS;
-        slots[18] = OPEN_BPS;
 
         return (open, open);
     }
