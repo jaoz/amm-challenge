@@ -10,8 +10,8 @@ There are no unit/integration tests here; validation is done with `amm-match`.
 
 How to run (from repo root, PowerShell):
 1. Validate a strategy:
-   `docker run --rm -v "${PWD}:/app" -w /app amm-challenge:latest amm-match validate Strat/Strategy_v2.sol`
+   `docker run --rm -it -v "${PWD}:/app" -w /app amm-challenge:latest amm-match validate Strat/Strategy_v2.sol`
 2. Run a quick smoke benchmark:
-   `docker run --rm -v "${PWD}:/app" -w /app amm-challenge:latest amm-match run Strat/Strategy_v2.sol --simulations 50`
+   `docker run --rm -it -v "${PWD}:/app" -w /app amm-challenge:latest amm-match run Strat/Strategy_v2.sol --simulations 50`
 3. Run a fuller benchmark:
-   `docker run --rm -v "${PWD}:/app" -w /app amm-challenge:latest amm-match run Strat/Strategy_v2.sol --simulations 1000`
+   `docker run --rm -it -v "${PWD}:/app" -w /app amm-challenge:latest amm-match run Strat/Strategy_v2.sol --simulations 1000`
