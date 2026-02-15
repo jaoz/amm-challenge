@@ -1,0 +1,33 @@
+# VCS and IDE
+.git
+.gitignore
+.idea/
+.vscode/
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.venv/
+venv/
+**/.venv/
+**/venv/
+
+# Build / packaging artifacts
+build/
+dist/
+*.egg-info/
+
+# Rust / maturin artifacts
+target/
+**/target/
+
+# OS noise
+.DS_Store
+Thumbs.db

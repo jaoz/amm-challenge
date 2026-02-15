@@ -1,0 +1,4 @@
+start_ts,end_ts,strategy_name,edge
+2026-02-14T21:13:16.520860+00:00,2026-02-14T21:14:55.394533+00:00,MM2Track+DeltaBandedFees,186.28
+2026-02-14T22:50:22.864321+00:00,2026-02-14T22:50:30.464816+00:00,WorldState_BandShift_v4_20260214 [Strat/my_strategy_worldstate_v4_20260214.sol],393.11
+2026-02-15T00:30:42.201027+00:00,2026-02-15T00:32:14.471975+00:00,WorldState_BandShift_v6_20260215 [Strat/my_strategy_worldstate_v6_20260215.sol],380.36
