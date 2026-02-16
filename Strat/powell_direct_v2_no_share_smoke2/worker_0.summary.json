@@ -1,0 +1,10 @@
+{
+  "best_refined": null,
+  "hours_cap": 0.1,
+  "iterations_budget": 2,
+  "iterations_executed": 2,
+  "quick_evals": 1,
+  "refine_evals": 0,
+  "target_fee_bps": 24.0,
+  "worker_id": 0
+}

@@ -1,0 +1,43 @@
+{
+  "attempt": 10,
+  "iteration": 10,
+  "name": "PowellDirectNoShare_w0_000009",
+  "params": {
+    "a_arb": 31,
+    "a_arb_same": 42,
+    "a_lambda": 21,
+    "a_lambda_same": 48,
+    "a_mid": 19,
+    "a_mid_same": 19,
+    "a_vol": 20,
+    "a_weak": 38,
+    "anchor_w": 77,
+    "arb_anchor_gate_bps": 39,
+    "arb_move_floor_bps": 6,
+    "collapse_buf_bps": 141,
+    "eps_weak_bps": 133,
+    "max_asym_bps": 29,
+    "max_jump_bps": 16,
+    "max_skew_bps": 29,
+    "open_bps": 68,
+    "prior_bps": 65,
+    "shield_buffer_bps": 24,
+    "shield_trigger_bps": 89,
+    "size_small_abs_y_tenths": 10,
+    "size_small_rel_pct": 30,
+    "target_max_bps": 396
+  },
+  "refine_metrics": {
+    "arb_volume_y": 9759.430129787554,
+    "avg_edge": 448.3467718551549,
+    "avg_fee_bps": 86.88572750000097,
+    "max_edge": 664.2330321040739,
+    "median_edge": 449.0120782081018,
+    "min_edge": 262.0336569311435,
+    "p05_edge": 325.10658566620975,
+    "p10_edge": 349.56369742193317,
+    "retail_volume_y": 43230.91235324538
+  },
+  "refine_score": 448.3467718551549,
+  "timestamp": 1771197366.2500982
+}
