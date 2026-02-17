@@ -148,7 +148,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--base-strategy",
         default="Strat/my_strategy_worldstate_tiltfair_v1_20260215.sol",
-        help="Seed strategy path (used for compatibility and naming only).",
+        help="Seed strategy path; workers evaluate this source as the initial incumbent.",
     )
     parser.add_argument("--hours", type=float, default=4.0)
     parser.add_argument("--target-fee-bps", type=float, default=35.5)
@@ -494,22 +494,9 @@ contract Strategy is AMMStrategyBase {{
 
 
 def compute_objective(metrics: dict[str, float], target_fee_bps: float) -> float:
-    avg = metrics["avg_edge"]
-    p10 = metrics["p10_edge"]
-    p05 = metrics["p05_edge"]
-    fee = metrics["avg_fee_bps"]
-    retail = metrics["retail_volume_y"]
-    arb = metrics["arb_volume_y"]
-
-    robust = 0.57 * avg + 0.28 * p10 + 0.15 * p05
-    fee_gap = abs(fee - target_fee_bps)
-    fee_penalty = 2.9 * fee_gap
-    if fee > target_fee_bps + 5:
-        fee_penalty += 3.8 * (fee - (target_fee_bps + 5))
-    if fee < target_fee_bps - 7:
-        fee_penalty += 1.6 * ((target_fee_bps - 7) - fee)
-    flow_term = 0.00030 * retail - 0.00025 * arb
-    return robust + flow_term - fee_penalty
+    # Optimize strictly for mean edge.
+    _ = target_fee_bps
+    return metrics["avg_edge"]
 
 
 def evaluate(
@@ -570,6 +557,8 @@ def worker_main(args: argparse.Namespace) -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
     wid = args.worker_id
     rng = random.Random(args.seed + wid * 1_000_003)
+    base_strategy_path = Path(args.base_strategy)
+    base_source: str | None = None
 
     progress_path = out_dir / f"worker_{wid}.progress.jsonl"
     best_json_path = out_dir / f"worker_{wid}.best.json"
@@ -611,10 +600,41 @@ def worker_main(args: argparse.Namespace) -> int:
     deadline = time.time() + args.hours * 3600.0
     iteration = 0
 
+    try:
+        base_source = base_strategy_path.read_text(encoding="utf-8")
+    except Exception as exc:
+        print(f"[worker {wid}] warning: failed to read base strategy '{base_strategy_path}': {exc}", flush=True)
+
     print(
-        f"[worker {wid}] start hours={args.hours} quick={args.quick_sims} refine={args.refine_sims} target_fee={args.target_fee_bps}",
+        f"[worker {wid}] start hours={args.hours} quick={args.quick_sims} refine={args.refine_sims} objective=avg_edge",
         flush=True,
     )
+    if base_source is not None:
+        base_metrics = evaluate(base_source, args.refine_sims, compiler, baseline, n_workers)
+        if base_metrics is not None:
+            base_score = compute_objective(base_metrics, args.target_fee_bps)
+            base_rec = {
+                "iteration": 0,
+                "name": "BASE_STRATEGY",
+                "params": None,
+                "refine_metrics": base_metrics,
+                "refine_score": base_score,
+                "timestamp": time.time(),
+                "base_strategy": str(base_strategy_path),
+            }
+            best_refined = base_rec
+            best_json_path.write_text(json.dumps(best_refined, indent=2, sort_keys=True), encoding="utf-8")
+            best_sol_path.write_text(base_source, encoding="utf-8")
+            write_json_line(progress_path, {"event": "base_refine_seed", **base_rec})
+            print(
+                f"[worker {wid}] base seed loaded edge={base_metrics['avg_edge']:.2f} score={base_score:.2f}",
+                flush=True,
+            )
+        else:
+            print(
+                f"[worker {wid}] warning: base strategy compile/eval failed, continuing without base incumbent",
+                flush=True,
+            )
 
     while time.time() < deadline:
         iteration += 1
@@ -729,6 +749,8 @@ def launch_main(args: argparse.Namespace) -> int:
             "worker",
             "--worker-id",
             str(wid),
+            "--base-strategy",
+            str(args.base_strategy),
             "--hours",
             str(args.hours),
             "--target-fee-bps",

@@ -1,0 +1,128 @@
+Chat 'ChatTitle(text="```markdown
+# Build…" with Codex, isCustom=true)' (60b4fcbe-59a4-4f62-86d0-d39255e6414d)
+Context:
+
+Messages: 2
+==============================================================================================================
+
+==== RestoredMessage #1 ====
+User: 
+```markdown
+# Build a Better AMM Strategy (Mean Edge Only)
+
+You are writing a new Solidity strategy for the AMM challenge. Start from:
+`Strat/best_avg_edge_4workers.sol`
+
+Create a new file in `Strat/` with a new name, and keep the contract name `Strategy`.
+
+## True Objective
+
+Maximize only:
+- average total edge across 1000 simulations
+- each simulation has 10,000 steps
+
+Do NOT optimize for:
+- variance
+- p10/p05 robustness
+- Sharpe-like objectives
+- target average fee
+
+If a change increases average edge and increases variance, keep it.
+
+## Known World Facts
+
+- Price process randomness is pseudo-random GBM per step.
+- Volatility per simulation: `sigma ~ U[0.088%, 0.101%]` (small range, lower priority).
+- Retail arrival intensity per simulation: `lambda ~ U[0.6, 1.0]` (highest impact on edge).
+- Retail order size mean in Y terms: `U[19, 21]` (smaller impact).
+- World parameters are fixed within a run and resampled between runs.
+- Both AMMs start from `x=100`, `y=10000`; competitor is fixed 30 bps.
+
+## Design Priorities (in order)
+
+1. Improve online inference of retail intensity (`lambda`) from observed flow over time.
+2. Use `lambda` estimate as the main driver of base fee level.
+3. Keep arb toxicity/fair-price staleness control strong (avoid large arb bleed).
+4. Keep volatility logic lightweight (do not overfit to tiny sigma range).
+5. Keep order-size logic lightweight.
+
+## Required Strategy Changes
+
+Implement a 3-layer policy:
+
+1) Latent-state estimation layer
+- Maintain EWMA-style estimates for:
+  - arb probability / toxicity
+  - retail intensity proxy (main state)
+  - fair price estimate
+  - optional mild volatility estimate
+- Use timestamp deltas, per-step trade counts, and trade classification to improve `lambda` proxy.
+- Avoid treating every first-in-step trade as retail; preserve existing arb detection logic quality.
+
+2) Fee base layer (mean-edge optimized)
+- Base fee should primarily depend on:
+  - `lambda_hat` (strongest weight)
+  - `arb_prob` (second strongest)
+  - `vol_hat` (smallest weight)
+- Use piecewise schedule with explicit thresholds and clamps.
+- Permit asymmetric bid/ask adjustments only if they improve average edge in tests.
+
+3) Tilt / execution layer
+- Keep fair-price tilt and inventory tilt, but reduce complexity that does not improve mean edge.
+- Add a clear transition from discovery phase to exploitation phase:
+  - early run: faster learning / wider exploration
+  - later run: stable exploitation tuned to inferred world
+
+## Optimization Protocol (must follow)
+
+When proposing parameter changes, evaluate with common random numbers and staged simulation budgets:
+
+1. Quick filter: 60-100 sims
+2. Refine: 250-400 sims for promising candidates
+3. Final check: 1000 sims on top candidates
+
+Use objective:
+- `score = avg_edge` only
+
+No penalties for:
+- variance
+- tail outcomes
+- average fee level
+
+## Deliverables
+
+Return all of the following:
+
+1. Full Solidity file content for the new strategy.
+2. Short explanation of what changed vs `best_avg_edge_4workers.sol`, focused on:
+   - better `lambda` estimation
+   - new base-fee mapping
+   - any simplified/removed logic
+3. A compact parameter table (thresholds, boosts/cuts, fee clamps).
+4. Exact commands to run local validation and 1000-sim evaluation.
+5. Expected directional effect:
+   - why this should beat the current ~528.7 average edge baseline.
+
+## Hard Constraints
+
+- Keep within challenge constraints (gas, storage slots, no forbidden ops).
+- Keep implementation deterministic and reproducible.
+- Preserve numerical safety for fixed-point math and fee clamps.
+- Do not add external dependencies.
+
+## Important Notes
+
+- This is not real-world market making; optimize strictly for simulator edge.
+- Prefer simple, high-signal logic over complex overfitting.
+- Every nontrivial new rule must map to one of the known drivers, mainly `lambda`.
+```
+
+
+kotlin.Unit
+
+==== RestoredMessage #2 ====
+Assistant: 
+
+
+kotlin.Unit
+

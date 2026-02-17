@@ -1,0 +1,148 @@
+Chat 'ChatTitle(text="check the .ai/Promt…" with Codex, isCustom=true)' (c8e0b7d4-c653-4557-b3cd-09e80fcd9d2e)
+Context:
+
+Messages: 22
+==============================================================================================================
+
+==== RestoredMessage #1 ====
+User: 
+check the .ai/Promt for the best strategy.md as powell would do,any logic gaps? mistake? 
+
+
+kotlin.Unit
+
+==== RestoredMessage #2 ====
+Assistant: 
+
+
+kotlin.Unit
+
+==== RestoredMessage #3 ====
+User: 
+use the  .ai/Promt for the best strategy.md and  sim_lab/strategy.py to build a sol base strategy put in new file in /Strat folder 
+1) Is simulator ordering correct arb than retail, gurtanteed. 
+2) suggest for sol some approximation that coud be inside the gas limit. 
+3) mean delta is ok for now. 
+4)" strategy brittle to simulator/version changes".  - it is acceptable. part of the game
+
+
+kotlin.Unit
+
+==== RestoredMessage #4 ====
+Assistant: 
+
+
+kotlin.Unit
+
+==== RestoredMessage #5 ====
+User: 
+1)lets drop latent normolizer logic, the strategy is too complex and too heavy to run.
+2) describe in detail how the fee are on each step
+
+
+
+kotlin.Unit
+
+==== RestoredMessage #6 ====
+Assistant: 
+
+
+kotlin.Unit
+
+==== RestoredMessage #7 ====
+User: 
+looks like to score of fees are quite complex logic, suggest how to simplify it. 
+
+kotlin.Unit
+
+==== RestoredMessage #8 ====
+Assistant: 
+
+
+kotlin.Unit
+
+==== RestoredMessage #9 ====
+User: 
+make a new file with this logic 
+
+kotlin.Unit
+
+==== RestoredMessage #10 ====
+Assistant: 
+
+
+kotlin.Unit
+
+==== RestoredMessage #11 ====
+User: 
+let `inferredOrderY` we do not need it 
+
+kotlin.Unit
+
+==== RestoredMessage #12 ====
+Assistant: 
+
+
+kotlin.Unit
+
+==== RestoredMessage #13 ====
+User: 
+orderSizeHat  `sizeRatio`are they used? can it be dropped
+
+kotlin.Unit
+
+==== RestoredMessage #14 ====
+Assistant: 
+
+
+kotlin.Unit
+
+==== RestoredMessage #15 ====
+User: 
+review strategy for dead code
+
+kotlin.Unit
+
+==== RestoredMessage #16 ====
+Assistant: 
+
+
+kotlin.Unit
+
+==== RestoredMessage #17 ====
+User: 
+remove dead code also remove flow skew - the flow is symmetrical , let drop 
+
+kotlin.Unit
+
+==== RestoredMessage #18 ====
+Assistant: 
+
+
+kotlin.Unit
+
+==== RestoredMessage #19 ====
+User: 
+`shareSkew` looks like complex and dead, validate
+
+kotlin.Unit
+
+==== RestoredMessage #20 ====
+Assistant: 
+
+
+kotlin.Unit
+
+==== RestoredMessage #21 ====
+User: 
+remove  shareSkew (and likely shareBuyHat/shareSellHat/A_SHARE) from strtagy, name it differently 
+remove `shareBuyHat` `shareSellHat` looks dead as well
+
+kotlin.Unit
+
+==== RestoredMessage #22 ====
+Assistant: 
+
+
+kotlin.Unit
+

@@ -6,7 +6,6 @@ import {TradeInfo} from "./IAMMStrategy.sol";
 
 contract Strategy is AMMStrategyBase {
     // --- decay / update constants ---
-    uint256 constant OPEN_FEE = 1 * BPS;
     uint256 constant ELAPSED_CAP = 8;
     uint256 constant SIGNAL_THRESHOLD = WAD / 500; // ~20 bps of reserve
     uint256 constant DIR_DECAY = 800000000000000000; // 0.80
@@ -27,10 +26,10 @@ contract Strategy is AMMStrategyBase {
     uint256 constant MIN_GATE = 30000000000000000; // 0.03 WAD
 
     // --- Cubic Toxicity ---
-    uint256 constant TOX_CUBIC_COEF = 15000 * BPS;
+    uint256 constant TOX_CUBIC_COEF = 15695 * BPS;
 
     // --- Trade-Tox Boost ---
-    uint256 constant TRADE_TOX_BOOST = 2800 * BPS;
+    uint256 constant TRADE_TOX_BOOST = 2483 * BPS;
 
     // --- Asymmetric Stale Dir ---
     uint256 constant STALE_ATTRACT_FRAC = 1124000000000000000; // 1.124
@@ -42,6 +41,20 @@ contract Strategy is AMMStrategyBase {
     uint256 constant LAMBDA_CAP = 5 * WAD; // max 5 trades/step estimate
     uint256 constant STEP_COUNT_CAP = 64; // guardrail
 
+    // --- arb classifier / tail harvest / shield ---
+    uint256 constant ARB_TOX_MIN = WAD / 400; // 25 bps
+    uint256 constant ARB_TR_MIN = WAD / 232; // 40 bps of reserveY
+    uint256 constant ARB_RET_MIN = WAD / 300; // 33 bps vs pHat
+
+    uint256 constant SHIELD_TRIGGER = WAD / 322; // ~30 bps
+    uint256 constant SHIELD_BUFFER = WAD / 1065; // 10 bps
+
+    uint256 constant TAIL_KNEE_RAW = WAD / 200; // 50 bps (raw tradeRatio knee)
+    uint256 constant TAIL_CAP_RAW = WAD / 10; // 10% of reserveY (keep tail signal)
+    uint256 constant TAIL_QUAD_COEF = WAD / 4; // convex tail fee
+    uint256 constant TAIL_CUBIC_COEF = WAD / 12; // extra convexity
+    uint256 constant TAIL_RETAIL_MULT_SAMESTEP = WAD + (WAD / 2); // 1.5x
+
     // --- fee model constants ---
     uint256 constant BASE_FEE = 3 * BPS;
     uint256 constant SIGMA_COEF = 200000000000000000; // 0.20
@@ -49,14 +62,14 @@ contract Strategy is AMMStrategyBase {
     uint256 constant FLOW_SIZE_COEF = 4842 * BPS;
     uint256 constant TOX_COEF = 250 * BPS;
     uint256 constant TOX_QUAD_COEF = 11700 * BPS;
-    uint256 constant ACT_COEF = 91843 * BPS;
+    uint256 constant ACT_COEF = 89132 * BPS;
     uint256 constant DIR_COEF = 20 * BPS;
-    uint256 constant DIR_TOX_COEF = 100 * BPS;
-    uint256 constant STALE_DIR_COEF = 6850 * BPS;
+    uint256 constant DIR_TOX_COEF = 112 * BPS;
+    uint256 constant STALE_DIR_COEF = 6770 * BPS;
     uint256 constant SIGMA_TOX_COEF = 500 * BPS;
     uint256 constant TAIL_KNEE = 500 * BPS;
-    uint256 constant TAIL_SLOPE_PROTECT = 930000000000000000; // 0.93
-    uint256 constant TAIL_SLOPE_ATTRACT = 955000000000000000; // 0.955
+    uint256 constant TAIL_SLOPE_PROTECT = 896251556069406625; // 0.93
+    uint256 constant TAIL_SLOPE_ATTRACT = 896251556069406625; // 0.955
 
     // slots[0] = bid fee
     // slots[1] = ask fee
@@ -71,8 +84,8 @@ contract Strategy is AMMStrategyBase {
     // slots[10] = stepTradeCount (raw integer)
 
     function afterInitialize(uint256 initialX, uint256 initialY) external override returns (uint256, uint256) {
-        slots[0] = OPEN_FEE;
-        slots[1] = OPEN_FEE;
+        slots[0] = BASE_FEE;
+        slots[1] = BASE_FEE;
         slots[2] = 0;
         slots[3] = WAD; // neutral direction
         slots[4] = 0;
@@ -82,14 +95,12 @@ contract Strategy is AMMStrategyBase {
         slots[8] = 2000000000000000; // 0.2% reserve-size ratio guess
         slots[9] = 0;
         slots[10] = 0;
-        return (OPEN_FEE, OPEN_FEE);
+        return (BASE_FEE, BASE_FEE);
     }
 
     function afterSwap(TradeInfo calldata trade) external override returns (uint256, uint256) {
         uint256 prevBidFee = slots[0];
         uint256 prevAskFee = slots[1];
-        if (prevBidFee == 0) prevBidFee = OPEN_FEE;
-        if (prevAskFee == 0) prevAskFee = OPEN_FEE;
         uint256 lastTs = slots[2];
         uint256 dirState = slots[3];
         uint256 actEma = slots[4];
@@ -133,8 +144,10 @@ contract Strategy is AMMStrategyBase {
             pImplied = trade.isBuy ? wmul(spot, gamma) : wdiv(spot, gamma);
         }
 
+        uint256 retLocal = 0;
         {
             uint256 ret = pHat > 0 ? wdiv(absDiff(pImplied, pHat), pHat) : 0;
+            retLocal = ret;
             uint256 alpha = firstInStep ? PHAT_ALPHA : PHAT_ALPHA_RETAIL;
             uint256 adaptiveGate = wmul(sigmaHat, GATE_SIGMA_MULT);
             if (adaptiveGate < MIN_GATE) adaptiveGate = MIN_GATE;
@@ -147,7 +160,10 @@ contract Strategy is AMMStrategyBase {
             }
         }
 
-        uint256 tradeRatio = trade.reserveY > 0 ? wdiv(trade.amountY, trade.reserveY) : 0;
+        uint256 tradeRatioRaw = trade.reserveY > 0 ? wdiv(trade.amountY, trade.reserveY) : 0;
+
+        // keep capped for state updates, but preserve raw for tail harvest
+        uint256 tradeRatio = tradeRatioRaw;
         if (tradeRatio > TRADE_RATIO_CAP) tradeRatio = TRADE_RATIO_CAP;
 
         if (tradeRatio > SIGNAL_THRESHOLD) {
@@ -172,12 +188,25 @@ contract Strategy is AMMStrategyBase {
         toxEma = wmul(toxEma, TOX_BLEND_DECAY) + wmul(tox, WAD - TOX_BLEND_DECAY);
         uint256 toxSignal = toxEma;
 
+        bool probableArb = _classifyProbableArb(
+            trade.isBuy,
+            firstInStep,
+            stepTradeCount,
+            spot,
+            pHat,
+            tox,
+            retLocal,
+            tradeRatioRaw
+        );
+
         stepTradeCount = stepTradeCount + 1;
         if (stepTradeCount > STEP_COUNT_CAP) stepTradeCount = STEP_COUNT_CAP;
 
         uint256 flowSize = wmul(lambdaHat, sizeHat);
-        uint256 fBase = BASE_FEE + wmul(SIGMA_COEF, sigmaHat) + wmul(LAMBDA_COEF, lambdaHat) + wmul(FLOW_SIZE_COEF, flowSize);
-        uint256 fMid = fBase + wmul(TOX_COEF, toxSignal) + wmul(TOX_QUAD_COEF, wmul(toxSignal, toxSignal)) + wmul(ACT_COEF, actEma);
+        uint256 fBase =
+            BASE_FEE + wmul(SIGMA_COEF, sigmaHat) + wmul(LAMBDA_COEF, lambdaHat) + wmul(FLOW_SIZE_COEF, flowSize);
+        uint256 fMid = fBase + wmul(TOX_COEF, toxSignal) + wmul(TOX_QUAD_COEF, wmul(toxSignal, toxSignal))
+            + wmul(ACT_COEF, actEma);
 
         fMid = fMid + wmul(SIGMA_TOX_COEF, wmul(sigmaHat, toxSignal));
 
@@ -224,7 +253,7 @@ contract Strategy is AMMStrategyBase {
 
         // Trade-aligned toxicity boost
         {
-            bool tradeAligned = stepTradeCount <= 2 && ((trade.isBuy && spot >= pHat) || (!trade.isBuy && spot < pHat));
+            bool tradeAligned = (trade.isBuy && spot >= pHat) || (!trade.isBuy && spot < pHat);
             if (tradeAligned) {
                 uint256 tradeBoost = wmul(TRADE_TOX_BOOST, tradeRatio);
                 if (trade.isBuy) {
@@ -232,6 +261,48 @@ contract Strategy is AMMStrategyBase {
                 } else {
                     askFee = askFee + tradeBoost;
                 }
+            }
+        }
+
+        // Convex tail capture (lognormal-friendly): harvest rare large prints when not probable arb
+        {
+            bool retailHarvest = (!probableArb) || (stepTradeCount >= 2);
+
+            if (retailHarvest) {
+                uint256 tr = tradeRatioRaw;
+                if (tr > TAIL_CAP_RAW) tr = TAIL_CAP_RAW;
+
+                if (tr > TAIL_KNEE_RAW) {
+                    uint256 tail = tr - TAIL_KNEE_RAW;
+                    uint256 tail2 = wmul(tail, tail);
+                    uint256 tail3 = wmul(tail2, tail);
+
+                    uint256 boost = wmul(TAIL_QUAD_COEF, tail2) + wmul(TAIL_CUBIC_COEF, tail3);
+
+                    if (stepTradeCount >= 2) {
+                        boost = wmul(boost, TAIL_RETAIL_MULT_SAMESTEP);
+                    }
+
+                    if (trade.isBuy) {
+                        bidFee = bidFee + boost;
+                    } else {
+                        askFee = askFee + boost;
+                    }
+                }
+            }
+        }
+
+        // No-arb fee floor shield (prevents donating edge when spot is stale vs pHat)
+        {
+            (uint256 bidReq, uint256 askReq) = _requiredNoArbFloors(pHat, spot);
+
+            if (bidReq > SHIELD_TRIGGER) {
+                uint256 floor = bidReq + SHIELD_BUFFER;
+                if (bidFee < floor) bidFee = floor;
+            }
+            if (askReq > SHIELD_TRIGGER) {
+                uint256 floor = askReq + SHIELD_BUFFER;
+                if (askFee < floor) askFee = floor;
             }
         }
 
@@ -259,6 +330,43 @@ contract Strategy is AMMStrategyBase {
         return (bidFee, askFee);
     }
 
+    function _classifyProbableArb(
+        bool isBuy,
+        bool firstInStep,
+        uint256 stepTradeCount,
+        uint256 spot,
+        uint256 pHat,
+        uint256 tox,
+        uint256 ret,
+        uint256 tradeRatioRaw
+    ) internal pure returns (bool) {
+        if (!firstInStep) return false;
+        if (stepTradeCount != 0) return false;
+        if (tox < ARB_TOX_MIN) return false;
+        if (ret < ARB_RET_MIN) return false;
+        if (tradeRatioRaw < ARB_TR_MIN) return false;
+
+        // Arb-aligned means it likely moves spot toward pHat.
+        bool arbAligned = (isBuy && spot < pHat) || (!isBuy && spot > pHat);
+        return arbAligned;
+    }
+
+    function _requiredNoArbFloors(uint256 pHat, uint256 spot) internal pure returns (uint256 bidFloor, uint256 askFloor) {
+        bidFloor = 0;
+        askFloor = 0;
+        if (pHat == 0 || spot == 0) return (0, 0);
+
+        if (spot > pHat) {
+            // Need spot*(1-bidFee) <= pHat  => bidFee >= 1 - pHat/spot
+            uint256 ratio = wdiv(pHat, spot);
+            bidFloor = ratio < WAD ? (WAD - ratio) : 0;
+        } else if (spot < pHat) {
+            // Need spot/(1-askFee) >= pHat => askFee >= 1 - spot/pHat
+            uint256 ratio = wdiv(spot, pHat);
+            askFloor = ratio < WAD ? (WAD - ratio) : 0;
+        }
+    }
+
     function _compressTailWithSlope(uint256 fee, uint256 slope) internal pure returns (uint256) {
         if (fee <= TAIL_KNEE) return fee;
         return TAIL_KNEE + wmul(fee - TAIL_KNEE, slope);
@@ -283,6 +391,6 @@ contract Strategy is AMMStrategyBase {
     }
 
     function getName() external pure override returns (string memory) {
-        return "yq_enriched_simple";
+        return "Theo1Local_best_worker_3";
     }
 }
