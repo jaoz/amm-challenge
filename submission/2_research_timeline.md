@@ -12,7 +12,7 @@ The objective was strictly:
 
 Variance and tail metrics were intentionally ignored unless they affected mean edge.
 
-The strategy design was guided by a formal specification (see `Promt for the best strategy.md`) and strict Docker-based evaluation workflow (see `guidelines.md`).
+The strategy design was guided by a formal specification (see `Prompt for the best strategy.md`) and strict Docker-based evaluation workflow (see `guidelines.md`).
 
 ---
 
@@ -48,9 +48,9 @@ Early iterations showed that unstructured prompting produced inconsistent agent 
 
 ### Solution
 
-Created structured development artifacts:
+Created structured development artifacts .ai/ :
 
-- `Promt for the best strategy.md`
+- `Prompt for the best strategy.md`
 - `guidelines.md`
 - `.aiignore`
 
@@ -66,15 +66,15 @@ These formalized:
 ### Tooling Evaluation
 
 Tested:
-- Codex
-- Gemini
+- Codex 5.3 high and xhigh
+- Gemini CLI
 
 Codex showed:
 - Better long-context reasoning
 - More consistent Solidity output
 - Stronger adherence to structural constraints
 
-Standardized on Codex for development.
+Used on Codex for development.
 
 ---
 
@@ -90,7 +90,7 @@ Ran parameter optimization:
 
 ### Result
 
-Reached ~522–523 mean edge.
+Reached ~380–400 mean edge locally
 
 ### Diagnosis
 

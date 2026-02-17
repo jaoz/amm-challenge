@@ -61,8 +61,8 @@
 - **2026-02-16 00:22**: `strategy_powell_direct_v2_no_share.sol`.
 - Pivot rationale: simplify from candidate scoring to deterministic direct control, then reduce share-state coupling.
 
-### 8) Sourced baseline + enriched/theoretical variants
-- **2026-02-16 20:11**: `baseline_sourced.sol`.
+### 8) Sourced baseline + enriched/theoretical variants sourced from https://github.com/jiayaoqijia/amm-challenge-yq enriched with arbitrage-free shielding and tail harvesting.
+- **2026-02-16 20:11**: `baseline_sourced.sol`. 
 - **2026-02-16 21:08**: `theo1.sol`.
 - **2026-02-16 21:12**: `baseline_sourced_enriched_simple.sol`.
 - Key change: sourced model with toxicity/flow shaping, then enrichment with arb classifier + tail harvest + no-arb shield.
@@ -76,7 +76,7 @@
   - `Strategy_v2.sol`: best logged mean edge **375.44** (300 sims; higher-fee setting ~71 bps).
 - Powell direct:
   - `strategy_powell_direct_v1.sol`: mean edge **421.65** (300 sims).
-  - after optimization plateuted at ~**497**
+  - after optimization plateaued at ~**497**
 - Final sourced family:
   - `baseline_sourced.sol`: mean edge **532.57** (200 sims, ~37.9 bps).
   - `baseline_sourced_enriched_simple.sol`: best validation mean edge **532.58** (200 sims), repeated near-identical results across many reruns.
