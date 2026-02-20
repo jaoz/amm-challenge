@@ -310,6 +310,7 @@ $launchVM1 = "sudo bash -c 'cd /root/amm-challenge && source .venv/bin/activate 
   "nohup python Cursor/tools/run_theo1_staged_pipeline.py " +
   "--base-strategy $BASE " +
   "--a-workers 48 --a-max-safe-workers 56 --a-sim-workers 1 --a-hours 5.0 " +
+  "--b-workers 16 --c-workers 20 " +
   "--a-step-pct 0.05 --a-max-changes 3 " +
   "--a-mutable-constants $MUTABLE " +
   "> /tmp/pipeline_stdout.log 2>&1 & PID=\$!; echo \$PID > /tmp/pipeline.pid; echo STARTED_pid=\$PID'"
@@ -319,6 +320,7 @@ $launchVM2 = "sudo bash -c 'cd /root/amm-challenge && source .venv/bin/activate 
   "nohup python Cursor/tools/run_theo1_staged_pipeline.py " +
   "--base-strategy $BASE " +
   "--a-workers 48 --a-max-safe-workers 56 --a-sim-workers 1 --a-hours 5.0 " +
+  "--b-workers 16 --c-workers 20 " +
   "--a-step-pct 0.08 --a-max-changes 4 " +
   "--a-mutable-constants $MUTABLE " +
   "> /tmp/pipeline_stdout.log 2>&1 & PID=\$!; echo \$PID > /tmp/pipeline.pid; echo STARTED_pid=\$PID'"
@@ -375,6 +377,35 @@ foreach ($vm in @(@{IP=$IP1; name="VM1"}, @{IP=$IP2; name="VM2"})) {
       'RD=$(sudo ls -t /root/amm-challenge/Cursor/runs/ | head -1); sudo tail -1 /root/amm-challenge/Cursor/runs/$RD/stage_a_search/workers/worker_2/stdout.log 2>/dev/null' 2>&1
 }
 # Format: [worker 2] it=NNN quick score=XXX.XX best=...:YYY.YY
+
+# Global best across all workers (recommended every 10 min)
+# IMPORTANT: worker logs are root-owned, so parse with sudo.
+foreach ($vm in @(@{IP=$IP1; name="VM1"}, @{IP=$IP2; name="VM2"})) {
+    Write-Host "=== $($vm.name) NEW BEST ==="
+    & $plink -batch -i $ppk -l $env:USERNAME $($vm.IP) @'
+RD=$(sudo ls -1t /root/amm-challenge/Cursor/runs | grep theo1_staged_pipeline | head -1)
+sudo python3 - <<PY
+import glob,re
+rd='''$RD'''
+pat=re.compile(r'score=([-0-9.]+)')
+rows=[]
+for fp in glob.glob(f'/root/amm-challenge/Cursor/runs/{rd}/stage_a_search/workers/worker_*/stdout.log'):
+    with open(fp,'r',encoding='utf-8',errors='ignore') as f:
+        for line in f:
+            if 'NEW BEST' in line:
+                m=pat.search(line)
+                if m:
+                    rows.append((float(m.group(1)), line.strip()))
+rows.sort(key=lambda x: x[0], reverse=True)
+print('RUN_DIR=' + rd)
+if rows:
+    print(f'BEST_SCORE={rows[0][0]:.2f}')
+    print('BEST_LINE=' + rows[0][1])
+else:
+    print('BEST_SCORE=NA')
+PY
+'@ 2>&1
+}
 
 # Done check — look for pipeline_result.json on each
 foreach ($vm in @(@{IP=$IP1; name="VM1"}, @{IP=$IP2; name="VM2"})) {
@@ -600,6 +631,7 @@ Promoted file: Cursor/strategies/champions/theo1_v4_promoted_YYYYMMDD.sol  OR  N
 | Workers stuck at `it=0` after 10 min | Base eval running (normal — takes ~3 min/worker); wait |
 | Stage A gate fails | Increase `--a-hours` to 7 or check base strategy path |
 | Stage B/C gate fails (`lcb95 <= 0`) | Candidate overfit; try `--a-quick-sims 8` (more filtering) or `--a-refine-sims 16` |
+| Stage C takes too long with low CPU | Increase validation parallelism: add `--b-workers 16 --c-workers 20` (or `--c-workers 24`) |
 | SSH timeout / connection refused | Check: `Test-NetConnection $IP -Port 22`; if closed, VM may be overloaded (see Emergency section) |
 | `pscp` permission denied | Files owned by root; run the `sudo cp ... /tmp/results/` step first |
 | IP changed after start | Always re-read IP from `gcloud compute instances describe --format="value(...natIP)"` |
@@ -616,6 +648,8 @@ python Cursor/tools/run_theo1_staged_pipeline.py \
   --a-workers 48 \                # MUST be 48 on n2-highcpu-48 (not 60, not 56)
   --a-max-safe-workers 56 \       # soft headroom cap
   --a-sim-workers 1 \             # sim threads per worker (keep 1)
+  --b-workers 16 \                # Stage B parallelism (reduce idle CPU in validation)
+  --c-workers 20 \                # Stage C parallelism (20 is a good default on 48 vCPU)
   --a-hours 5.0 \                 # Stage A search duration (5h with 2 VMs = ~same as 8h single)
   --a-step-pct 0.05 \             # VM1: conservative (0.05); VM2: aggressive (0.08)
   --a-max-changes 3 \             # VM1: 3; VM2: 4 — diagonal moves in parameter space
