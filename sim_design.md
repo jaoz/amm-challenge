@@ -51,7 +51,7 @@ Use paired deltas versus incumbent:
 
 Purpose: discover candidates, not final selection.
 
-- workers: 1-3 (OOM-safe)
+- workers: N (validate on the hardware with smal benchmark)
 - sim_workers: 1
 - quick_sims: 4-8
 - refine_sims: 8-16

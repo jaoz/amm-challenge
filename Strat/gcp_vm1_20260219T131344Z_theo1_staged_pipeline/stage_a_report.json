@@ -1,0 +1,51 @@
+{
+  "evaluation": {
+    "per_seed": [
+      {
+        "base_avg_edge": 497.7017777505583,
+        "candidate_avg_edge": 500.5112916002979,
+        "delta_avg_edge": 2.8095138497396306,
+        "seed": 42000.0
+      },
+      {
+        "base_avg_edge": 527.1170242539898,
+        "candidate_avg_edge": 529.9650292012035,
+        "delta_avg_edge": 2.848004947213667,
+        "seed": 42001.0
+      },
+      {
+        "base_avg_edge": 523.1832839514495,
+        "candidate_avg_edge": 525.8391293538331,
+        "delta_avg_edge": 2.655845402383534,
+        "seed": 42002.0
+      },
+      {
+        "base_avg_edge": 524.7298091872133,
+        "candidate_avg_edge": 528.0017346557922,
+        "delta_avg_edge": 3.2719254685789565,
+        "seed": 42003.0
+      },
+      {
+        "base_avg_edge": 500.8457489070438,
+        "candidate_avg_edge": 503.4334653055902,
+        "delta_avg_edge": 2.5877163985463767,
+        "seed": 42004.0
+      }
+    ],
+    "summary": {
+      "lcb95_mean_delta": 2.6593274903198902,
+      "mean_delta": 2.8346012132924328,
+      "min_delta": 2.5877163985463767,
+      "n_seeds": 5,
+      "p10_delta": 2.5877163985463767,
+      "ucb95_mean_delta": 3.063925351066814
+    }
+  },
+  "pass": true,
+  "stage": "A",
+  "trigger_rule": {
+    "mean_delta_threshold": 5.0,
+    "p10_delta_floor": -10.0,
+    "pass_condition": "mean_delta >= threshold OR p10_delta >= floor"
+  }
+}

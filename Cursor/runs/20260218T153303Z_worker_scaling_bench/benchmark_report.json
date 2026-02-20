@@ -1,0 +1,943 @@
+{
+  "args": {
+    "base_strategy": "Strat/theo1_local_islandga_10h_expanded_q30r100_w7i5_seed42000_20260217T2250358541760Z/worker_0.best.sol",
+    "eval_seeds": "42000-42004",
+    "global_parent_prob": 0.4,
+    "global_top_k": 64,
+    "holdout_max_drop_arb": 100.0,
+    "holdout_max_drop_edge": 0.1,
+    "holdout_max_drop_retail": 200.0,
+    "holdout_seeds": "43000-43001",
+    "hours": 0.006,
+    "max_changes": 3,
+    "max_drift": 2.0,
+    "min_delta_edge": 0.005,
+    "mutable_constants": "BASE_FEE,MIN_GATE,GATE_SIGMA_MULT,RET_CAP,PHAT_ALPHA_RETAIL,PHAT_ALPHA,SIGMA_COEF,LAMBDA_COEF,FLOW_SIZE_COEF,TOX_COEF,TOX_QUAD_COEF,TOX_CUBIC_COEF,SHIELD_TRIGGER,SHIELD_BUFFER,DIR_TOX_COEF,SIGMA_TOX_COEF",
+    "out_dir": "",
+    "quick_sims": 6,
+    "refine_every": 4,
+    "refine_sims": 12,
+    "restart_prob": 0.2,
+    "seed": 42000,
+    "share_sync_every": 4,
+    "sim_workers_grid": "1,2",
+    "spawn_stagger_seconds": 0.5,
+    "step_pct": 0.03,
+    "workers_grid": "20,24"
+  },
+  "best": {
+    "elapsed_seconds": 126.01,
+    "estimated_sim_matches": 1680,
+    "estimated_sims_per_min": 799.91,
+    "failed": false,
+    "failures": [],
+    "pids": [
+      {
+        "pid": 25824,
+        "worker_id": 0
+      },
+      {
+        "pid": 36976,
+        "worker_id": 1
+      },
+      {
+        "pid": 2336,
+        "worker_id": 2
+      },
+      {
+        "pid": 13812,
+        "worker_id": 3
+      },
+      {
+        "pid": 42456,
+        "worker_id": 4
+      },
+      {
+        "pid": 37700,
+        "worker_id": 5
+      },
+      {
+        "pid": 13600,
+        "worker_id": 6
+      },
+      {
+        "pid": 28648,
+        "worker_id": 7
+      },
+      {
+        "pid": 24856,
+        "worker_id": 8
+      },
+      {
+        "pid": 36028,
+        "worker_id": 9
+      },
+      {
+        "pid": 31228,
+        "worker_id": 10
+      },
+      {
+        "pid": 19588,
+        "worker_id": 11
+      },
+      {
+        "pid": 18008,
+        "worker_id": 12
+      },
+      {
+        "pid": 22076,
+        "worker_id": 13
+      },
+      {
+        "pid": 14704,
+        "worker_id": 14
+      },
+      {
+        "pid": 37996,
+        "worker_id": 15
+      },
+      {
+        "pid": 19928,
+        "worker_id": 16
+      },
+      {
+        "pid": 27816,
+        "worker_id": 17
+      },
+      {
+        "pid": 10288,
+        "worker_id": 18
+      },
+      {
+        "pid": 26868,
+        "worker_id": 19
+      }
+    ],
+    "quick_evals_total": 0,
+    "refine_evals_total": 20,
+    "run_dir": "C:\\Users\\azhel\\PycharmProjects\\amm-challenge\\Cursor\\runs\\20260218T153303Z_worker_scaling_bench\\w20_sw1",
+    "sim_workers": 1,
+    "workers": 20
+  },
+  "created_at": "2026-02-18T15:42:27.289474+00:00",
+  "ranked": [
+    {
+      "elapsed_seconds": 126.01,
+      "estimated_sim_matches": 1680,
+      "estimated_sims_per_min": 799.91,
+      "failed": false,
+      "failures": [],
+      "pids": [
+        {
+          "pid": 25824,
+          "worker_id": 0
+        },
+        {
+          "pid": 36976,
+          "worker_id": 1
+        },
+        {
+          "pid": 2336,
+          "worker_id": 2
+        },
+        {
+          "pid": 13812,
+          "worker_id": 3
+        },
+        {
+          "pid": 42456,
+          "worker_id": 4
+        },
+        {
+          "pid": 37700,
+          "worker_id": 5
+        },
+        {
+          "pid": 13600,
+          "worker_id": 6
+        },
+        {
+          "pid": 28648,
+          "worker_id": 7
+        },
+        {
+          "pid": 24856,
+          "worker_id": 8
+        },
+        {
+          "pid": 36028,
+          "worker_id": 9
+        },
+        {
+          "pid": 31228,
+          "worker_id": 10
+        },
+        {
+          "pid": 19588,
+          "worker_id": 11
+        },
+        {
+          "pid": 18008,
+          "worker_id": 12
+        },
+        {
+          "pid": 22076,
+          "worker_id": 13
+        },
+        {
+          "pid": 14704,
+          "worker_id": 14
+        },
+        {
+          "pid": 37996,
+          "worker_id": 15
+        },
+        {
+          "pid": 19928,
+          "worker_id": 16
+        },
+        {
+          "pid": 27816,
+          "worker_id": 17
+        },
+        {
+          "pid": 10288,
+          "worker_id": 18
+        },
+        {
+          "pid": 26868,
+          "worker_id": 19
+        }
+      ],
+      "quick_evals_total": 0,
+      "refine_evals_total": 20,
+      "run_dir": "C:\\Users\\azhel\\PycharmProjects\\amm-challenge\\Cursor\\runs\\20260218T153303Z_worker_scaling_bench\\w20_sw1",
+      "sim_workers": 1,
+      "workers": 20
+    },
+    {
+      "elapsed_seconds": 126.76,
+      "estimated_sim_matches": 1680,
+      "estimated_sims_per_min": 795.23,
+      "failed": false,
+      "failures": [],
+      "pids": [
+        {
+          "pid": 10460,
+          "worker_id": 0
+        },
+        {
+          "pid": 38052,
+          "worker_id": 1
+        },
+        {
+          "pid": 28820,
+          "worker_id": 2
+        },
+        {
+          "pid": 6532,
+          "worker_id": 3
+        },
+        {
+          "pid": 29028,
+          "worker_id": 4
+        },
+        {
+          "pid": 42888,
+          "worker_id": 5
+        },
+        {
+          "pid": 23992,
+          "worker_id": 6
+        },
+        {
+          "pid": 33856,
+          "worker_id": 7
+        },
+        {
+          "pid": 14700,
+          "worker_id": 8
+        },
+        {
+          "pid": 32336,
+          "worker_id": 9
+        },
+        {
+          "pid": 27444,
+          "worker_id": 10
+        },
+        {
+          "pid": 7476,
+          "worker_id": 11
+        },
+        {
+          "pid": 25216,
+          "worker_id": 12
+        },
+        {
+          "pid": 15560,
+          "worker_id": 13
+        },
+        {
+          "pid": 41408,
+          "worker_id": 14
+        },
+        {
+          "pid": 25696,
+          "worker_id": 15
+        },
+        {
+          "pid": 29628,
+          "worker_id": 16
+        },
+        {
+          "pid": 27264,
+          "worker_id": 17
+        },
+        {
+          "pid": 37000,
+          "worker_id": 18
+        },
+        {
+          "pid": 41992,
+          "worker_id": 19
+        }
+      ],
+      "quick_evals_total": 0,
+      "refine_evals_total": 20,
+      "run_dir": "C:\\Users\\azhel\\PycharmProjects\\amm-challenge\\Cursor\\runs\\20260218T153303Z_worker_scaling_bench\\w20_sw2",
+      "sim_workers": 2,
+      "workers": 20
+    },
+    {
+      "elapsed_seconds": 155.09,
+      "estimated_sim_matches": 2016,
+      "estimated_sims_per_min": 779.94,
+      "failed": false,
+      "failures": [],
+      "pids": [
+        {
+          "pid": 12092,
+          "worker_id": 0
+        },
+        {
+          "pid": 42128,
+          "worker_id": 1
+        },
+        {
+          "pid": 40108,
+          "worker_id": 2
+        },
+        {
+          "pid": 14600,
+          "worker_id": 3
+        },
+        {
+          "pid": 11072,
+          "worker_id": 4
+        },
+        {
+          "pid": 34952,
+          "worker_id": 5
+        },
+        {
+          "pid": 38624,
+          "worker_id": 6
+        },
+        {
+          "pid": 23724,
+          "worker_id": 7
+        },
+        {
+          "pid": 29960,
+          "worker_id": 8
+        },
+        {
+          "pid": 36244,
+          "worker_id": 9
+        },
+        {
+          "pid": 34360,
+          "worker_id": 10
+        },
+        {
+          "pid": 30088,
+          "worker_id": 11
+        },
+        {
+          "pid": 23952,
+          "worker_id": 12
+        },
+        {
+          "pid": 11300,
+          "worker_id": 13
+        },
+        {
+          "pid": 9172,
+          "worker_id": 14
+        },
+        {
+          "pid": 40912,
+          "worker_id": 15
+        },
+        {
+          "pid": 21792,
+          "worker_id": 16
+        },
+        {
+          "pid": 30920,
+          "worker_id": 17
+        },
+        {
+          "pid": 4372,
+          "worker_id": 18
+        },
+        {
+          "pid": 36992,
+          "worker_id": 19
+        },
+        {
+          "pid": 38480,
+          "worker_id": 20
+        },
+        {
+          "pid": 19396,
+          "worker_id": 21
+        },
+        {
+          "pid": 18352,
+          "worker_id": 22
+        },
+        {
+          "pid": 36432,
+          "worker_id": 23
+        }
+      ],
+      "quick_evals_total": 0,
+      "refine_evals_total": 24,
+      "run_dir": "C:\\Users\\azhel\\PycharmProjects\\amm-challenge\\Cursor\\runs\\20260218T153303Z_worker_scaling_bench\\w24_sw1",
+      "sim_workers": 1,
+      "workers": 24
+    },
+    {
+      "elapsed_seconds": 155.66,
+      "estimated_sim_matches": 2016,
+      "estimated_sims_per_min": 777.07,
+      "failed": false,
+      "failures": [],
+      "pids": [
+        {
+          "pid": 16048,
+          "worker_id": 0
+        },
+        {
+          "pid": 14704,
+          "worker_id": 1
+        },
+        {
+          "pid": 26388,
+          "worker_id": 2
+        },
+        {
+          "pid": 19708,
+          "worker_id": 3
+        },
+        {
+          "pid": 31228,
+          "worker_id": 4
+        },
+        {
+          "pid": 23192,
+          "worker_id": 5
+        },
+        {
+          "pid": 17344,
+          "worker_id": 6
+        },
+        {
+          "pid": 32296,
+          "worker_id": 7
+        },
+        {
+          "pid": 14016,
+          "worker_id": 8
+        },
+        {
+          "pid": 10536,
+          "worker_id": 9
+        },
+        {
+          "pid": 41868,
+          "worker_id": 10
+        },
+        {
+          "pid": 36052,
+          "worker_id": 11
+        },
+        {
+          "pid": 28892,
+          "worker_id": 12
+        },
+        {
+          "pid": 13320,
+          "worker_id": 13
+        },
+        {
+          "pid": 38604,
+          "worker_id": 14
+        },
+        {
+          "pid": 40688,
+          "worker_id": 15
+        },
+        {
+          "pid": 14368,
+          "worker_id": 16
+        },
+        {
+          "pid": 20676,
+          "worker_id": 17
+        },
+        {
+          "pid": 16868,
+          "worker_id": 18
+        },
+        {
+          "pid": 30292,
+          "worker_id": 19
+        },
+        {
+          "pid": 32484,
+          "worker_id": 20
+        },
+        {
+          "pid": 2680,
+          "worker_id": 21
+        },
+        {
+          "pid": 5632,
+          "worker_id": 22
+        },
+        {
+          "pid": 33624,
+          "worker_id": 23
+        }
+      ],
+      "quick_evals_total": 0,
+      "refine_evals_total": 24,
+      "run_dir": "C:\\Users\\azhel\\PycharmProjects\\amm-challenge\\Cursor\\runs\\20260218T153303Z_worker_scaling_bench\\w24_sw2",
+      "sim_workers": 2,
+      "workers": 24
+    }
+  ],
+  "results": [
+    {
+      "elapsed_seconds": 126.01,
+      "estimated_sim_matches": 1680,
+      "estimated_sims_per_min": 799.91,
+      "failed": false,
+      "failures": [],
+      "pids": [
+        {
+          "pid": 25824,
+          "worker_id": 0
+        },
+        {
+          "pid": 36976,
+          "worker_id": 1
+        },
+        {
+          "pid": 2336,
+          "worker_id": 2
+        },
+        {
+          "pid": 13812,
+          "worker_id": 3
+        },
+        {
+          "pid": 42456,
+          "worker_id": 4
+        },
+        {
+          "pid": 37700,
+          "worker_id": 5
+        },
+        {
+          "pid": 13600,
+          "worker_id": 6
+        },
+        {
+          "pid": 28648,
+          "worker_id": 7
+        },
+        {
+          "pid": 24856,
+          "worker_id": 8
+        },
+        {
+          "pid": 36028,
+          "worker_id": 9
+        },
+        {
+          "pid": 31228,
+          "worker_id": 10
+        },
+        {
+          "pid": 19588,
+          "worker_id": 11
+        },
+        {
+          "pid": 18008,
+          "worker_id": 12
+        },
+        {
+          "pid": 22076,
+          "worker_id": 13
+        },
+        {
+          "pid": 14704,
+          "worker_id": 14
+        },
+        {
+          "pid": 37996,
+          "worker_id": 15
+        },
+        {
+          "pid": 19928,
+          "worker_id": 16
+        },
+        {
+          "pid": 27816,
+          "worker_id": 17
+        },
+        {
+          "pid": 10288,
+          "worker_id": 18
+        },
+        {
+          "pid": 26868,
+          "worker_id": 19
+        }
+      ],
+      "quick_evals_total": 0,
+      "refine_evals_total": 20,
+      "run_dir": "C:\\Users\\azhel\\PycharmProjects\\amm-challenge\\Cursor\\runs\\20260218T153303Z_worker_scaling_bench\\w20_sw1",
+      "sim_workers": 1,
+      "workers": 20
+    },
+    {
+      "elapsed_seconds": 126.76,
+      "estimated_sim_matches": 1680,
+      "estimated_sims_per_min": 795.23,
+      "failed": false,
+      "failures": [],
+      "pids": [
+        {
+          "pid": 10460,
+          "worker_id": 0
+        },
+        {
+          "pid": 38052,
+          "worker_id": 1
+        },
+        {
+          "pid": 28820,
+          "worker_id": 2
+        },
+        {
+          "pid": 6532,
+          "worker_id": 3
+        },
+        {
+          "pid": 29028,
+          "worker_id": 4
+        },
+        {
+          "pid": 42888,
+          "worker_id": 5
+        },
+        {
+          "pid": 23992,
+          "worker_id": 6
+        },
+        {
+          "pid": 33856,
+          "worker_id": 7
+        },
+        {
+          "pid": 14700,
+          "worker_id": 8
+        },
+        {
+          "pid": 32336,
+          "worker_id": 9
+        },
+        {
+          "pid": 27444,
+          "worker_id": 10
+        },
+        {
+          "pid": 7476,
+          "worker_id": 11
+        },
+        {
+          "pid": 25216,
+          "worker_id": 12
+        },
+        {
+          "pid": 15560,
+          "worker_id": 13
+        },
+        {
+          "pid": 41408,
+          "worker_id": 14
+        },
+        {
+          "pid": 25696,
+          "worker_id": 15
+        },
+        {
+          "pid": 29628,
+          "worker_id": 16
+        },
+        {
+          "pid": 27264,
+          "worker_id": 17
+        },
+        {
+          "pid": 37000,
+          "worker_id": 18
+        },
+        {
+          "pid": 41992,
+          "worker_id": 19
+        }
+      ],
+      "quick_evals_total": 0,
+      "refine_evals_total": 20,
+      "run_dir": "C:\\Users\\azhel\\PycharmProjects\\amm-challenge\\Cursor\\runs\\20260218T153303Z_worker_scaling_bench\\w20_sw2",
+      "sim_workers": 2,
+      "workers": 20
+    },
+    {
+      "elapsed_seconds": 155.09,
+      "estimated_sim_matches": 2016,
+      "estimated_sims_per_min": 779.94,
+      "failed": false,
+      "failures": [],
+      "pids": [
+        {
+          "pid": 12092,
+          "worker_id": 0
+        },
+        {
+          "pid": 42128,
+          "worker_id": 1
+        },
+        {
+          "pid": 40108,
+          "worker_id": 2
+        },
+        {
+          "pid": 14600,
+          "worker_id": 3
+        },
+        {
+          "pid": 11072,
+          "worker_id": 4
+        },
+        {
+          "pid": 34952,
+          "worker_id": 5
+        },
+        {
+          "pid": 38624,
+          "worker_id": 6
+        },
+        {
+          "pid": 23724,
+          "worker_id": 7
+        },
+        {
+          "pid": 29960,
+          "worker_id": 8
+        },
+        {
+          "pid": 36244,
+          "worker_id": 9
+        },
+        {
+          "pid": 34360,
+          "worker_id": 10
+        },
+        {
+          "pid": 30088,
+          "worker_id": 11
+        },
+        {
+          "pid": 23952,
+          "worker_id": 12
+        },
+        {
+          "pid": 11300,
+          "worker_id": 13
+        },
+        {
+          "pid": 9172,
+          "worker_id": 14
+        },
+        {
+          "pid": 40912,
+          "worker_id": 15
+        },
+        {
+          "pid": 21792,
+          "worker_id": 16
+        },
+        {
+          "pid": 30920,
+          "worker_id": 17
+        },
+        {
+          "pid": 4372,
+          "worker_id": 18
+        },
+        {
+          "pid": 36992,
+          "worker_id": 19
+        },
+        {
+          "pid": 38480,
+          "worker_id": 20
+        },
+        {
+          "pid": 19396,
+          "worker_id": 21
+        },
+        {
+          "pid": 18352,
+          "worker_id": 22
+        },
+        {
+          "pid": 36432,
+          "worker_id": 23
+        }
+      ],
+      "quick_evals_total": 0,
+      "refine_evals_total": 24,
+      "run_dir": "C:\\Users\\azhel\\PycharmProjects\\amm-challenge\\Cursor\\runs\\20260218T153303Z_worker_scaling_bench\\w24_sw1",
+      "sim_workers": 1,
+      "workers": 24
+    },
+    {
+      "elapsed_seconds": 155.66,
+      "estimated_sim_matches": 2016,
+      "estimated_sims_per_min": 777.07,
+      "failed": false,
+      "failures": [],
+      "pids": [
+        {
+          "pid": 16048,
+          "worker_id": 0
+        },
+        {
+          "pid": 14704,
+          "worker_id": 1
+        },
+        {
+          "pid": 26388,
+          "worker_id": 2
+        },
+        {
+          "pid": 19708,
+          "worker_id": 3
+        },
+        {
+          "pid": 31228,
+          "worker_id": 4
+        },
+        {
+          "pid": 23192,
+          "worker_id": 5
+        },
+        {
+          "pid": 17344,
+          "worker_id": 6
+        },
+        {
+          "pid": 32296,
+          "worker_id": 7
+        },
+        {
+          "pid": 14016,
+          "worker_id": 8
+        },
+        {
+          "pid": 10536,
+          "worker_id": 9
+        },
+        {
+          "pid": 41868,
+          "worker_id": 10
+        },
+        {
+          "pid": 36052,
+          "worker_id": 11
+        },
+        {
+          "pid": 28892,
+          "worker_id": 12
+        },
+        {
+          "pid": 13320,
+          "worker_id": 13
+        },
+        {
+          "pid": 38604,
+          "worker_id": 14
+        },
+        {
+          "pid": 40688,
+          "worker_id": 15
+        },
+        {
+          "pid": 14368,
+          "worker_id": 16
+        },
+        {
+          "pid": 20676,
+          "worker_id": 17
+        },
+        {
+          "pid": 16868,
+          "worker_id": 18
+        },
+        {
+          "pid": 30292,
+          "worker_id": 19
+        },
+        {
+          "pid": 32484,
+          "worker_id": 20
+        },
+        {
+          "pid": 2680,
+          "worker_id": 21
+        },
+        {
+          "pid": 5632,
+          "worker_id": 22
+        },
+        {
+          "pid": 33624,
+          "worker_id": 23
+        }
+      ],
+      "quick_evals_total": 0,
+      "refine_evals_total": 24,
+      "run_dir": "C:\\Users\\azhel\\PycharmProjects\\amm-challenge\\Cursor\\runs\\20260218T153303Z_worker_scaling_bench\\w24_sw2",
+      "sim_workers": 2,
+      "workers": 24
+    }
+  ]
+}

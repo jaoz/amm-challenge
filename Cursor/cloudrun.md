@@ -2,7 +2,7 @@
 
 ## Purpose
 This document is a self-contained prompt for an autonomous agent to execute a **complete GCP optimization cycle** for the AMM Challenge Theo1 strategy:
-VM creation → environment setup → pipeline launch → monitoring → result download → analysis → VM teardown.
+VM start → pipeline launch → monitoring → result download → VM stop.
 
 Read this entire file before taking any action. Execute every step in order.
 
@@ -14,367 +14,579 @@ Read this entire file before taking any action. Execute every step in order.
 - **Goal**: Maximize `mean_edge` — the average per-trade edge earned by the strategy across simulation seeds.
 - **Strategy file**: A Solidity `.sol` file with embedded integer constants that are optimized numerically.
 - **Pipeline**: `Cursor/tools/run_theo1_staged_pipeline.py` — a Python script that:
-  - **Stage A**: Runs N parallel local-search workers (each tries random parameter mutations, keeps improvements). Duration: ~1 hour.
+  - **Stage A**: Runs N parallel local-search workers (each tries random parameter mutations, keeps improvements). Duration: configurable (`--a-hours`).
   - **Stage B**: Evaluates the best candidate found by Stage A against 20 holdout seeds. Gate: `lcb95_mean_delta > 0` AND `p10_delta >= -10`.
-  - **Stage C**: Evaluates the same candidate against 30 holdout seeds (wider confidence interval). Gate: same rule.
+  - **Stage C**: Evaluates the same candidate against 48 holdout seeds. Gate: same rule.
   - On full pass → writes `promoted_best.sol` to the run directory.
-- **Baseline strategy** (current champion): `Cursor/strategies/champions/theo1_v2_fixed_20260218.sol`
-- **Baseline scores** (from local run `20260218T205008Z` — passed all gates):
-  - Stage A: mean_delta=1.08, p10_delta=0.76
-  - Stage B: lcb95=1.03, p10=0.88 (20 seeds)
-  - Stage C: lcb95=1.04, p10=0.89 (30 seeds)
-  - Worker best refine scores ranged 511.09–511.78
+- **Current champion**: `Cursor/strategies/champions/theo1_v3_promoted_20260219.sol`
+- **Current champion scores** (GCP 8h run `20260219T034902Z`, 48 workers, n2-highcpu-48):
+  - Stage A: mean_delta=2.138, p10_delta=1.866
+  - Stage B (20 seeds): lcb95=2.209, p10=1.729
+  - Stage C (48 seeds): **lcb95=2.203**, p10=1.984, min_delta=1.473 — ALL seeds positive
+- **Leaderboard score**: +515.20 Avg Edge per Sim — target is +530 (+15 gap to close)
 
 ---
 
-## Prerequisites (already done by the human)
+## THIS RUN: 2-VM Parallel Strategy (Target: ~5.5h wall-clock vs 8.5h single-VM)
 
-- `gcloud` CLI installed and authenticated: `gcloud auth login` done
-- GCP project created: **`ammopt`**
-- Billing linked to project `ammopt`
-- Compute Engine API enabled: `gcloud services enable compute.googleapis.com --project=ammopt`
-- Repo: `https://github.com/jaoz/amm-challenge` (may be private — see Step 3)
-- Active branch: `Search-powell-style`
+### Why two VMs?
+
+The previous 8h run showed clear diminishing returns:
+- +0.76 avg_edge/hr at 2h → +0.12/hr at 6.5h → essentially converged at 8h
+- **Root cause**: 48 workers all share the same hill-climb trajectory and converge to the same local optimum
+
+Two VMs running 5h each gives:
+- **96 effective workers** of parallel exploration (vs 48 for 8h)
+- **Diversity** via different step sizes (VM1=0.05 conservative, VM2=0.08 aggressive)
+- **35% faster wall-clock** (~5.5h vs ~8.5h)
+- **8 new unexplored parameters** added to search space (could unlock next local optimum)
+
+### Architecture
+
+```
+VM1 (amm-opt-1, n2-highcpu-48, existing):       VM2 (amm-opt-2, n2-highcpu-48, cloned):
+  Stage A: 5h, step_pct=0.05, max_changes=3        Stage A: 5h, step_pct=0.08, max_changes=4
+  Strategy: conservative exploitation              Strategy: aggressive exploration
+  Stage B/C: automatic after Stage A               Stage B/C: automatic after Stage A
+       |                                                  |
+       +-------------- ~5.5h wall-clock ----------------+
+                              |
+                     Take max(VM1_lcb95, VM2_lcb95)
+                              |
+                    Save as theo1_v4_promoted_YYYYMMDD.sol
+```
+
+### Cost
+- 2× n2-highcpu-48 × 5.5h ≈ **$12.50** total (vs $9.70 for 8.5h single VM)
+- ~$2.80 more for substantially higher exploration throughput
 
 ---
 
-## Step 1 — Create the VM
+## Infrastructure State
 
-Run from local machine (PowerShell or bash with gcloud on PATH):
+```
+GCP project:    ammopt
+Zone:           europe-central2-b
 
-```bash
-gcloud compute instances create amm-opt-1 \
-  --project=ammopt \
-  --zone=europe-west1-b \
-  --machine-type=c2-standard-16 \
-  --image-family=ubuntu-2204-lts \
-  --image-project=ubuntu-os-cloud \
-  --boot-disk-size=50GB \
-  --boot-disk-type=pd-ssd \
-  --metadata=enable-oslogin=FALSE
+VM1: amm-opt-1  — n2-highcpu-48, TERMINATED, disk preserved (repo + venv + Rust intact)
+VM2: amm-opt-2  — n2-highcpu-48, DOES NOT EXIST YET — created from disk snapshot of amm-opt-1
+
+External IPs: assigned on start — always re-read after starting (see steps below)
+
+gcloud path:  C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd
+plink path:   C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin\sdk\plink.exe
+pscp path:    C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin\sdk\pscp.exe
+SSH key PPK:  $env:USERPROFILE\.ssh\google_compute_engine.ppk
+SSH user:     $env:USERNAME (your Windows username)
+Host key FP1: SHA256:dPd3B7F67qf4K+hqnD5T8QKsoWzHlv+/AQD2tMrESuw  (amm-opt-1, in PuTTY registry)
+Host key FP2: (unknown — amm-opt-2 is new; omit -hostkey on first connect to accept and cache)
 ```
 
-Verify it's running:
-```bash
-gcloud compute instances list --project=ammopt
-```
-
-Expected: instance `amm-opt-1` with status `RUNNING`.
-
-**VM spec rationale**: c2-standard-16 = 16 vCPU, 64 GB RAM. Runs 14 parallel workers safely.
-For 20+ workers use `c2-standard-30` (~2× cost).
-
----
-
-## Step 2 — SSH into the VM
-
-```bash
-gcloud compute ssh amm-opt-1 --zone=europe-west1-b --project=ammopt
-```
-
-All subsequent commands in Steps 3–7 are run **inside this SSH session**.
-
----
-
-## Step 3 — Install system dependencies
-
-```bash
-sudo apt-get update && sudo apt-get install -y \
-  build-essential pkg-config libssl-dev git curl \
-  python3.10 python3.10-venv python3.10-dev
-
-# Rust toolchain (required for amm_sim_rs Rust extension)
-curl https://sh.rustup.rs -sSf | sh -s -- -y --profile minimal
-source "$HOME/.cargo/env"
-
-# Verify
-python3.10 --version   # must be 3.10.x
-rustc --version        # must succeed
+Standard SSH pattern:
+```powershell
+$plink = "C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin\sdk\plink.exe"
+$ppk   = "$env:USERPROFILE\.ssh\google_compute_engine.ppk"
+$fpr1  = "SHA256:dPd3B7F67qf4K+hqnD5T8QKsoWzHlv+/AQD2tMrESuw"
+# For amm-opt-1:  & $plink -batch -hostkey $fpr1 -i $ppk -l $env:USERNAME $IP1 "CMD"
+# For amm-opt-2 (first connect — accept key):
+#   & $plink -batch -i $ppk -l $env:USERNAME $IP2 "CMD" 2>&1
+# After first connect, PuTTY caches the key — add -hostkey $fpr2 once you know it
 ```
 
 ---
 
-## Step 4 — Clone the repository
+## VM Sizing — n2-highcpu-48 is the proven production machine
 
-The GitHub PAT is stored in **GCP Secret Manager** under the secret name `github-pat` in project `ammopt`.
-Fetch it at clone time — it is never written to disk.
+| Machine | vCPU | RAM | `--a-workers` | Notes |
+|---------|------|-----|--------------|-------|
+| n2-highcpu-48 | 48 | 47 GB | **48** | Proven stable — DO NOT exceed 48 workers |
 
-```bash
-# Fetch token from Secret Manager (requires VM service account has secretmanager.secretAccessor role)
-TOKEN=$(gcloud secrets versions access latest --secret=github-pat --project=ammopt)
+> **CRITICAL — DO NOT exceed 48 workers on n2-highcpu-48.**
+> A previous run with 60 workers caused CPU scheduling starvation: the kernel's
+> network stack starved, SSH became unreachable after ~2.5h, and the VM had to be
+> hard-reset. Load average with 48 workers holds exactly 48.x — perfectly stable.
 
-git clone https://$TOKEN@github.com/jaoz/amm-challenge.git
-cd amm-challenge
-git checkout Search-powell-style
+---
 
-unset TOKEN   # wipe from shell memory immediately after clone
+## Step 0 — Restore production startup script on amm-opt-1
+
+The startup script was replaced with a no-op during an emergency reset in the
+previous session. Before starting amm-opt-1, restore the real production script:
+
+```powershell
+$g = "C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd"
+& $g compute instances add-metadata amm-opt-1 `
+  --zone=europe-central2-b --project=ammopt `
+  "--metadata-from-file=startup-script=C:\Users\azhel\PycharmProjects\amm-challenge\Cursor\gcp_production_startup.sh" 2>&1
 ```
 
-Verify:
-```bash
-git log --oneline -3   # should show recent commits
-ls Cursor/tools/run_theo1_staged_pipeline.py   # must exist
+Expected output: `Updated [https://...instances/amm-opt-1]`
+
+---
+
+## Step 0.5 — Create amm-opt-2 from disk snapshot of amm-opt-1
+
+This clones the entire disk state (repo, venv, compiled Rust extension) so amm-opt-2
+needs zero setup time. amm-opt-1 must be TERMINATED before snapshotting.
+
+```powershell
+$g = "C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd"
+
+# 1. Snapshot amm-opt-1's boot disk (VM must be stopped — it is TERMINATED)
+& $g compute disks snapshot amm-opt-1 `
+  --zone=europe-central2-b --project=ammopt `
+  --snapshot-names=amm-opt-1-snap-$(Get-Date -Format "yyyyMMdd") 2>&1
+# Wait ~2 min for snapshot to complete
+
+# 2. Verify snapshot is READY
+$snapName = "amm-opt-1-snap-$(Get-Date -Format "yyyyMMdd")"
+& $g compute snapshots describe $snapName --project=ammopt --format="value(status)" 2>&1
+# Expected: READY
+
+# 3. Create new boot disk from snapshot
+& $g compute disks create amm-opt-2-disk `
+  --zone=europe-central2-b --project=ammopt `
+  --source-snapshot=$snapName `
+  --type=pd-ssd --size=50GB 2>&1
+
+# 4. Create amm-opt-2 VM using that disk as boot disk
+& $g compute instances create amm-opt-2 `
+  --zone=europe-central2-b --project=ammopt `
+  --machine-type=n2-highcpu-48 `
+  --disk="name=amm-opt-2-disk,boot=yes,auto-delete=yes" `
+  --network-interface="network=default,access-config-name=external-nat" `
+  --no-restart-on-failure `
+  --maintenance-policy=TERMINATE `
+  --metadata=startup-script="#! /bin/bash`nexec > /tmp/startup.log 2>&1`necho startup_noop_$(date -u)" 2>&1
+# Note: no-op startup script prevents production pipeline from auto-launching on boot
 ```
 
-> **If the VM service account lacks access**, grant it from local machine first:
+Expected: `Created [https://...instances/amm-opt-2]`
+
+> **If snapshot creation fails** (e.g., amm-opt-1 disk not found):
+> Check disk name with: `& $g compute disks list --project=ammopt --zones=europe-central2-b 2>&1`
+> The disk is typically named `amm-opt-1` (same as VM).
+
+---
+
+## Step 1 — Start both VMs and get IPs
+
+```powershell
+$g = "C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd"
+
+# Start both VMs in parallel (background jobs)
+$job1 = Start-Job { & "C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd" `
+  compute instances start amm-opt-1 --zone=europe-central2-b --project=ammopt 2>&1 }
+$job2 = Start-Job { & "C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd" `
+  compute instances start amm-opt-2 --zone=europe-central2-b --project=ammopt 2>&1 }
+
+Wait-Job $job1, $job2 | Out-Null
+Receive-Job $job1; Receive-Job $job2
+
+Start-Sleep -Seconds 90
+
+# Get IPs
+$IP1 = (& $g compute instances describe amm-opt-1 `
+  --zone=europe-central2-b --project=ammopt `
+  --format="value(networkInterfaces[0].accessConfigs[0].natIP)" 2>&1).Trim()
+$IP2 = (& $g compute instances describe amm-opt-2 `
+  --zone=europe-central2-b --project=ammopt `
+  --format="value(networkInterfaces[0].accessConfigs[0].natIP)" 2>&1).Trim()
+
+Write-Host "VM1 (amm-opt-1) IP: $IP1"
+Write-Host "VM2 (amm-opt-2) IP: $IP2"
+```
+
+---
+
+## Step 2 — Verify environment on both VMs
+
+```powershell
+$plink = "C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin\sdk\plink.exe"
+$ppk   = "$env:USERPROFILE\.ssh\google_compute_engine.ppk"
+$fpr1  = "SHA256:dPd3B7F67qf4K+hqnD5T8QKsoWzHlv+/AQD2tMrESuw"
+
+# VM1 (known host key)
+Write-Host "=== VM1 env check ==="
+& $plink -batch -hostkey $fpr1 -i $ppk -l $env:USERNAME $IP1 `
+  '/root/amm-challenge/.venv/bin/python -c "import amm_sim_rs; print(chr(79)+chr(75))" 2>/dev/null || echo ENV_MISSING' 2>&1
+
+# VM2 (new VM — accept host key on first connect; -batch will auto-accept)
+Write-Host "=== VM2 env check ==="
+& $plink -batch -i $ppk -l $env:USERNAME $IP2 `
+  '/root/amm-challenge/.venv/bin/python -c "import amm_sim_rs; print(chr(79)+chr(75))" 2>/dev/null || echo ENV_MISSING' 2>&1
+```
+
+Expected on both: `OK`
+
+> VM2 is a disk clone — the environment should be identical. If `ENV_MISSING` on VM2,
+> the snapshot may not have captured the venv correctly. Run:
 > ```powershell
-> $SA = gcloud iam service-accounts list --project=ammopt --format="value(email)" | Select-Object -First 1
-> gcloud secrets add-iam-policy-binding github-pat `
->   --member="serviceAccount:$SA" `
->   --role="roles/secretmanager.secretAccessor" `
->   --project=ammopt
+> & $plink -batch -i $ppk -l $env:USERNAME $IP2 `
+>   'cd /root/amm-challenge && source .venv/bin/activate && python -c "import amm_sim_rs; print(chr(79)+chr(75))"' 2>&1
 > ```
 
 ---
 
-## Step 5 — Build Python environment
-
-```bash
-cd ~/amm-challenge
-
-python3.10 -m venv .venv
-source .venv/bin/activate
-
-pip install -U pip setuptools wheel maturin
-
-# Build Rust extension (takes 2-4 min)
-cd amm_sim_rs
-maturin develop --release
-cd ..
-
-# Install project
-pip install -e .
-
-# Smoke test
-python -c "import amm_sim_rs; print('Rust sim OK')"
-python -c "import amm_competition; print('Python package OK')"
-```
-
-Both lines must print OK. If `amm_sim_rs` import fails, the Rust build failed — rerun `maturin develop --release` with `--verbose` to debug.
-
----
-
-## Step 6 — Launch the pipeline
-
-```bash
-cd ~/amm-challenge
-source .venv/bin/activate
-
-# Use nohup so the run survives SSH disconnection
-nohup python Cursor/tools/run_theo1_staged_pipeline.py \
-  --a-workers 14 \
-  --max-safe-workers 16 \
-  --sim-workers 1 \
-  --a-hours 1.0 \
-  > ~/pipeline_stdout.log 2>&1 &
-
-PIPELINE_PID=$!
-echo "Pipeline PID: $PIPELINE_PID"
-echo $PIPELINE_PID > ~/pipeline.pid
-```
-
-Immediately verify it started:
-```bash
-sleep 10
-# Check process is alive
-kill -0 $PIPELINE_PID && echo "Running" || echo "DIED"
-
-# Find the run directory (created within seconds of launch)
-ls -t Cursor/runs/ | head -3
-
-# Should show a directory like: 20260219T103045Z_theo1_staged_pipeline
-```
-
-Note the run directory name — you'll need it for monitoring and result gathering.
-
----
-
-## Step 7 — Monitor progress
-
-### Check pipeline log (master status)
-```bash
-RUN_DIR=$(ls -t Cursor/runs/ | head -1)
-tail -f Cursor/runs/$RUN_DIR/pipeline.log
-```
-
-Key log events to watch for:
-- `stage_a_native_launch workers=14` — Stage A started OK
-- `stage_a_worker_spawned worker_id=N pid=NNN` — all 14 workers confirmed (×14)
-- `stage_a_native_complete` — all workers finished (~60 min after launch)
-- `stage_a_trigger_result pass=True` — Stage A gate passed → Stage B begins
-- `stage_b_result pass=True` — Stage B gate passed → Stage C begins
-- `stage_c_result pass=True` — Stage C gate passed
-- `pipeline_complete promoted=...promoted_best.sol` — **SUCCESS**
-
-### Check worker progress (mid-run)
-```bash
-RUN_DIR=$(ls -t Cursor/runs/ | head -1)
-# Show last line of each worker's stdout
-for w in Cursor/runs/$RUN_DIR/stage_a_search/workers/worker_*/stdout.log; do
-  echo "$(basename $(dirname $w)): $(tail -1 $w)"
-done
-```
-
-### Check best scores across workers (mid-run or after Stage A)
-```bash
-RUN_DIR=$(ls -t Cursor/runs/ | head -1)
-for f in Cursor/runs/$RUN_DIR/stage_a_search/workers/*/best.json; do
-  w=$(basename $(dirname $f))
-  score=$(python3.10 -c "import json; d=json.load(open('$f')); print(round(d.get('refine_score',0),3))")
-  echo "$w: $score"
-done | sort -t: -k2 -rn | head -5
-```
-
-### Tail live output
-```bash
-tail -f ~/pipeline_stdout.log
-```
-
-### Estimated timeline
-- Stage A: ~60 min (14 workers searching in parallel)
-- Stage B eval: ~4 min
-- Stage C eval: ~12 min
-- **Total: ~76 min**
-
----
-
-## Step 8 — Gather results
-
-After `pipeline_complete` appears in the log:
-
-```bash
-RUN_DIR=$(ls -t Cursor/runs/ | head -1)
-echo "Run: $RUN_DIR"
-
-# Confirm promoted file exists
-ls -lh Cursor/runs/$RUN_DIR/promoted_best.sol
-
-# Show all stage reports
-echo "=== Stage A ===" && cat Cursor/runs/$RUN_DIR/stage_a_report.json
-echo "=== Stage B ===" && cat Cursor/runs/$RUN_DIR/stage_b_report.json
-echo "=== Stage C ===" && cat Cursor/runs/$RUN_DIR/stage_c_report.json
-echo "=== Pipeline result ===" && cat Cursor/runs/$RUN_DIR/pipeline_result.json
-```
-
-### Download to local machine
-
-Run these from **local machine** (new PowerShell terminal, not SSH):
+## Step 3 — Upload champion strategy to both VMs
 
 ```powershell
-$ZONE = "europe-west1-b"
-$PROJECT = "ammopt"
-$VM = "amm-opt-1"
+$pscp = "C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin\sdk\pscp.exe"
+$LOCAL_SOL = "C:\Users\azhel\PycharmProjects\amm-challenge\Cursor\strategies\champions\theo1_v3_promoted_20260219.sol"
 
-# You need to know the RUN_DIR — get it from the SSH session output above
-$RUN_DIR = "20260219TXXXXXXX_theo1_staged_pipeline"   # REPLACE with actual
-
-# Download promoted best
-gcloud compute scp --zone=$ZONE --project=$PROJECT `
-  "${VM}:/root/amm-challenge/Cursor/runs/${RUN_DIR}/promoted_best.sol" `
-  "C:\Users\azhel\PycharmProjects\amm-challenge\Strat\gcp_${RUN_DIR}_promoted_best.sol"
-
-# Download pipeline result JSON
-gcloud compute scp --zone=$ZONE --project=$PROJECT `
-  "${VM}:/root/amm-challenge/Cursor/runs/${RUN_DIR}/pipeline_result.json" `
-  "C:\Users\azhel\PycharmProjects\amm-challenge\Strat\gcp_${RUN_DIR}_result.json"
-
-# Download all stage reports
-gcloud compute scp --zone=$ZONE --project=$PROJECT `
-  "${VM}:/root/amm-challenge/Cursor/runs/${RUN_DIR}/stage_a_report.json" `
-  "C:\Users\azhel\PycharmProjects\amm-challenge\Strat\gcp_${RUN_DIR}_stage_a.json"
-gcloud compute scp --zone=$ZONE --project=$PROJECT `
-  "${VM}:/root/amm-challenge/Cursor/runs/${RUN_DIR}/stage_b_report.json" `
-  "C:\Users\azhel\PycharmProjects\amm-challenge\Strat\gcp_${RUN_DIR}_stage_b.json"
-gcloud compute scp --zone=$ZONE --project=$PROJECT `
-  "${VM}:/root/amm-challenge/Cursor/runs/${RUN_DIR}/stage_c_report.json" `
-  "C:\Users\azhel\PycharmProjects\amm-challenge\Strat\gcp_${RUN_DIR}_stage_c.json"
+foreach ($vm in @(@{IP=$IP1; fpr=$fpr1; name="VM1"}, @{IP=$IP2; fpr=$null; name="VM2"})) {
+    Write-Host "=== Uploading to $($vm.name) ($($vm.IP)) ==="
+    & $pscp -batch -i $ppk `
+      "$LOCAL_SOL" "${env:USERNAME}@$($vm.IP):/tmp/theo1_v3_promoted_20260219.sol" 2>&1
+    & $plink -batch -i $ppk -l $env:USERNAME $($vm.IP) `
+      'sudo cp /tmp/theo1_v3_promoted_20260219.sol /root/amm-challenge/Cursor/strategies/champions/theo1_v3_promoted_20260219.sol && echo UPLOADED' 2>&1
+}
 ```
+
+Expected on each: `UPLOADED`
 
 ---
 
-## Step 9 — Analyze results
+## Step 4 — Kill any stale processes on both VMs
 
-Parse and report the following from downloaded JSON files:
-
-### Stage A summary
-From `stage_a_report.json`:
-- `evaluation.summary.mean_delta` — mean edge improvement over baseline
-- `evaluation.summary.lcb95_mean_delta` — lower confidence bound
-- `evaluation.summary.p10_delta` — 10th percentile improvement
-- Gate: passed if `mean_delta >= 5.0 OR p10_delta >= -10.0`
-
-### Stage B summary
-From `stage_b_report.json` (20 holdout seeds):
-- `evaluation.summary.mean_delta`
-- `evaluation.summary.lcb95_mean_delta` — **primary gate metric** (must be > 0)
-- `evaluation.summary.p10_delta` — must be >= -10
-- Report min/max delta across all seeds
-
-### Stage C summary
-From `stage_c_report.json` (30 holdout seeds):
-- Same metrics as Stage B
-- This is the final confidence check before promotion
-
-### Comparison to baseline (local run `20260218T205008Z`):
-| Metric | Baseline local run | GCP run | Delta |
-|--------|-------------------|---------|-------|
-| Stage A mean_delta | 1.08 | ? | ? |
-| Stage B lcb95 | 1.03 | ? | ? |
-| Stage C lcb95 | 1.04 | ? | ? |
-
-### Pass/Fail determination
-- If all three stages show `"pass": true` → **PROMOTED**, `promoted_best.sol` is the new champion candidate.
-- If any stage fails → report exact gate metric that failed and recommend whether to retry with different seed or longer Stage A hours.
-
----
-
-## Step 10 — Stop the VM (IMPORTANT — do this immediately after results are downloaded)
-
-```bash
-# Option A: from SSH session (instant)
-sudo poweroff
-```
-
-Or from local machine:
 ```powershell
-gcloud compute instances stop amm-opt-1 --zone=europe-west1-b --project=ammopt
+foreach ($IP in @($IP1, $IP2)) {
+    & $plink -batch -i $ppk -l $env:USERNAME $IP `
+      'sudo pkill -f run_theo1_staged_pipeline || true; sleep 2; sudo ps aux | grep run_theo1 | grep -v grep | wc -l' 2>&1
+}
 ```
 
-Verify stopped:
-```powershell
-gcloud compute instances list --project=ammopt
-# Status must be TERMINATED, not RUNNING
-```
-
-A stopped VM accrues **zero compute cost**. Only resume if running another experiment.
+Expected on each: `0`
 
 ---
 
-## Step 11 — Report to human
+## Step 5 — Launch pipelines on both VMs (simultaneously)
 
-After completing all steps, provide a structured summary:
+### Mutable constants list (same for both VMs — 30 parameters total)
 
 ```
-=== GCP Cloud Run Summary ===
-VM: amm-opt-1 (c2-standard-16, europe-west1-b)
-Run directory: <RUN_DIR>
-Duration: ~XX min
-VM status: STOPPED ✓
+BASE_FEE, MIN_GATE, GATE_SIGMA_MULT, RET_CAP, PHAT_ALPHA_RETAIL, PHAT_ALPHA,
+SIGMA_COEF, LAMBDA_COEF, FLOW_SIZE_COEF, TOX_COEF, TOX_QUAD_COEF, TOX_CUBIC_COEF,
+SHIELD_TRIGGER, SHIELD_BUFFER, DIR_TOX_COEF, SIGMA_TOX_COEF,
+SIZE_SMALL_DECAY, TOX_BLEND_DECAY, GAP_PHAT_ALPHA_BOOST,
+STALE_DIR_COEF, STALE_ATTRACT_FRAC, TRADE_TOX_BOOST,
+DIR_DECAY, SIZE_BLEND_DECAY, TOX_DECAY,           ← NEW: EMA lifetime params
+ARB_RET_MIN, ARB_TOX_MIN, GAP_GATE_PER_STEP,      ← NEW: arb classifier + gate
+TAIL_SLOPE_PROTECT, TAIL_SLOPE_ATTRACT             ← NEW: asymmetric tail compression
+```
 
-Stage A: PASS/FAIL | mean_delta=X.XX | p10_delta=X.XX
-Stage B: PASS/FAIL | lcb95=X.XX | p10=X.XX (20 seeds)
-Stage C: PASS/FAIL | lcb95=X.XX | p10=X.XX (30 seeds)
+### Why two different strategies?
 
-Promoted file: <path to local .sol> or N/A
+| | VM1 (amm-opt-1) | VM2 (amm-opt-2) |
+|--|--|--|
+| `--a-step-pct` | **0.05** — proven step size from last run | **0.08** — larger jumps to escape local optima |
+| `--a-max-changes` | **3** — proven setting | **4** — allows 4-parameter diagonal moves |
+| `--a-hours` | **5.0** | **5.0** |
+| `--a-workers` | **48** | **48** |
+| Role | Exploitation (deep search near current optimum) | Exploration (wider jumps into uncharted territory) |
 
-vs baseline (local 20260218T205008Z):
-  Stage B lcb95: 1.03 → X.XX (better/worse/same)
-  Stage C lcb95: 1.04 → X.XX (better/worse/same)
+Previous run: the last 2h found only +0.1 improvement. VM2's larger steps can cover the same distance in far fewer iterations.
 
-Recommendation: [one of]
-  - "Use GCP promoted_best.sol as new champion — copy to Cursor/strategies/champions/"
-  - "GCP result worse than local — keep current champion"
-  - "Stage X failed (metric=X.XX) — retry with --a-hours 2.0 or more workers"
+```powershell
+$plink = "C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin\sdk\plink.exe"
+$ppk   = "$env:USERPROFILE\.ssh\google_compute_engine.ppk"
+$fpr1  = "SHA256:dPd3B7F67qf4K+hqnD5T8QKsoWzHlv+/AQD2tMrESuw"
+
+$MUTABLE = (
+  "BASE_FEE,MIN_GATE,GATE_SIGMA_MULT,RET_CAP,PHAT_ALPHA_RETAIL,PHAT_ALPHA," +
+  "SIGMA_COEF,LAMBDA_COEF,FLOW_SIZE_COEF,TOX_COEF,TOX_QUAD_COEF,TOX_CUBIC_COEF," +
+  "SHIELD_TRIGGER,SHIELD_BUFFER,DIR_TOX_COEF,SIGMA_TOX_COEF," +
+  "SIZE_SMALL_DECAY,TOX_BLEND_DECAY,GAP_PHAT_ALPHA_BOOST," +
+  "STALE_DIR_COEF,STALE_ATTRACT_FRAC,TRADE_TOX_BOOST," +
+  "DIR_DECAY,SIZE_BLEND_DECAY,TOX_DECAY," +
+  "ARB_RET_MIN,ARB_TOX_MIN,GAP_GATE_PER_STEP," +
+  "TAIL_SLOPE_PROTECT,TAIL_SLOPE_ATTRACT"
+)
+
+$BASE = "/root/amm-challenge/Cursor/strategies/champions/theo1_v3_promoted_20260219.sol"
+
+# VM1: Conservative exploitation (step_pct=0.05, max_changes=3)
+$launchVM1 = "sudo bash -c 'cd /root/amm-challenge && source .venv/bin/activate && " +
+  "nohup python Cursor/tools/run_theo1_staged_pipeline.py " +
+  "--base-strategy $BASE " +
+  "--a-workers 48 --a-max-safe-workers 56 --a-sim-workers 1 --a-hours 5.0 " +
+  "--a-step-pct 0.05 --a-max-changes 3 " +
+  "--a-mutable-constants $MUTABLE " +
+  "> /tmp/pipeline_stdout.log 2>&1 & PID=\$!; echo \$PID > /tmp/pipeline.pid; echo STARTED_pid=\$PID'"
+
+# VM2: Aggressive exploration (step_pct=0.08, max_changes=4)
+$launchVM2 = "sudo bash -c 'cd /root/amm-challenge && source .venv/bin/activate && " +
+  "nohup python Cursor/tools/run_theo1_staged_pipeline.py " +
+  "--base-strategy $BASE " +
+  "--a-workers 48 --a-max-safe-workers 56 --a-sim-workers 1 --a-hours 5.0 " +
+  "--a-step-pct 0.08 --a-max-changes 4 " +
+  "--a-mutable-constants $MUTABLE " +
+  "> /tmp/pipeline_stdout.log 2>&1 & PID=\$!; echo \$PID > /tmp/pipeline.pid; echo STARTED_pid=\$PID'"
+
+Write-Host "=== Launching VM1 (conservative) ==="
+& $plink -batch -hostkey $fpr1 -i $ppk -l $env:USERNAME $IP1 $launchVM1 2>&1
+
+Write-Host "=== Launching VM2 (aggressive) ==="
+& $plink -batch -i $ppk -l $env:USERNAME $IP2 $launchVM2 2>&1
+```
+
+Expected output on each: `STARTED_pid=NNNNN`
+
+> **Note on PID tracking bug**: `/tmp/pipeline.pid` may contain the local shell PID
+> instead of the remote Python PID. Verify the actual PID with:
+> ```powershell
+> & $plink -batch -hostkey $fpr1 -i $ppk -l $env:USERNAME $IP1 `
+>   'sudo ps aux | grep run_theo1_staged | grep -v grep' 2>&1
+> & $plink -batch -i $ppk -l $env:USERNAME $IP2 `
+>   'sudo ps aux | grep run_theo1_staged | grep -v grep' 2>&1
+> ```
+
+Verify workers are spawning after 60 seconds (expect 48 on each):
+```powershell
+Start-Sleep -Seconds 60
+foreach ($vm in @(@{IP=$IP1; name="VM1"}, @{IP=$IP2; name="VM2"})) {
+    $cnt = & $plink -batch -i $ppk -l $env:USERNAME $($vm.IP) `
+      'RD=$(sudo ls -t /root/amm-challenge/Cursor/runs/ | head -1); sudo ls /root/amm-challenge/Cursor/runs/$RD/stage_a_search/workers/ 2>/dev/null | wc -l' 2>&1
+    Write-Host "$($vm.name): $cnt workers"
+}
+```
+
+Expected: `48` on each.
+
+---
+
+## Step 6 — Monitor (every ~60 minutes)
+
+Both pipelines run for ~5h (Stage A) + ~30 min (Stage B + C eval). Total: ~5.5h.
+
+```powershell
+# Health check — run every hour on both VMs
+foreach ($vm in @(@{IP=$IP1; name="VM1"}, @{IP=$IP2; name="VM2"})) {
+    Write-Host "=== $($vm.name) health ==="
+    & $plink -batch -i $ppk -l $env:USERNAME $($vm.IP) `
+      'date -u; uptime; free -h | head -2; sudo ps aux | grep run_theo1_staged | grep -v grep | wc -l' 2>&1
+}
+# HEALTHY: load average ~48.x, memory ~20 GB used, process count = 2 (bash + python)
+
+# Worker progress — use worker_2 as representative on each VM
+foreach ($vm in @(@{IP=$IP1; name="VM1"}, @{IP=$IP2; name="VM2"})) {
+    Write-Host "=== $($vm.name) worker_2 progress ==="
+    & $plink -batch -i $ppk -l $env:USERNAME $($vm.IP) `
+      'RD=$(sudo ls -t /root/amm-challenge/Cursor/runs/ | head -1); sudo tail -1 /root/amm-challenge/Cursor/runs/$RD/stage_a_search/workers/worker_2/stdout.log 2>/dev/null' 2>&1
+}
+# Format: [worker 2] it=NNN quick score=XXX.XX best=...:YYY.YY
+
+# Done check — look for pipeline_result.json on each
+foreach ($vm in @(@{IP=$IP1; name="VM1"}, @{IP=$IP2; name="VM2"})) {
+    Write-Host "=== $($vm.name) done? ==="
+    & $plink -batch -i $ppk -l $env:USERNAME $($vm.IP) `
+      'RD=$(sudo ls -t /root/amm-challenge/Cursor/runs/ | head -1); sudo ls /root/amm-challenge/Cursor/runs/$RD/pipeline_result.json 2>/dev/null || echo NOT_DONE' 2>&1
+}
+```
+
+### Expected progress trajectory (5h run, new 30-param search space)
+
+| Elapsed | VM1 worker_2 iters | VM2 worker_2 iters | Best score (quick) | Notes |
+|---------|---------------|---------------|-------------------|-------|
+| 5 min | ~5 | ~4 | ~base | Workers starting |
+| 1h | ~60 | ~55 | base+1.2 | Steady improvement |
+| 2h | ~110 | ~100 | base+2.2 | Decelerating |
+| 3h | ~165 | ~150 | base+2.7 | VM2 may find new territory via larger steps |
+| 4h | ~220 | ~200 | base+3.0 | Approaching local optima |
+| 5h | ~270 | ~245 | base+3.2 | Stage A ends → B/C begins |
+
+> VM2's larger step size means fewer iterations but larger moves per iteration.
+> If VM2 finds a qualitatively different basin, its best score may diverge significantly
+> from VM1 by the 3h mark — this is the desired diversity effect.
+
+### Check Stage B / C reports once Stage A ends
+```powershell
+foreach ($vm in @(@{IP=$IP1; name="VM1"}, @{IP=$IP2; name="VM2"})) {
+    Write-Host "=== $($vm.name) run dir contents ==="
+    & $plink -batch -i $ppk -l $env:USERNAME $($vm.IP) `
+      'RD=$(sudo ls -t /root/amm-challenge/Cursor/runs/ | head -1); sudo ls /root/amm-challenge/Cursor/runs/$RD/' 2>&1
+}
+# Look for: stage_a_report.json, stage_b_report.json, stage_c_report.json, promoted_best.sol
+```
+
+---
+
+## CRITICAL — Emergency: VM network hang
+
+If SSH timeouts persist for >5 minutes on either VM:
+
+```powershell
+$g = "C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd"
+$HUNG_VM = "amm-opt-1"  # or "amm-opt-2"
+
+# 1. Confirm VM is still RUNNING
+& $g compute instances describe $HUNG_VM --zone=europe-central2-b --project=ammopt `
+  --format="value(status)" 2>&1
+
+# 2. Write no-op startup script to prevent pipeline auto-relaunch on reboot
+$noop = @'
+#!/bin/bash
+exec > /tmp/recovery_startup.log 2>&1
+echo "recovery boot: $(date -u)"
+echo "RECOVERY_BOOT_DONE" > /tmp/recovery_boot_done
+'@
+$noop | Out-File -FilePath "$env:TEMP\startup_noop.sh" -Encoding UTF8 -NoNewline
+& $g compute instances add-metadata $HUNG_VM --zone=europe-central2-b --project=ammopt `
+  "--metadata-from-file=startup-script=$env:TEMP\startup_noop.sh" 2>&1
+
+# 3. Hard reset (preserves disk, kills all processes)
+& $g compute instances reset $HUNG_VM --zone=europe-central2-b --project=ammopt 2>&1
+
+# 4. Wait ~90s then SSH in — the OTHER VM continues running normally
+```
+
+> **Key advantage of 2-VM setup**: if one VM hangs, the other continues running.
+> You still get a full 5h Stage A result from the surviving VM.
+
+---
+
+## Step 7 — Collect results from both VMs
+
+### 7a — Collect from each VM individually
+
+```powershell
+$pscp = "C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin\sdk\pscp.exe"
+$plink = "C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin\sdk\plink.exe"
+$ppk   = "$env:USERPROFILE\.ssh\google_compute_engine.ppk"
+
+foreach ($vm in @(@{IP=$IP1; name="vm1"}, @{IP=$IP2; name="vm2"})) {
+    # Get run directory
+    $RUN_DIR = (& $plink -batch -i $ppk -l $env:USERNAME $($vm.IP) `
+      'sudo ls -t /root/amm-challenge/Cursor/runs/ | head -1' 2>&1 |
+      Where-Object { $_ -match "theo1" }) -replace "\s",""
+
+    if (-not $RUN_DIR) {
+        Write-Host "$($vm.name): No theo1 run dir found — skipping"
+        continue
+    }
+
+    # Check if pipeline passed
+    $status = (& $plink -batch -i $ppk -l $env:USERNAME $($vm.IP) `
+      "sudo cat /root/amm-challenge/Cursor/runs/$RUN_DIR/pipeline_result.json 2>/dev/null | python3 -c `"import sys,json; d=json.load(sys.stdin); print(d.get('status','unknown'))`" 2>/dev/null || echo not_done" 2>&1).Trim()
+    Write-Host "$($vm.name) status: $status"
+
+    if ($status -ne "passed_all_stages") {
+        Write-Host "$($vm.name): Did not pass all stages — skipping download"
+        continue
+    }
+
+    # Fix permissions and copy files
+    & $plink -batch -i $ppk -l $env:USERNAME $($vm.IP) (
+      "sudo mkdir -p /tmp/results && " +
+      "sudo cp /root/amm-challenge/Cursor/runs/$RUN_DIR/promoted_best.sol " +
+          "/root/amm-challenge/Cursor/runs/$RUN_DIR/pipeline_result.json " +
+          "/root/amm-challenge/Cursor/runs/$RUN_DIR/stage_a_report.json " +
+          "/root/amm-challenge/Cursor/runs/$RUN_DIR/stage_b_report.json " +
+          "/root/amm-challenge/Cursor/runs/$RUN_DIR/stage_c_report.json /tmp/results/ && " +
+      "sudo chmod 644 /tmp/results/* && echo READY"
+    ) 2>&1
+
+    # Download
+    $local = "C:\Users\azhel\PycharmProjects\amm-challenge\Strat\gcp_$($vm.name)_${RUN_DIR}"
+    New-Item -ItemType Directory -Force -Path $local | Out-Null
+    foreach ($f in @("promoted_best.sol","pipeline_result.json","stage_a_report.json","stage_b_report.json","stage_c_report.json")) {
+        & $pscp -batch -i $ppk `
+          "${env:USERNAME}@$($vm.IP):/tmp/results/$f" "${local}\$f" 2>&1
+    }
+    Write-Host "$($vm.name) files saved to: $local"
+}
+```
+
+### 7b — Pick the best champion
+
+```powershell
+# Read Stage C lcb95 from each VM's report
+$results = @()
+foreach ($vm in @("vm1", "vm2")) {
+    $dirs = Get-ChildItem "C:\Users\azhel\PycharmProjects\amm-challenge\Strat\" |
+            Where-Object { $_.Name -like "gcp_${vm}_*" } |
+            Sort-Object LastWriteTime -Descending
+    if ($dirs.Count -eq 0) { continue }
+    $local = $dirs[0].FullName
+    $reportPath = "$local\stage_c_report.json"
+    if (-not (Test-Path $reportPath)) { continue }
+    $sc = Get-Content $reportPath | ConvertFrom-Json
+    $lcb = $sc.evaluation.summary.lcb95_mean_delta
+    $results += [PSCustomObject]@{VM=$vm; LCB95=$lcb; Dir=$local}
+    Write-Host "$vm Stage C lcb95 = $lcb"
+}
+
+$best = $results | Sort-Object LCB95 -Descending | Select-Object -First 1
+Write-Host ""
+Write-Host "Best result: $($best.VM) with lcb95=$($best.LCB95)"
+Write-Host "(Previous champion lcb95=2.203)"
+
+if ($best.LCB95 -gt 2.203) {
+    $stamp = (Get-Date -Format "yyyyMMdd")
+    $dest = "C:\Users\azhel\PycharmProjects\amm-challenge\Cursor\strategies\champions\theo1_v4_promoted_$stamp.sol"
+    Copy-Item "$($best.Dir)\promoted_best.sol" $dest
+    Write-Host "New champion saved: $dest"
+} else {
+    Write-Host "Neither VM beat previous champion (lcb95=2.203) — keeping theo1_v3"
+}
+```
+
+---
+
+## Step 8 — Stop both VMs
+
+```powershell
+$g = "C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd"
+
+$job1 = Start-Job { & "C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd" `
+  compute instances stop amm-opt-1 --zone=europe-central2-b --project=ammopt 2>&1 }
+$job2 = Start-Job { & "C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd" `
+  compute instances stop amm-opt-2 --zone=europe-central2-b --project=ammopt 2>&1 }
+Wait-Job $job1, $job2 | Out-Null
+Receive-Job $job1; Receive-Job $job2
+
+# Verify both stopped
+foreach ($vm in @("amm-opt-1", "amm-opt-2")) {
+    $s = (& $g compute instances describe $vm `
+      --zone=europe-central2-b --project=ammopt `
+      --format="value(status)" 2>&1).Trim()
+    Write-Host "$vm status: $s"
+}
+# Expected: TERMINATED on both
+```
+
+> A stopped VM accrues zero compute cost.
+> amm-opt-2's disk (amm-opt-2-disk) also accrues a small cost (~$2/month for 50GB SSD).
+> If you don't plan to reuse amm-opt-2, delete it:
+> ```powershell
+> & $g compute instances delete amm-opt-2 --zone=europe-central2-b --project=ammopt --quiet 2>&1
+> ```
+
+---
+
+## Step 9 — Report to human
+
+```
+=== GCP Cloud Run Summary (2-VM Parallel) ===
+VM1: amm-opt-1 (n2-highcpu-48, step_pct=0.05, max_changes=3)
+VM2: amm-opt-2 (n2-highcpu-48, step_pct=0.08, max_changes=4)
+Duration: ~5.5h wall-clock
+VMs status: STOPPED ✓
+
+VM1 results:
+  Stage A: PASS/FAIL | mean_delta=X.XX | p10_delta=X.XX
+  Stage B: PASS/FAIL | lcb95=X.XX | p10=X.XX (20 seeds)
+  Stage C: PASS/FAIL | lcb95=X.XX | p10=X.XX (48 seeds)
+
+VM2 results:
+  Stage A: PASS/FAIL | mean_delta=X.XX | p10_delta=X.XX
+  Stage B: PASS/FAIL | lcb95=X.XX | p10=X.XX (20 seeds)
+  Stage C: PASS/FAIL | lcb95=X.XX | p10=X.XX (48 seeds)
+
+Best result: VM1/VM2, lcb95=X.XXX
+vs previous champion (theo1_v3, 2026-02-19): lcb95=2.203 → X.XXX (better/worse/same)
+
+Promoted file: Cursor/strategies/champions/theo1_v4_promoted_YYYYMMDD.sol  OR  N/A
 ```
 
 ---
@@ -383,45 +595,96 @@ Recommendation: [one of]
 
 | Problem | Fix |
 |---------|-----|
-| `maturin develop` fails | Check `rustc --version` works; try `cargo clean` in `amm_sim_rs/` then retry |
-| `import amm_sim_rs` fails | Run `maturin develop --release --verbose` to see Rust compile errors |
-| Pipeline dies immediately | Check `~/pipeline_stdout.log` for Python traceback |
-| Workers all show `it=0` after 10 min | Base eval is running (normal — takes ~3.5 min per worker) |
-| Stage A gate fails (`mean_delta < 5 AND p10 < -10`) | Very rare; retry with `--a-hours 2.0` or check base strategy path |
-| Stage B/C gate fails (`lcb95 <= 0`) | Candidate overfit to train seeds; increase Stage A refine_sims or report to human |
-| gcloud scp fails with permission error | VM might use `/home/USER/` not `/root/` — check actual home: `echo $HOME` in SSH |
+| `ENV_MISSING` on Step 2 | Disk preserved but venv needs a sanity check; run `python -c "import amm_sim_rs"` after activating `.venv` |
+| VM2 env missing after snapshot | Snapshot may not have captured full venv; run `sudo bash /root/amm-challenge/Cursor/gcp_production_startup.sh` on VM2 |
+| Workers stuck at `it=0` after 10 min | Base eval running (normal — takes ~3 min/worker); wait |
+| Stage A gate fails | Increase `--a-hours` to 7 or check base strategy path |
+| Stage B/C gate fails (`lcb95 <= 0`) | Candidate overfit; try `--a-quick-sims 8` (more filtering) or `--a-refine-sims 16` |
+| SSH timeout / connection refused | Check: `Test-NetConnection $IP -Port 22`; if closed, VM may be overloaded (see Emergency section) |
+| `pscp` permission denied | Files owned by root; run the `sudo cp ... /tmp/results/` step first |
+| IP changed after start | Always re-read IP from `gcloud compute instances describe --format="value(...natIP)"` |
+| amm-opt-2 disk name wrong | Check with: `gcloud compute disks list --project=ammopt --zones=europe-central2-b` |
+| VM2 host key unknown | On first SSH: omit `-hostkey` flag — PuTTY caches automatically with `-batch` |
 
 ---
 
-## Key File Paths (on VM)
-
-```
-~/amm-challenge/
-├── Cursor/
-│   ├── tools/run_theo1_staged_pipeline.py   # pipeline entrypoint
-│   ├── strategies/champions/                # base strategies
-│   └── runs/<RUN_DIR>/
-│       ├── pipeline.log                     # master log
-│       ├── pipeline_result.json             # full final result
-│       ├── promoted_best.sol                # OUTPUT if all gates passed
-│       ├── stage_a_report.json
-│       ├── stage_b_report.json
-│       └── stage_c_report.json
-├── ~/pipeline_stdout.log                    # nohup stdout
-└── ~/pipeline.pid                           # pipeline PID
-```
-
----
-
-## Pipeline CLI Reference
+## Pipeline CLI Reference (key flags)
 
 ```bash
 python Cursor/tools/run_theo1_staged_pipeline.py \
-  --a-workers 14 \          # parallel search workers (use cores-2 for safety)
-  --max-safe-workers 16 \   # hard cap (set to VM vCPU count)
-  --sim-workers 1 \         # sim threads per worker (keep 1)
-  --a-hours 1.0 \           # Stage A search duration (increase for more iterations)
-  --a-spawn-stagger-seconds 0.5   # delay between worker spawns
+  --base-strategy Cursor/strategies/champions/theo1_v3_promoted_20260219.sol \
+  --a-workers 48 \                # MUST be 48 on n2-highcpu-48 (not 60, not 56)
+  --a-max-safe-workers 56 \       # soft headroom cap
+  --a-sim-workers 1 \             # sim threads per worker (keep 1)
+  --a-hours 5.0 \                 # Stage A search duration (5h with 2 VMs = ~same as 8h single)
+  --a-step-pct 0.05 \             # VM1: conservative (0.05); VM2: aggressive (0.08)
+  --a-max-changes 3 \             # VM1: 3; VM2: 4 — diagonal moves in parameter space
+  --a-restart-prob 0.20 \         # prob of restarting from base (keep)
+  --a-global-parent-prob 0.40 \   # prob of using cross-worker elite (keep)
+  --a-mutable-constants "..."     # 30-parameter list (see Step 5)
 ```
 
-To maximize search depth: increase `--a-hours` to 2.0 (costs 2× time/money but ~2× iterations per worker).
+### New parameters added to this run (8 unexplored dimensions):
+```
+DIR_DECAY,           # direction EMA lifetime (currently 0.80) — faster memory = more responsive
+SIZE_BLEND_DECAY,    # large-trade size update speed (currently 0.818) — pairs with SIZE_SMALL_DECAY
+TOX_DECAY,           # underlying toxicity state decay (currently 0.903) — faster tox fades?
+ARB_RET_MIN,         # arb classifier price-return threshold (currently 33 bps)
+ARB_TOX_MIN,         # arb classifier toxicity threshold (currently 25 bps)
+GAP_GATE_PER_STEP,   # gate widening rate after no-trade gaps (currently 0.25/step)
+TAIL_SLOPE_PROTECT,  # tail fee compression on protected side (currently 0.799) — allow asymmetry
+TAIL_SLOPE_ATTRACT   # tail fee compression on attract side (currently 0.799) — allow asymmetry
+```
+
+---
+
+## Key file paths
+
+```
+Local (Windows):
+  Champions:   C:\Users\azhel\PycharmProjects\amm-challenge\Cursor\strategies\champions\
+  Results dir: C:\Users\azhel\PycharmProjects\amm-challenge\Strat\gcp_<vm1|vm2>_<RUN_DIR>\
+  Runbook:     C:\Users\azhel\PycharmProjects\amm-challenge\Cursor\cloudrun.md
+  Journal:     C:\Users\azhel\PycharmProjects\amm-challenge\Cursor\research_journal.md
+
+On VM (/root/amm-challenge/):
+  Cursor/tools/run_theo1_staged_pipeline.py      # pipeline entrypoint
+  Cursor/tools/optimize_theo1_local_parallel.py  # worker search engine
+  Cursor/strategies/champions/                    # base strategies
+  Cursor/runs/<RUN_DIR>/
+    pipeline.log                                  # master event log
+    pipeline_result.json                          # full final result
+    promoted_best.sol                             # OUTPUT if all gates passed
+    stage_a_report.json / stage_b_report.json / stage_c_report.json
+    stage_a_search/workers/worker_N/
+      stdout.log                                  # iteration-by-iteration progress
+      progress.jsonl                              # structured event log
+      best.json / best.sol                        # worker's best candidate
+    stage_a_search/shared_pool/worker_N.json      # cross-worker elite sharing
+  /tmp/pipeline_stdout.log                        # nohup stdout (often buffered/empty)
+  /tmp/pipeline.pid                               # pipeline PID (may be wrong — see note)
+```
+
+---
+
+## Gate criteria summary
+
+| Stage | Seeds | Pass condition |
+|-------|-------|---------------|
+| A trigger | 5 (train) | `mean_delta >= 5.0` **OR** `p10_delta >= -10.0` |
+| B gate | 20 | `lcb95_mean_delta > 0` **AND** `p10_delta >= -10.0` |
+| C final | 48 | `lcb95_mean_delta > 0` **AND** `p10_delta >= -10.0` |
+
+> Stage A trigger is very permissive — almost any positive result passes via the `p10 >= -10` condition.
+> Stages B and C are the real statistical gates.
+
+---
+
+## Champion history
+
+| Date | File | Stage C lcb95 | Notes |
+|------|------|---------------|-------|
+| 2026-02-17 | theo1_islandga10h_expanded_worker0_best_20260217.sol | −0.016 | FAILED gate |
+| 2026-02-18 | theo1_v2_promoted_20260218.sol | +1.037 | First passing structural fix run |
+| 2026-02-19 | **theo1_v3_promoted_20260219.sol** | **+2.203** | GCP 8h run, 48w — current champion |
+| next | theo1_v4_promoted_YYYYMMDD.sol | target >2.5 | 2-VM parallel, 5h, 30 params |

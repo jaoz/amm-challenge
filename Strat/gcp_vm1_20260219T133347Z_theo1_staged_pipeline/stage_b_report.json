@@ -1,0 +1,141 @@
+{
+  "evaluation": {
+    "per_seed": [
+      {
+        "base_avg_edge": 521.4779904935879,
+        "candidate_avg_edge": 523.0873698649663,
+        "delta_avg_edge": 1.6093793713783953,
+        "seed": 44000.0
+      },
+      {
+        "base_avg_edge": 503.16353607231133,
+        "candidate_avg_edge": 504.6590716454526,
+        "delta_avg_edge": 1.4955355731412965,
+        "seed": 44001.0
+      },
+      {
+        "base_avg_edge": 477.57577432089676,
+        "candidate_avg_edge": 478.71447034517615,
+        "delta_avg_edge": 1.1386960242793975,
+        "seed": 44002.0
+      },
+      {
+        "base_avg_edge": 526.8860063351896,
+        "candidate_avg_edge": 528.457876704178,
+        "delta_avg_edge": 1.5718703689884705,
+        "seed": 44003.0
+      },
+      {
+        "base_avg_edge": 510.08384795682775,
+        "candidate_avg_edge": 511.26974041052335,
+        "delta_avg_edge": 1.185892453695601,
+        "seed": 44004.0
+      },
+      {
+        "base_avg_edge": 521.3091933925343,
+        "candidate_avg_edge": 522.5040983651132,
+        "delta_avg_edge": 1.194904972578911,
+        "seed": 44005.0
+      },
+      {
+        "base_avg_edge": 556.2403921222372,
+        "candidate_avg_edge": 557.6178290569648,
+        "delta_avg_edge": 1.3774369347275979,
+        "seed": 44006.0
+      },
+      {
+        "base_avg_edge": 535.9061896840045,
+        "candidate_avg_edge": 537.2239619247288,
+        "delta_avg_edge": 1.3177722407242527,
+        "seed": 44007.0
+      },
+      {
+        "base_avg_edge": 558.9488268043384,
+        "candidate_avg_edge": 560.6996364709081,
+        "delta_avg_edge": 1.750809666569694,
+        "seed": 44008.0
+      },
+      {
+        "base_avg_edge": 523.3444231738589,
+        "candidate_avg_edge": 524.5958840288849,
+        "delta_avg_edge": 1.251460855026039,
+        "seed": 44009.0
+      },
+      {
+        "base_avg_edge": 507.3219505657342,
+        "candidate_avg_edge": 508.8391900005675,
+        "delta_avg_edge": 1.5172394348333,
+        "seed": 44010.0
+      },
+      {
+        "base_avg_edge": 525.973669912606,
+        "candidate_avg_edge": 527.6200868152124,
+        "delta_avg_edge": 1.6464169026063473,
+        "seed": 44011.0
+      },
+      {
+        "base_avg_edge": 519.9763988278729,
+        "candidate_avg_edge": 521.4931918622917,
+        "delta_avg_edge": 1.5167930344188107,
+        "seed": 44012.0
+      },
+      {
+        "base_avg_edge": 483.4029352019388,
+        "candidate_avg_edge": 484.6834101899426,
+        "delta_avg_edge": 1.280474988003789,
+        "seed": 44013.0
+      },
+      {
+        "base_avg_edge": 527.463303247403,
+        "candidate_avg_edge": 528.980276203789,
+        "delta_avg_edge": 1.5169729563859846,
+        "seed": 44014.0
+      },
+      {
+        "base_avg_edge": 525.4807921046158,
+        "candidate_avg_edge": 526.8949304380283,
+        "delta_avg_edge": 1.4141383334124384,
+        "seed": 44015.0
+      },
+      {
+        "base_avg_edge": 516.630525015438,
+        "candidate_avg_edge": 518.0645229324555,
+        "delta_avg_edge": 1.4339979170174502,
+        "seed": 44016.0
+      },
+      {
+        "base_avg_edge": 543.3047724697673,
+        "candidate_avg_edge": 545.0335654500183,
+        "delta_avg_edge": 1.7287929802510007,
+        "seed": 44017.0
+      },
+      {
+        "base_avg_edge": 508.6924118838755,
+        "candidate_avg_edge": 510.12790907901064,
+        "delta_avg_edge": 1.4354971951351558,
+        "seed": 44018.0
+      },
+      {
+        "base_avg_edge": 521.2752461532954,
+        "candidate_avg_edge": 522.2639684401441,
+        "delta_avg_edge": 0.9887222868487697,
+        "seed": 44019.0
+      }
+    ],
+    "summary": {
+      "lcb95_mean_delta": 1.3328635940814593,
+      "mean_delta": 1.4186402245011351,
+      "min_delta": 0.9887222868487697,
+      "n_seeds": 20,
+      "p10_delta": 1.1386960242793975,
+      "ucb95_mean_delta": 1.5017075506467763
+    }
+  },
+  "gate_rule": {
+    "lcb95_mean_delta_gt": 0.0,
+    "p10_delta_floor": -10.0,
+    "pass_condition": "lcb95_mean_delta > 0 AND p10_delta >= floor"
+  },
+  "pass": true,
+  "stage": "B"
+}
